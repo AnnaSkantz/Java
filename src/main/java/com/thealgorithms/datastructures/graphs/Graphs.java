@@ -5,9 +5,11 @@ import java.util.ArrayList;
 class AdjacencyListGraph<E extends Comparable<E>> {
 
     ArrayList<Vertex> verticies;
+    public int[] branchesReached;
 
     public AdjacencyListGraph() {
         verticies = new ArrayList<>();
+        branchesReached = new int[6];
     }
 
     private class Vertex {
@@ -77,20 +79,26 @@ class AdjacencyListGraph<E extends Comparable<E>> {
     public boolean addEdge(E from, E to) {
         Vertex fromV = null, toV = null;
         for (Vertex v : verticies) {
+            branchesReached[0] = 1; // ID = 1
             if (from.compareTo(v.data) == 0) { // see if from vertex already exists
+                branchesReached[1] = 2;
                 fromV = v;
             } else if (to.compareTo(v.data) == 0) { // see if to vertex already exists
+                branchesReached[2] = 3;
                 toV = v;
             }
             if (fromV != null && toV != null) {
+                branchesReached[3] = 4;
                 break; // both nodes exist so stop searching
             }
         }
         if (fromV == null) {
+            branchesReached[4] = 5;
             fromV = new Vertex(from);
             verticies.add(fromV);
         }
         if (toV == null) {
+            branchesReached[5] = 6;
             toV = new Vertex(to);
             verticies.add(toV);
         }
@@ -132,6 +140,20 @@ public class Graphs {
         assert graph.addEdge(3, 4);
         assert graph.addEdge(4, 1);
         assert !graph.addEdge(2, 3);
-        System.out.println(graph);
+        // System.out.println(graph);
+
+        task1DIY(graph);
+    }
+
+    private static void task1DIY(AdjacencyListGraph<Integer> graph) {
+        int numBranchesReached = 0;
+        int numOfBranchesInAddEdge = 6;
+        for (int i = 0; i < graph.branchesReached.length; i++) {
+            if (graph.branchesReached[i] != 0) {
+                System.out.println("Branch with the ID " + graph.branchesReached[i] + " was reached.\n");
+                numBranchesReached++;
+            }
+        }
+        System.out.println("Branches reached: " + numBranchesReached + " out of " + numOfBranchesInAddEdge + " branches were reached.");
     }
 }
