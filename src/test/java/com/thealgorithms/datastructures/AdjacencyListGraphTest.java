@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AdjacencyListGraphTest {
 
     /**
-     * Check that addEdge returns false when you try to add an edge that
-     * already exists.
+     * Requirement: Check that addEdge returns false when you try to add an edge
+     * that already exists.
      */
     @Test
     void testEdgeExistsInAddEdge()
@@ -27,8 +27,8 @@ public class AdjacencyListGraphTest {
     }
 
     /**
-     * Check that addEdge returns true when you add an edge from an existing
-     * node to a node that does not exist.
+     * Requirement: Check that addEdge returns true when you add an edge from an
+     * existing node to a node that does not exist.
      */
     @Test
     void testEdgeDoesNotExistWhenToIsNull()
@@ -46,8 +46,8 @@ public class AdjacencyListGraphTest {
     }
 
     /**
-     * Check that addEdge returns true when you add an edge from a non-existing
-     * node to a node that already exists.
+     * Requirement: Check that addEdge returns true when you add an edge from a
+     * non-existing node to a node that already exists.
      */
     @Test
     void testEdgeDoesNotExistWhenFromIsNull()
@@ -65,8 +65,8 @@ public class AdjacencyListGraphTest {
     }
 
     /**
-     * Check that addEdge returns true when you add an edge from a non-existing
-     * node to a node that also does not exist.
+     * Requirement: Check that addEdge returns true when you add an edge from a
+     * non-existing node to a node that also does not exist.
      */
     @Test
     void testEdgeDoesNotExistWhenFromAndToAreNull()
