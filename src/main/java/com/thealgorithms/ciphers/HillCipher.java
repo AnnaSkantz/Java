@@ -62,7 +62,7 @@ public class HillCipher {
                     coverageInfo(8);   // id 8
                     messageVector[i][0] = 23;
                 } else {
-                    coverageInfo(2);   // id 9
+                    coverageInfo(9);   // id 9
                     messageVector[i][0] = (message.charAt(j)) % 65;
                 }
                 System.out.println(messageVector[i][0]);
