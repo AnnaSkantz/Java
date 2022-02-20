@@ -40,7 +40,7 @@ public class HillCipher {
             }
             coverageInfo(2);   // id 2
         }
-        coverageTrack.add(3);   // id 3
+        coverageInfo(3);   // id 3
 
         //check if det = 0
         if (determinant(keyMatrix, n) % 26 == 0) {  
