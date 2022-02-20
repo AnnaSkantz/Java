@@ -8,117 +8,60 @@ package com.thealgorithms.sorts;
 import java.util.*;
 public class LinkList_Sort {
     public static boolean isSorted(int p[] , int option) {
-        try (Scanner sc = new Scanner(System.in)) {
-        }
+        Node start;
+        LinkList_Sort lls=new LinkList_Sort();
+    
         int a[] = p;
         // Array is taken as input from test class
-        int b[] = p;
+        int b[] = Arrays.copyOf(p,p.length);
         // array similar to a
         int ch = option;
+        // Create linked list from array
+        start = createLinkedList(a);
+
         // Choice is choosed as any number from 1 to 3 (So the linked list will be sorted by Merge sort technique/Insertion sort technique/Heap sort technique)
+        // Switch case is used to call the classes as per the user requirement
         switch (ch) {
             case 1:
                 Task nm = new Task();
-                Node start = null, prev = null, fresh, ptr;
-                for (int i = 0; i < a.length; i++) {
-                    // New nodes are created and values are added
-                    fresh = new Node(); // Node class is called
-                    fresh.val = a[i]; // Node val is stored
-                    if (start == null)
-                        start = fresh;
-                    else
-                        prev.next = fresh;
-                    prev = fresh;
-                }
+                // Sort using merge sort
                 start = nm.sort_by_mergesort(start);
-                // method is being called
-                int i=0;
-                for (ptr = start;ptr != null; ptr = ptr.next) {
-                    a[i++]=ptr.val;
-                    // storing the sorted values in the array
-                }
+                // Sort array b, the function should thus return true when checked with sorted list
                 Arrays.sort(b);
                 // array b is sorted and it will return true when checked with sorted list
-                LinkList_Sort uu=new LinkList_Sort();
-                if(uu.compare(a,b))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+                break;
+                
             case 2:
-                Node start1 = null, prev1 = null, fresh1, ptr1;
-                for (int i1 = 0; i1 < a.length; i1++) {
-                    // New nodes are created and values are added
-                    fresh1 = new Node(); // New node is created
-                    fresh1.val = a[i1]; // Value is stored in the value part of the node
-                    if (start1 == null)
-                        start1 = fresh1;
-                    else
-                        prev1.next = fresh1;
-                    prev1 = fresh1;
-                }
                 Task1 kk = new Task1();
-                start1 = kk.sort_by_insertionsort(start1);
-                // method is being called
-                int i1=0;
-                for (ptr1 = start1; ptr1 != null; ptr1 = ptr1.next) {
-                    a[i1++]=ptr1.val;
-                    // storing the sorted values in the array
-                }
-                LinkList_Sort uu1=new LinkList_Sort();
+                // Sort using insertion sort
+                start = kk.sort_by_insertionsort(start);
+
                 // array b is not sorted and it will return false when checked with sorted list
-                if(uu1.compare(a,b))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+                break;
+
             case 3:
                 Task2 mm = new Task2();
-                Node start2 = null, prev2 = null, fresh2, ptr2;
-                for (int i2 = 0; i2 < a.length; i2++) {
-                    // New nodes are created and values are added
-                    fresh2 = new Node(); // Node class is created
-                    fresh2.val = a[i2]; // Value is stored in the value part of the Node
-                    if (start2 == null)
-                        start2 = fresh2;
-                    else
-                        prev2.next = fresh2;
-                    prev2 = fresh2;
-                }
-                start2 = mm.sort_by_heapsort(start2);
-                // method is being called
-                int i3=0;
-                for (ptr2 = start2; ptr2 != null; ptr2 = ptr2.next) {
-                    a[i3++]=ptr2.val;
-                    // storing the sorted values in the array
-                }
+                // Sort using heap sort
+                start = mm.sort_by_heapsort(start);
+                // Sort array b, the function should thus return true when checked with sorted list
                 Arrays.sort(b);
-                // array b is sorted and it will return true when checked with sorted list
-                LinkList_Sort uu2=new LinkList_Sort();
-                if(uu2.compare(a,b))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+                break;
+
             default:
                 // default is used incase user puts a unauthorized value
                 System.out.println("Wrong choice");
+                return false;
         }
-        // Switch case is used to call the classes as per the user requirement
+        
+        // Stores the sorted/unsorted linked list into the array
+        a = convertSortedLinkedListToArray(a, start);
+        // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+        if(lls.compare(a,b)) {
+            return true;
+        }
         return false;
     }
+
     boolean compare(int a[] , int b[])
     {
         for(int i=0;i<a.length;i++)
@@ -129,6 +72,42 @@ public class LinkList_Sort {
         return true;
         // Both the arrays are checked for equalness. If both are equal then true is returned else false is returned
     }
+
+    /**
+     * Creates a linked list given an array
+     * @param list the array to convert to a linked list
+     * @return the start node in the linked list
+     */
+    public static Node createLinkedList(int[] list) {
+        Node start = null, prev = null, fresh;
+        for (int i = 0; i < list.length; i++) {
+            // New nodes are created and values are added
+            fresh = new Node(); // Node class is called
+            fresh.val = list[i]; // Node val is stored
+            if (start == null)
+                start = fresh;
+            else
+                prev.next = fresh;
+            prev = fresh;
+        }
+        return start;
+    }
+
+    /**
+     * Inserts the values of a linked list to an array
+     * @param list array to insert the linked list into 
+     * @param start the starting node of the linked list 
+     * @return the resulting list array
+     */
+    public static int[] convertSortedLinkedListToArray(int[] list, Node start) {
+        Node ptr;
+        int i=0;
+        for (ptr = start;ptr != null; ptr = ptr.next) {
+            list[i++]=ptr.val;
+        }
+        return list;
+    }
+
     /**
      * OUTPUT :
      * Input - {89,56,98,123,26,75,12,40,39,68,91} is same for all the 3 classes
@@ -140,6 +119,7 @@ public class LinkList_Sort {
      * 3rd approach Time Complexity : O(n logn)
      * Auxiliary Space Complexity : O(n)
      */
+
 }
 
 class Node {
