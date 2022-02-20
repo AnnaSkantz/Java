@@ -83,18 +83,20 @@ public class AdjacencyListGraph<E extends Comparable<E>> {
                 toV = v;
             }
             if (fromV != null && toV != null) {
-                break; // both nodes exist so stop searching
+                return false; // edge exists
             }
         }
-        if (fromV == null) {
-            fromV = new Vertex(from);
-            verticies.add(fromV);
-        }
-        if (toV == null) {
-            toV = new Vertex(to);
-            verticies.add(toV);
-        }
+        fromV = createVertexAndAddToGraph(fromV, from);
+        toV = createVertexAndAddToGraph(toV, to);
         return fromV.addAdjacentVertex(toV);
+    }
+
+    private Vertex createVertexAndAddToGraph(Vertex vertexToAdd, E vertex) {
+        if (vertexToAdd == null) {
+            vertexToAdd = new Vertex(vertex);
+            verticies.add(vertexToAdd);
+        }
+        return vertexToAdd;
     }
 
     /**
