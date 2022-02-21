@@ -59,43 +59,24 @@ public class HillCipher {
         System.out.println("Enter key matrix size");
         int n = in.nextInt();
         System.out.println("Enter inverseKey/decryptionKey matrix ");
-        int keyMatrix[][] = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                keyMatrix[i][j] = in.nextInt();
-            }
-        }
+        int[][] keyMatrix = getKeyMatrix(n);
+
         //check if det = 0
         if (determinant(keyMatrix, n) % 26 == 0) {
             System.out.println("Invalid key, as determinant = 0. Program Terminated");
             return;
         }
+
         //solving for the required plaintext message
-        int[][] messageVector = new int[n][1];
+        int[][] messageVector;
+        int[][] plainMatrix;
         String PlainText = "";
-        int plainMatrix[][] = new int[n][1];
         int j = 0;
         while (j < message.length()) {
+            messageVector = getMessageVector(message, n, j);
+            j = j + n;
+            plainMatrix = getMatrix(keyMatrix, messageVector, n);
             for (int i = 0; i < n; i++) {
-                if (j >= message.length()) {
-                    messageVector[i][0] = 23;
-                } else {
-                    messageVector[i][0] = (message.charAt(j)) % 65;
-                }
-                System.out.println(messageVector[i][0]);
-                j++;
-            }
-            int x, i;
-            for (i = 0; i < n; i++) {
-                plainMatrix[i][0] = 0;
-
-                for (x = 0; x < n; x++) {
-                    plainMatrix[i][0] += keyMatrix[i][x] * messageVector[x][0];
-                }
-
-                plainMatrix[i][0] = plainMatrix[i][0] % 26;
-            }
-            for (i = 0; i < n; i++) {
                 PlainText += (char) (plainMatrix[i][0] + 65);
             }
         }
