@@ -98,7 +98,7 @@ public class HillCipher {
             coverageInfo(16);   // id 16
         }
         coverageInfo(17);   // id 17
-        printCoverageInfoToFile(coverageTrack);
+        printCoverageInfoToFile();
 
         System.out.println("Ciphertext: " + CipherText);
     }
@@ -111,7 +111,7 @@ public class HillCipher {
     /**
      * Prints branch coverage information to file in /tmp folder
      */
-    static void printCoverageInfoToFile(ArrayList<Integer> coverageTrack) {
+    static void printCoverageInfoToFile() {
         String fileName = "/tmp/coverageInfo.txt";
         try {
             File myFile = new File(fileName);
