@@ -21,7 +21,15 @@ public class HillCipher {
 
     static ArrayList<Integer> coverageTrack = new ArrayList<Integer>();
     static Set<Integer> coveredBranches = new HashSet<Integer>();
-    static Scanner in = new Scanner(System.in);
+    static Scanner in;
+
+    static void initScanner() {
+        in = new Scanner(System.in);
+    }
+
+    static void closeScanner() {
+        in.close();
+    }
 
     /* Following function encrypts the message
      */
@@ -236,9 +244,11 @@ public class HillCipher {
 
     // Driver code
     public static void main(String[] args) {
+        initScanner();
         // Get the message to be encrypted
         System.out.println("Enter message");
         String message = in.nextLine();
         hillcipher(message);
+        closeScanner();
     }
 }
