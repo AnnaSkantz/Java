@@ -1,6 +1,9 @@
 package com.thealgorithms.ciphers;
+import java.util.ArrayList;
 
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 /*
  * Java Implementation of Hill Cipher
@@ -12,56 +15,40 @@ import java.util.Scanner;
  */
 public class HillCipher {
 
+    static ArrayList<Integer> coverageTrack = new ArrayList<Integer>();
+    static Set<Integer> coveredBranches = new HashSet<Integer>();
     static Scanner in = new Scanner(System.in);
 
     /* Following function encrypts the message
      */
     static void encrypt(String message) {
         message = message.toUpperCase();
-        // Get key matrix
+
         System.out.println("Enter key matrix size");
         int n = in.nextInt();
+        
         System.out.println("Enter Key/encryptionKey matrix ");
-        int keyMatrix[][] = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                keyMatrix[i][j] = in.nextInt();
-            }
-        }
+        int[][] keyMatrix = getKeyMatrix(n);
+
         //check if det = 0
         if (determinant(keyMatrix, n) % 26 == 0) {
             System.out.println("Invalid key, as determinant = 0. Program Terminated");
             return;
         }
 
-        int[][] messageVector = new int[n][1];
+        int[][] messageVector;
+        int cipherMatrix[][];
         String CipherText = "";
-        int cipherMatrix[][] = new int[n][1];
         int j = 0;
         while (j < message.length()) {
+            messageVector = getMessageVector(message, n, j);
+            j = j + n;
+            cipherMatrix = getMatrix(keyMatrix, messageVector, n);
             for (int i = 0; i < n; i++) {
-                if (j >= message.length()) {
-                    messageVector[i][0] = 23;
-                } else {
-                    messageVector[i][0] = (message.charAt(j)) % 65;
-                }
-                System.out.println(messageVector[i][0]);
-                j++;
-            }
-            int x, i;
-            for (i = 0; i < n; i++) {
-                cipherMatrix[i][0] = 0;
-
-                for (x = 0; x < n; x++) {
-                    cipherMatrix[i][0] += keyMatrix[i][x] * messageVector[x][0];
-                }
-                System.out.println(cipherMatrix[i][0]);
-                cipherMatrix[i][0] = cipherMatrix[i][0] % 26;
-            }
-            for (i = 0; i < n; i++) {
                 CipherText += (char) (cipherMatrix[i][0] + 65);
             }
         }
+
         System.out.println("Ciphertext: " + CipherText);
     }
 
@@ -113,6 +100,69 @@ public class HillCipher {
             }
         }
         System.out.println("Plaintext: " + PlainText);
+    }
+
+    /**
+     * Retreives the matrix from the user input on System.in
+     * 
+     * @param n the dimension of the n*n matrix
+     * @return the key matrix given by user input
+     */
+    public static int[][] getKeyMatrix(int n) {
+        int keyMatrix[][] = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                keyMatrix[i][j] = in.nextInt();
+            }
+        }
+        return keyMatrix;
+    }
+
+    /**
+     * Convert the String message to a vector of integers in the Z26 set
+     * 
+     * @param message the message to convert to vector of integers
+     * @param n the dimension of the n*n matrix
+     * @param j char index
+     * @return the message vecotor stored in the 0th column in a n*n matrix 
+     */
+    static int[][] getMessageVector(String message, int n, int j) {
+        int[][] messageVector = new int[n][1];
+        for (int i = 0; i < n; i++) {
+            if (j >= message.length()) {
+                messageVector[i][0] = 23;
+            } else {
+                messageVector[i][0] = (message.charAt(j)) % 65;
+            }
+            System.out.println(messageVector[i][0]);
+            j++;
+        }
+        
+        return messageVector;
+    }
+
+    /**
+     * This function combines the key matrix and message vector to create 
+     * either a cipher matrix if called from the encryption function, or 
+     * plaintext matrix if called from the decryption function. 
+     * 
+     * @param keyMatrix the key matrix 
+     * @param messageVector the message vector
+     * @param n the dimension of the n*n matrix
+     * @return either cipher matrix (encryption) or plaintext matrix (decryption) 
+     */
+    static int[][] getMatrix(int[][] keyMatrix, int[][] messageVector, int n) {
+        int matrix[][] = new int[n][1];
+            for (int i = 0; i < n; i++) {
+                matrix[i][0] = 0;
+
+                for (int x = 0; x < n; x++) {
+                    matrix[i][0] += keyMatrix[i][x] * messageVector[x][0];
+                }
+                System.out.println(matrix[i][0]);
+                matrix[i][0] = matrix[i][0] % 26;
+            }
+        return matrix;
     }
 
     // Determinant calculator
