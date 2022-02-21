@@ -15,18 +15,18 @@ Subset1 = {7, 46} ;  sum of Subset1 = 53
 Subset2 = {36, 40} ; sum of Subset2  = 76
  */
 public class MinimumSumPartition {
+    private static boolean[][] dp;
 
+    /**
+     * Calculates the minimum sum partition
+     * @param arr - An array containing the set of numbers we are going to partition.
+     * @return - An int representing the minimum sum partition.
+     */
     public static int subSet(int[] arr) {
         int n = arr.length;
         int sum = getSum(arr);
-        boolean[][] dp = new boolean[n + 1][sum + 1];
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = true;
-        }
-        for (int j = 0; j <= sum; j++) {
-            dp[0][j] = false;
-        }
 
+        initMatrix(n+1, sum+1);
         // fill dp array
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= sum; j++) {
@@ -39,17 +39,40 @@ public class MinimumSumPartition {
                 }
             }
         }
+        int[] index = fillIndexArray(sum);
+        return getMin(index, sum);
+    }
 
+    /**
+     * Initializes the matrix used for the dynamic programming.
+     * @param i - The amount of columns in the matrix.
+     * @param j - The amount of rows in the matrix.
+     */
+    private static void initMatrix(int cols, int rows) {
+        dp = new boolean[cols][rows];
+        for (int i = 0; i <= cols; i++) {
+            dp[i][0] = true;
+        }
+        for (int j = 0; j <= rows; j++) {
+            dp[0][j] = false;
+        }
+    }
+
+    /**
+     * Inits and fills the index matrix with the correct values.
+     * @param - The length of the index array.
+     * @return - Returns the filled index matrix.
+     */
+    private static int[] fillIndexArray(int length) {
         // fill the index array
-        int[] index = new int[sum];
+        int[] index = new int[length];
         int p = 0;
-        for (int i = 0; i <= sum / 2; i++) {
-            if (dp[n][i]) {
+        for (int i = 0; i <= length / 2; i++) {
+            if (dp[dp.length-1][i]) {
                 index[p++] = i;
             }
         }
-
-        return getMin(index, sum);
+        return index;
     }
 
     /**
