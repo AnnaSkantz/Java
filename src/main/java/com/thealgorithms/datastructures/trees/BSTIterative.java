@@ -221,20 +221,31 @@ public class BSTIterative {
                 st.push(cur);
                 cur = cur.left;
             } else {
-                temp2 = st.peek();
-                if (temp2.right != null) {
-                    cur = temp2.right;
-                } else {
-                    st.pop();
-                    while (!st.empty() && st.peek().right == temp2) {
-                        System.out.print(temp2.data + " ");
-                        temp2 = st.pop();
-                    }
-                    System.out.print(temp2.data + " ");
-                }
+                cur = traverseStack(st);
             }
         }
         System.out.println(); // for next line
+    }
+
+    private Node traverseStack(Stack<Node> st) {
+        Node cur = null;
+        Node temp2 = st.peek();
+        if (temp2.right != null) {
+            cur = temp2.right;
+        } else {
+            temp2 = getRightLeafNode(st);
+            System.out.print(temp2.data + " ");
+        }
+        return cur;
+    }
+
+    private Node getRightLeafNode(Stack<Node> st) {
+        Node temp2 = st.pop();
+        while (!st.empty() && st.peek().right == temp2) {
+            System.out.print(temp2.data + " ");
+            temp2 = st.pop();
+        }
+        return temp2;
     }
 
     /**
