@@ -50,10 +50,10 @@ public class MinimumSumPartition {
      */
     private static void initMatrix(int cols, int rows) {
         dp = new boolean[cols][rows];
-        for (int i = 0; i <= cols; i++) {
+        for (int i = 0; i < cols; i++) {
             dp[i][0] = true;
         }
-        for (int j = 0; j <= rows; j++) {
+        for (int j = 0; j < rows; j++) {
             dp[0][j] = false;
         }
     }
