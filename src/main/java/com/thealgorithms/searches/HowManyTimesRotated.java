@@ -46,15 +46,27 @@ class HowManyTimesRotated {
         while (low <= high) {
             mid = low + (high - low) / 2;
 
-            if (a[mid] < a[mid - 1] && a[mid] < a[mid + 1]) {
+            if (isMinimumElementInMiddle(a, mid)) {
                 break;
-            } else if (a[mid] > a[mid - 1] && a[mid] < a[mid + 1]) {
+            } else if (isMinimumElementLater(a, mid)) {
                 high = mid + 1;
-            } else if (a[mid] > a[mid - 1] && a[mid] > a[mid + 1]) {
+            } else if (isMinimumElementEarlier(a, mid)) {
                 low = mid - 1;
             }
         }
 
         return mid;
+    }
+
+    private static boolean isMinimumElementInMiddle(int[] a, int mid) {
+        return a[mid] < a[mid - 1] && a[mid] < a[mid + 1];
+    }
+
+    private static boolean isMinimumElementEarlier(int[] a, int mid) {
+        return a[mid] > a[mid - 1] && a[mid] > a[mid + 1];
+    }
+
+    private static boolean isMinimumElementLater(int[] a, int mid) {
+        return a[mid] > a[mid - 1] && a[mid] < a[mid + 1];
     }
 }
