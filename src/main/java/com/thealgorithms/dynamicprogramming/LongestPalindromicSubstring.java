@@ -55,13 +55,14 @@ public class LongestPalindromicSubstring {
         for (int i = 0; i < input.length() - 1; i++) {
             arr[i][i] = true;
             arr[i][i+1] = false;
+            start = i;
+            end = i;
             if (input.charAt(i) == input.charAt(i+1)) {
                 arr[i][i+1] = true;
-                start = i;
                 end = i+1;
             }
         }
-        arr[input.length()][input.length()] = true;
+        arr[input.length() - 1][input.length() - 1] = true;
     }
 
 }
