@@ -187,6 +187,32 @@ public class CheckIfBinaryTreeBalanced {
     }
 
     /**
+     * If the difference in the height of the right subtree and left subtree differs
+     * by more than 1, we cannot be balanced.
+     *
+     * @param leftHeight Height of children to the left of the current node.
+     * @param rightHeight Height of children to the right of the current node.
+     * @return True if the height is greater than 1, false otherwise.
+     */
+    private boolean treeIsNotBalanced(int leftHeight, int rightHeight) {
+        return Math.abs(rightHeight - leftHeight) > 1;
+    }
+
+    private int getRightHeight(HashMap<BTNode, Integer> subtreeHeights, BTNode node, int rightHeight) {
+        if (node.right != null) {
+            rightHeight = subtreeHeights.get(node.right);
+        }
+        return rightHeight;
+    }
+
+    private int getLeftHeight(HashMap<BTNode, Integer> subtreeHeights, BTNode node, int leftHeight) {
+        if (node.left != null) {
+            leftHeight = subtreeHeights.get(node.left);
+        }
+        return leftHeight;
+    }
+
+    /**
      * Generates the following unbalanced binary tree for testing 0 / \ / \ 0 0
      * / / \ / / \ 0 0 0 / \ / \ 0 0 / / 0
      */

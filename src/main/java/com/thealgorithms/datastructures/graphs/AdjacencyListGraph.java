@@ -2,7 +2,7 @@ package com.thealgorithms.datastructures.graphs;
 
 import java.util.ArrayList;
 
-class AdjacencyListGraph<E extends Comparable<E>> {
+public class AdjacencyListGraph<E extends Comparable<E>> {
 
     ArrayList<Vertex> verticies;
 
@@ -118,9 +118,6 @@ class AdjacencyListGraph<E extends Comparable<E>> {
         }
         return sb.toString();
     }
-}
-
-public class Graphs {
 
     public static void main(String args[]) {
         AdjacencyListGraph<Integer> graph = new AdjacencyListGraph<>();
