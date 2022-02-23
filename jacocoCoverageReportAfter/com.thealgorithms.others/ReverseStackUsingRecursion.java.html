@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReverseStackUsingRecursion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">ReverseStackUsingRecursion.java</span></div><h1>ReverseStackUsingRecursion.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+/* Program to reverse a Stack using Recursion*/
+import java.util.Stack;
+
+<span class="nc" id="L6">public class ReverseStackUsingRecursion {</span>
+
+    // Stack
+<span class="nc" id="L9">    private static Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();</span>
+
+    // Main function
+    public static void main(String[] args) {
+        // To Create a Dummy Stack containing integers from 0-9
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for (int i = 0; i &lt; 10; i++) {</span>
+<span class="nc" id="L15">            stack.push(i);</span>
+        }
+<span class="nc" id="L17">        System.out.println(&quot;STACK&quot;);</span>
+
+        // To print that dummy Stack
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        for (int k = 9; k &gt;= 0; k--) {</span>
+<span class="nc" id="L21">            System.out.println(k);</span>
+        }
+
+        // Reverse Function called
+<span class="nc" id="L25">        reverseUsingRecursion(stack);</span>
+
+<span class="nc" id="L27">        System.out.println(&quot;REVERSED STACK : &quot;);</span>
+        // To print reversed  stack
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        while (!stack.isEmpty()) {</span>
+<span class="nc" id="L30">            System.out.println(stack.pop());</span>
+        }
+<span class="nc" id="L32">    }</span>
+
+    // Function Used to reverse Stack Using Recursion
+    private static void reverseUsingRecursion(Stack&lt;Integer&gt; stack) {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (stack.isEmpty()) // If stack is empty then return</span>
+        {
+<span class="nc" id="L38">            return;</span>
+        }
+        /* All items are stored in call stack until we reach the end*/
+
+<span class="nc" id="L42">        int temptop = stack.peek();</span>
+<span class="nc" id="L43">        stack.pop();</span>
+<span class="nc" id="L44">        reverseUsingRecursion(stack); // Recursion call</span>
+<span class="nc" id="L45">        insertAtEnd(temptop); // Insert items held in call stack one by one into stack</span>
+<span class="nc" id="L46">    }</span>
+
+    // Function used to insert element at the end of stack
+    private static void insertAtEnd(int temptop) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (stack.isEmpty()) {</span>
+<span class="nc" id="L51">            stack.push(temptop); // If stack is empty push the element</span>
+        } else {
+<span class="nc" id="L53">            int temp = stack.peek();</span>
+            /* All the items are stored in call stack until we reach end*/
+<span class="nc" id="L55">            stack.pop();</span>
+
+<span class="nc" id="L57">            insertAtEnd(temptop); // Recursive call</span>
+
+<span class="nc" id="L59">            stack.push(temp);</span>
+        }
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

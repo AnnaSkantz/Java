@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueueUsingTwoStacks.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">QueueUsingTwoStacks.java</span></div><h1>QueueUsingTwoStacks.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Stack;
+
+/**
+ * This implements Queue using two Stacks.
+ *
+ * &lt;p&gt;
+ * Big O Runtime: insert(): O(1) remove(): O(1) amortized isEmpty(): O(1)
+ *
+ * &lt;p&gt;
+ * A queue data structure functions the same as a real world queue. The elements
+ * that are added first are the first to be removed. New elements are added to
+ * the back/rear of the queue.
+ *
+ * @author sahilb2 (https://www.github.com/sahilb2)
+ */
+class QueueWithStack {
+
+    // Stack to keep track of elements inserted into the queue
+    private Stack&lt;Object&gt; inStack;
+    // Stack to keep track of elements to be removed next in queue
+    private Stack&lt;Object&gt; outStack;
+
+    /**
+     * Constructor
+     */
+<span class="nc" id="L28">    public QueueWithStack() {</span>
+<span class="nc" id="L29">        this.inStack = new Stack&lt;&gt;();</span>
+<span class="nc" id="L30">        this.outStack = new Stack&lt;&gt;();</span>
+<span class="nc" id="L31">    }</span>
+
+    /**
+     * Inserts an element at the rear of the queue
+     *
+     * @param x element to be added
+     */
+    public void insert(Object x) {
+        // Insert element into inStack
+<span class="nc" id="L40">        this.inStack.push(x);</span>
+<span class="nc" id="L41">    }</span>
+
+    /**
+     * Remove an element from the front of the queue
+     *
+     * @return the new front of the queue
+     */
+    public Object remove() {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (this.outStack.isEmpty()) {</span>
+            // Move all elements from inStack to outStack (preserving the order)
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            while (!this.inStack.isEmpty()) {</span>
+<span class="nc" id="L52">                this.outStack.push(this.inStack.pop());</span>
+            }
+        }
+<span class="nc" id="L55">        return this.outStack.pop();</span>
+    }
+
+    /**
+     * Peek at the element from the front of the queue
+     *
+     * @return the front element of the queue
+     */
+    public Object peekFront() {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (this.outStack.isEmpty()) {</span>
+            // Move all elements from inStack to outStack (preserving the order)
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            while (!this.inStack.isEmpty()) {</span>
+<span class="nc" id="L67">                this.outStack.push(this.inStack.pop());</span>
+            }
+        }
+<span class="nc" id="L70">        return this.outStack.peek();</span>
+    }
+
+    /**
+     * Peek at the element from the back of the queue
+     *
+     * @return the back element of the queue
+     */
+    public Object peekBack() {
+<span class="nc" id="L79">        return this.inStack.peek();</span>
+    }
+
+    /**
+     * Returns true if the queue is empty
+     *
+     * @return true if the queue is empty
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        return (this.inStack.isEmpty() &amp;&amp; this.outStack.isEmpty());</span>
+    }
+
+    /**
+     * Returns true if the inStack is empty.
+     *
+     * @return true if the inStack is empty.
+     */
+    public boolean isInStackEmpty() {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        return (inStack.size() == 0);</span>
+    }
+
+    /**
+     * Returns true if the outStack is empty.
+     *
+     * @return true if the outStack is empty.
+     */
+    public boolean isOutStackEmpty() {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        return (outStack.size() == 0);</span>
+    }
+}
+
+/**
+ * This class is the example for the Queue class
+ *
+ * @author sahilb2 (https://www.github.com/sahilb2)
+ */
+<span class="nc" id="L115">public class QueueUsingTwoStacks {</span>
+
+    /**
+     * Main method
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String args[]) {
+<span class="nc" id="L123">        QueueWithStack myQueue = new QueueWithStack();</span>
+<span class="nc" id="L124">        myQueue.insert(1);</span>
+<span class="nc" id="L125">        System.out.println(myQueue.peekBack()); // Will print 1</span>
+        // instack: [(top) 1]
+        // outStack: []
+<span class="nc" id="L128">        myQueue.insert(2);</span>
+<span class="nc" id="L129">        System.out.println(myQueue.peekBack()); // Will print 2</span>
+        // instack: [(top) 2, 1]
+        // outStack: []
+<span class="nc" id="L132">        myQueue.insert(3);</span>
+<span class="nc" id="L133">        System.out.println(myQueue.peekBack()); // Will print 3</span>
+        // instack: [(top) 3, 2, 1]
+        // outStack: []
+<span class="nc" id="L136">        myQueue.insert(4);</span>
+<span class="nc" id="L137">        System.out.println(myQueue.peekBack()); // Will print 4</span>
+        // instack: [(top) 4, 3, 2, 1]
+        // outStack: []
+
+<span class="nc" id="L141">        System.out.println(myQueue.isEmpty()); // Will print false</span>
+
+<span class="nc" id="L143">        System.out.println(myQueue.remove()); // Will print 1</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        System.out.println((myQueue.isInStackEmpty()) ? &quot;null&quot; : myQueue.peekBack()); // Will print NULL</span>
+        // instack: []
+        // outStack: [(top) 2, 3, 4]
+
+<span class="nc" id="L148">        myQueue.insert(5);</span>
+<span class="nc" id="L149">        System.out.println(myQueue.peekFront()); // Will print 2</span>
+        // instack: [(top) 5]
+        // outStack: [(top) 2, 3, 4]
+
+<span class="nc" id="L153">        myQueue.remove();</span>
+<span class="nc" id="L154">        System.out.println(myQueue.peekFront()); // Will print 3</span>
+        // instack: [(top) 5]
+        // outStack: [(top) 3, 4]
+<span class="nc" id="L157">        myQueue.remove();</span>
+<span class="nc" id="L158">        System.out.println(myQueue.peekFront()); // Will print 4</span>
+        // instack: [(top) 5]
+        // outStack: [(top) 4]
+<span class="nc" id="L161">        myQueue.remove();</span>
+        // instack: [(top) 5]
+        // outStack: []
+<span class="nc" id="L164">        System.out.println(myQueue.peekFront()); // Will print 5</span>
+        // instack: []
+        // outStack: [(top) 5]
+<span class="nc" id="L167">        myQueue.remove();</span>
+        // instack: []
+        // outStack: []
+
+<span class="nc" id="L171">        System.out.println(myQueue.isEmpty()); // Will print true</span>
+<span class="nc" id="L172">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

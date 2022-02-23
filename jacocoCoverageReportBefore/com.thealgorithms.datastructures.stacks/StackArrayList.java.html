@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StackArrayList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">StackArrayList.java</span></div><h1>StackArrayList.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+
+/**
+ * This class implements a Stack using an ArrayList.
+ *
+ * &lt;p&gt;
+ * A stack is exactly what it sounds like. An element gets added to the top of
+ * the stack and only the element on the top may be removed.
+ *
+ * &lt;p&gt;
+ * This is an ArrayList Implementation of a stack, where size is not a problem
+ * we can extend the stack as much as we want.
+ */
+<span class="nc bnc" id="L17" title="All 2 branches missed.">public class StackArrayList {</span>
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L23">        StackArrayList stack = new StackArrayList();</span>
+<span class="nc bnc" id="L24" title="All 4 branches missed.">        assert stack.isEmpty();</span>
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        for (int i = 1; i &lt;= 5; ++i) {</span>
+<span class="nc" id="L27">            stack.push(i);</span>
+<span class="nc bnc" id="L28" title="All 4 branches missed.">            assert stack.size() == i;</span>
+        }
+
+<span class="nc bnc" id="L31" title="All 4 branches missed.">        assert stack.size() == 5;</span>
+<span class="nc bnc" id="L32" title="All 8 branches missed.">        assert stack.peek() == 5 &amp;&amp; stack.pop() == 5 &amp;&amp; stack.peek() == 4;</span>
+
+        /* pop elements at the top of this stack one by one */
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        while (!stack.isEmpty()) {</span>
+<span class="nc" id="L36">            stack.pop();</span>
+        }
+<span class="nc bnc" id="L38" title="All 4 branches missed.">        assert stack.isEmpty();</span>
+
+        try {
+<span class="nc" id="L41">            stack.pop();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            assert false;</span>
+            /* this should not happen */
+<span class="nc" id="L44">        } catch (EmptyStackException e) {</span>
+            assert true;
+            /* this should happen */
+<span class="nc" id="L47">        }</span>
+<span class="nc" id="L48">    }</span>
+
+    /**
+     * ArrayList representation of the stack
+     */
+    private ArrayList&lt;Integer&gt; stack;
+
+    /**
+     * Constructor
+     */
+<span class="nc" id="L58">    public StackArrayList() {</span>
+<span class="nc" id="L59">        stack = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * Adds value to the end of list which is the top for stack
+     *
+     * @param value value to be added
+     */
+    public void push(int value) {
+<span class="nc" id="L68">        stack.add(value);</span>
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * Removes the element at the top of this stack and returns
+     *
+     * @return Element popped
+     * @throws EmptyStackException if the stack is empty.
+     */
+    public int pop() {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L79">            throw new EmptyStackException();</span>
+        }
+
+        /* remove the element on the top of the stack */
+<span class="nc" id="L83">        return stack.remove(stack.size() - 1);</span>
+    }
+
+    /**
+     * Test if the stack is empty.
+     *
+     * @return {@code true} if this stack is empty, {@code false} otherwise.
+     */
+    public boolean isEmpty() {
+<span class="nc" id="L92">        return stack.isEmpty();</span>
+    }
+
+    /**
+     * Return the element at the top of this stack without removing it from the
+     * stack.
+     *
+     * @return the element at the top of this stack.
+     */
+    public int peek() {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L103">            throw new EmptyStackException();</span>
+        }
+<span class="nc" id="L105">        return stack.get(stack.size() - 1);</span>
+    }
+
+    /**
+     * Return size of this stack.
+     *
+     * @return size of this stack.
+     */
+    public int size() {
+<span class="nc" id="L114">        return stack.size();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

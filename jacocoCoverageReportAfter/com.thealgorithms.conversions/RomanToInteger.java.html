@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RomanToInteger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">RomanToInteger.java</span></div><h1>RomanToInteger.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+import java.util.*;
+
+<span class="nc" id="L5">public class RomanToInteger {</span>
+
+<span class="nc" id="L7">    private static Map&lt;Character, Integer&gt; map</span>
+<span class="nc" id="L8">            = new HashMap&lt;Character, Integer&gt;() {</span>
+        /**
+         *          */
+        private static final long serialVersionUID = 87605733047260530L;
+
+        {
+<span class="nc" id="L14">            put('I', 1);</span>
+<span class="nc" id="L15">            put('V', 5);</span>
+<span class="nc" id="L16">            put('X', 10);</span>
+<span class="nc" id="L17">            put('L', 50);</span>
+<span class="nc" id="L18">            put('C', 100);</span>
+<span class="nc" id="L19">            put('D', 500);</span>
+<span class="nc" id="L20">            put('M', 1000);</span>
+<span class="nc" id="L21">        }</span>
+    };
+    // Roman Number = Roman Numerals
+
+    /**
+     * This function convert Roman number into Integer
+     *
+     * @param A Roman number string
+     * @return integer
+     */
+    public static int romanToInt(String A) {
+
+<span class="nc" id="L33">        A = A.toUpperCase();</span>
+<span class="nc" id="L34">        char prev = ' ';</span>
+
+<span class="nc" id="L36">        int sum = 0;</span>
+
+<span class="nc" id="L38">        int newPrev = 0;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (int i = A.length() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L40">            char c = A.charAt(i);</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (prev != ' ') {</span>
+                // checking current Number greater then previous or not
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                newPrev = map.get(prev) &gt; newPrev ? map.get(prev) : newPrev;</span>
+            }
+
+<span class="nc" id="L47">            int currentNum = map.get(c);</span>
+
+            // if current number greater then prev max previous then add
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (currentNum &gt;= newPrev) {</span>
+<span class="nc" id="L51">                sum += currentNum;</span>
+            } else {
+                // subtract upcoming number until upcoming number not greater then prev max
+<span class="nc" id="L54">                sum -= currentNum;</span>
+            }
+
+<span class="nc" id="L57">            prev = c;</span>
+        }
+
+<span class="nc" id="L60">        return sum;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L64">        int sum = romanToInt(&quot;MDCCCIV&quot;);</span>
+<span class="nc" id="L65">        System.out.println(sum);</span>
+<span class="nc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

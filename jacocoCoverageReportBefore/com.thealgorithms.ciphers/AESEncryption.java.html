@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AESEncryption.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">AESEncryption.java</span></div><h1>AESEncryption.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+
+import javax.crypto.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+/**
+ * This example program shows how AES encryption and decryption can be done in
+ * Java. Please note that secret key and encrypted text is unreadable binary and
+ * hence in the following program we display it in hexadecimal format of the
+ * underlying bytes.
+ */
+<span class="nc" id="L13">public class AESEncryption {</span>
+
+<span class="nc" id="L15">    private static final char[] HEX_ARRAY = &quot;0123456789ABCDEF&quot;.toCharArray();</span>
+
+    /**
+     * 1. Generate a plain text for encryption 2. Get a secret key (printed in
+     * hexadecimal form). In actual use this must by encrypted and kept safe.
+     * The same key is required for decryption.
+     */
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L23">        String plainText = &quot;Hello World&quot;;</span>
+<span class="nc" id="L24">        SecretKey secKey = getSecretEncryptionKey();</span>
+<span class="nc" id="L25">        byte[] cipherText = encryptText(plainText, secKey);</span>
+<span class="nc" id="L26">        String decryptedText = decryptText(cipherText, secKey);</span>
+
+<span class="nc" id="L28">        System.out.println(&quot;Original Text:&quot; + plainText);</span>
+<span class="nc" id="L29">        System.out.println(&quot;AES Key (Hex Form):&quot; + bytesToHex(secKey.getEncoded()));</span>
+<span class="nc" id="L30">        System.out.println(&quot;Encrypted Text (Hex Form):&quot; + bytesToHex(cipherText));</span>
+<span class="nc" id="L31">        System.out.println(&quot;Descrypted Text:&quot; + decryptedText);</span>
+<span class="nc" id="L32">    }</span>
+
+    /**
+     * gets the AES encryption key. In your actual programs, this should be
+     * safely stored.
+     *
+     * @return secKey (Secret key that we encrypt using it)
+     * @throws NoSuchAlgorithmException (from KeyGenrator)
+     */
+    public static SecretKey getSecretEncryptionKey() throws NoSuchAlgorithmException {
+<span class="nc" id="L42">        KeyGenerator aesKeyGenerator = KeyGenerator.getInstance(&quot;AES&quot;);</span>
+<span class="nc" id="L43">        aesKeyGenerator.init(128); // The AES key size in number of bits</span>
+<span class="nc" id="L44">        return aesKeyGenerator.generateKey();</span>
+    }
+
+    /**
+     * Encrypts plainText in AES using the secret key
+     *
+     * @return byteCipherText (The encrypted text)
+     * @throws NoSuchPaddingException (from Cipher)
+     * @throws NoSuchAlgorithmException (from Cipher)
+     * @throws InvalidKeyException (from Cipher)
+     * @throws BadPaddingException (from Cipher)
+     * @throws IllegalBlockSizeException (from Cipher)
+     */
+    public static byte[] encryptText(String plainText, SecretKey secKey)
+            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
+            IllegalBlockSizeException, BadPaddingException {
+        // AES defaults to AES/ECB/PKCS5Padding in Java 7
+<span class="nc" id="L61">        Cipher aesCipher = Cipher.getInstance(&quot;AES&quot;);</span>
+<span class="nc" id="L62">        aesCipher.init(Cipher.ENCRYPT_MODE, secKey);</span>
+<span class="nc" id="L63">        return aesCipher.doFinal(plainText.getBytes());</span>
+    }
+
+    /**
+     * Decrypts encrypted byte array using the key used for encryption.
+     *
+     * @return plainText
+     */
+    public static String decryptText(byte[] byteCipherText, SecretKey secKey)
+            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
+            IllegalBlockSizeException, BadPaddingException {
+        // AES defaults to AES/ECB/PKCS5Padding in Java 7
+<span class="nc" id="L75">        Cipher aesCipher = Cipher.getInstance(&quot;AES&quot;);</span>
+<span class="nc" id="L76">        aesCipher.init(Cipher.DECRYPT_MODE, secKey);</span>
+<span class="nc" id="L77">        byte[] bytePlainText = aesCipher.doFinal(byteCipherText);</span>
+<span class="nc" id="L78">        return new String(bytePlainText);</span>
+    }
+
+    /**
+     * Convert a binary byte array into readable hex form Old library is
+     * deprecated on OpenJdk 11 and this is faster regarding other solution is
+     * using StringBuilder
+     *
+     * @return hexHash
+     */
+    public static String bytesToHex(byte[] bytes) {
+<span class="nc" id="L89">        char[] hexChars = new char[bytes.length * 2];</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for (int j = 0; j &lt; bytes.length; j++) {</span>
+<span class="nc" id="L91">            int v = bytes[j] &amp; 0xFF;</span>
+<span class="nc" id="L92">            hexChars[j * 2] = HEX_ARRAY[v &gt;&gt;&gt; 4];</span>
+<span class="nc" id="L93">            hexChars[j * 2 + 1] = HEX_ARRAY[v &amp; 0x0F];</span>
+        }
+<span class="nc" id="L95">        return new String(hexChars);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

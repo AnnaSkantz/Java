@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestIncreasingSubsequence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">LongestIncreasingSubsequence.java</span></div><h1>LongestIncreasingSubsequence.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+import java.util.Scanner;
+
+/**
+ * @author Afrizal Fikri (https://github.com/icalF)
+ */
+<span class="nc" id="L8">public class LongestIncreasingSubsequence {</span>
+
+    public static void main(String[] args) {
+
+<span class="nc" id="L12">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L13">        int n = sc.nextInt();</span>
+
+<span class="nc" id="L15">        int arr[] = new int[n];</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L17">            arr[i] = sc.nextInt();</span>
+        }
+
+<span class="nc" id="L20">        System.out.println(LIS(arr));</span>
+<span class="nc" id="L21">        System.out.println(findLISLen(arr));</span>
+<span class="nc" id="L22">        sc.close();</span>
+<span class="nc" id="L23">    }</span>
+
+    private static int upperBound(int[] ar, int l, int r, int key) {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        while (l &lt; r - 1) {</span>
+<span class="nc" id="L27">            int m = (l + r) &gt;&gt;&gt; 1;</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            if (ar[m] &gt;= key) {</span>
+<span class="nc" id="L29">                r = m;</span>
+            } else {
+<span class="nc" id="L31">                l = m;</span>
+            }
+<span class="nc" id="L33">        }</span>
+
+<span class="nc" id="L35">        return r;</span>
+    }
+
+    private static int LIS(int[] array) {
+<span class="nc" id="L39">        int N = array.length;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (N == 0) {</span>
+<span class="nc" id="L41">            return 0;</span>
+        }
+
+<span class="nc" id="L44">        int[] tail = new int[N];</span>
+
+        // always points empty slot in tail
+<span class="nc" id="L47">        int length = 1;</span>
+
+<span class="nc" id="L49">        tail[0] = array[0];</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (int i = 1; i &lt; N; i++) {</span>
+
+            // new smallest value
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (array[i] &lt; tail[0]) {</span>
+<span class="nc" id="L54">                tail[0] = array[i];</span>
+            } // array[i] extends largest subsequence
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            else if (array[i] &gt; tail[length - 1]) {</span>
+<span class="nc" id="L57">                tail[length++] = array[i];</span>
+            } // array[i] will become end candidate of an existing subsequence or
+            // Throw away larger elements in all LIS, to make room for upcoming grater elements than
+            // array[i]
+            // (and also, array[i] would have already appeared in one of LIS, identify the location and
+            // replace it)
+            else {
+<span class="nc" id="L64">                tail[upperBound(tail, -1, length - 1, array[i])] = array[i];</span>
+            }
+        }
+
+<span class="nc" id="L68">        return length;</span>
+    }
+
+    /**
+     * @author Alon Firestein (https://github.com/alonfirestein)
+     */
+    // A function for finding the length of the LIS algorithm in O(nlogn) complexity.
+    public static int findLISLen(int a[]) {
+<span class="nc" id="L76">        int size = a.length;</span>
+<span class="nc" id="L77">        int arr[] = new int[size];</span>
+<span class="nc" id="L78">        arr[0] = a[0];</span>
+<span class="nc" id="L79">        int lis = 1;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (int i = 1; i &lt; size; i++) {</span>
+<span class="nc" id="L81">            int index = binarySearchBetween(arr, lis, a[i]);</span>
+<span class="nc" id="L82">            arr[index] = a[i];</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (index &gt; lis) {</span>
+<span class="nc" id="L84">                lis++;</span>
+            }
+        }
+<span class="nc" id="L87">        return lis;</span>
+    }
+    // O(logn)
+
+    private static int binarySearchBetween(int[] t, int end, int key) {
+<span class="nc" id="L92">        int left = 0;</span>
+<span class="nc" id="L93">        int right = end;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (key &lt; t[0]) {</span>
+<span class="nc" id="L95">            return 0;</span>
+        }
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (key &gt; t[end]) {</span>
+<span class="nc" id="L98">            return end + 1;</span>
+        }
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        while (left &lt; right - 1) {</span>
+<span class="nc" id="L101">            int middle = (left + right) / 2;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (t[middle] &lt; key) {</span>
+<span class="nc" id="L103">                left = middle;</span>
+            } else {
+<span class="nc" id="L105">                right = middle;</span>
+            }
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">        return right;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

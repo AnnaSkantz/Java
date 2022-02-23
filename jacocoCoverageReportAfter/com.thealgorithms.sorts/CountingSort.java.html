@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountingSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">CountingSort.java</span></div><h1>CountingSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.print;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+/**
+ * @author Youssef Ali (https://github.com/youssefAli11997)
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ */
+<span class="nc" id="L15">class CountingSort implements SortAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] unsorted) {
+<span class="nc" id="L19">        return sort(Arrays.asList(unsorted)).toArray(unsorted);</span>
+    }
+
+    /**
+     * This method implements the Generic Counting Sort
+     *
+     * @param list The list to be sorted
+     * &lt;p&gt;
+     * Sorts the list in increasing order The method uses list elements as keys
+     * in the frequency map
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; List&lt;T&gt; sort(List&lt;T&gt; list) {
+
+<span class="nc" id="L33">        Map&lt;T, Integer&gt; frequency = new TreeMap&lt;&gt;();</span>
+        // The final output array
+<span class="nc" id="L35">        List&lt;T&gt; sortedArray = new ArrayList&lt;&gt;(list.size());</span>
+
+        // Counting the frequency of @param array elements
+<span class="nc" id="L38">        list.forEach(v -&gt; frequency.put(v, frequency.getOrDefault(v, 0) + 1));</span>
+
+        // Filling the sortedArray
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (Map.Entry&lt;T, Integer&gt; element : frequency.entrySet()) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for (int j = 0; j &lt; element.getValue(); j++) {</span>
+<span class="nc" id="L43">                sortedArray.add(element.getKey());</span>
+            }
+<span class="nc" id="L45">        }</span>
+
+<span class="nc" id="L47">        return sortedArray;</span>
+    }
+
+    /**
+     * Stream Counting Sort The same as method {@link CountingSort#sort(List)} }
+     * but this method uses stream API
+     *
+     * @param list The list to be sorted
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; List&lt;T&gt; streamSort(List&lt;T&gt; list) {
+<span class="nc" id="L57">        return list.stream()</span>
+<span class="nc" id="L58">                .collect(toMap(k -&gt; k, v -&gt; 1, (v1, v2) -&gt; v1 + v2, TreeMap::new))</span>
+<span class="nc" id="L59">                .entrySet()</span>
+<span class="nc" id="L60">                .stream()</span>
+<span class="nc" id="L61">                .flatMap(entry -&gt; IntStream.rangeClosed(1, entry.getValue()).mapToObj(t -&gt; entry.getKey()))</span>
+<span class="nc" id="L62">                .collect(toList());</span>
+    }
+
+    // Driver Program
+    public static void main(String[] args) {
+        // Integer Input
+<span class="nc" id="L68">        List&lt;Integer&gt; unsortedInts</span>
+<span class="nc" id="L69">                = Stream.of(4, 23, 6, 78, 1, 54, 23, 1, 9, 231, 9, 12).collect(toList());</span>
+<span class="nc" id="L70">        CountingSort countingSort = new CountingSort();</span>
+
+<span class="nc" id="L72">        System.out.println(&quot;Before Sorting:&quot;);</span>
+<span class="nc" id="L73">        print(unsortedInts);</span>
+
+        // Output =&gt; 1 1 4 6 9 9 12 23 23 54 78 231
+<span class="nc" id="L76">        System.out.println(&quot;After Sorting:&quot;);</span>
+<span class="nc" id="L77">        print(countingSort.sort(unsortedInts));</span>
+<span class="nc" id="L78">        System.out.println(&quot;After Sorting By Streams:&quot;);</span>
+<span class="nc" id="L79">        print(streamSort(unsortedInts));</span>
+
+<span class="nc" id="L81">        System.out.println(&quot;\n------------------------------\n&quot;);</span>
+
+        // String Input
+<span class="nc" id="L84">        List&lt;String&gt; unsortedStrings</span>
+<span class="nc" id="L85">                = Stream.of(&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;, &quot;a&quot;, &quot;f&quot;, &quot;g&quot;, &quot;c&quot;).collect(toList());</span>
+
+<span class="nc" id="L87">        System.out.println(&quot;Before Sorting:&quot;);</span>
+<span class="nc" id="L88">        print(unsortedStrings);</span>
+
+        // Output =&gt; a a b c c d e f g
+<span class="nc" id="L91">        System.out.println(&quot;After Sorting:&quot;);</span>
+<span class="nc" id="L92">        print(countingSort.sort(unsortedStrings));</span>
+
+<span class="nc" id="L94">        System.out.println(&quot;After Sorting By Streams:&quot;);</span>
+<span class="nc" id="L95">        print(streamSort(unsortedStrings));</span>
+<span class="nc" id="L96">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

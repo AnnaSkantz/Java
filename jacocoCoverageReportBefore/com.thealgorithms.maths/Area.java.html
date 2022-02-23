@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Area.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">Area.java</span></div><h1>Area.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/**
+ * Find the area of various geometric shapes
+ */
+<span class="nc bnc" id="L6" title="All 2 branches missed.">public class Area {</span>
+
+    public static void main(String[] args) {
+
+        /* test cube */
+<span class="nc bnc" id="L11" title="All 4 branches missed.">        assert Double.compare(surfaceAreaCube(1), 6.0) == 0;</span>
+
+        /* test sphere */
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        assert Double.compare(surfaceAreaSphere(5), 314.1592653589793) == 0;</span>
+<span class="nc bnc" id="L15" title="All 4 branches missed.">        assert Double.compare(surfaceAreaSphere(1), 12.566370614359172) == 0;</span>
+
+        /* test rectangle */
+<span class="nc bnc" id="L18" title="All 4 branches missed.">        assert Double.compare(surfaceAreaRectangle(10, 20), 200.0) == 0;</span>
+
+        /* test square */
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        assert Double.compare(surfaceAreaSquare(10), 100.0) == 0;</span>
+
+        /* test triangle */
+<span class="nc bnc" id="L24" title="All 4 branches missed.">        assert Double.compare(surfaceAreaTriangle(10, 10), 50.0) == 0;</span>
+
+        /* test parallelogram */
+<span class="nc bnc" id="L27" title="All 4 branches missed.">        assert Double.compare(surfaceAreaParallelogram(10, 20), 200.0) == 0;</span>
+
+        /* test trapezium */
+<span class="nc bnc" id="L30" title="All 4 branches missed.">        assert Double.compare(surfaceAreaTrapezium(10, 20, 30), 450.0) == 0;</span>
+
+        /* test circle */
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        assert Double.compare(surfaceAreaCircle(20), 1256.6370614359173) == 0;</span>
+
+        /* test cylinder */
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        assert Double.compare(surfaceAreaCylinder(1, 2), 18.84955592153876) == 0;</span>
+
+        /* test hemisphere */
+<span class="nc bnc" id="L39" title="All 4 branches missed.">        assert Double.compare(surfaceAreaHemisphere(5), 235.61944901923448) == 0;</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        assert Double.compare(surfaceAreaHemisphere(1), 9.42477796076938) == 0;</span>
+
+        /* test cone */
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        assert Double.compare(surfaceAreaCone(6, 8), 301.59289474462014) == 0;</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        assert Double.compare(surfaceAreaCone(10, 24), 1130.9733552923256) == 0;</span>
+
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * Calculate the surface area of a cube.
+     *
+     * @param sideLength side length of cube
+     * @return surface area of given cube
+     */
+    private static double surfaceAreaCube(double sideLength) {
+<span class="nc" id="L55">        return 6 * sideLength * sideLength;</span>
+    }
+
+    /**
+     * Calculate the surface area of a sphere.
+     *
+     * @param radius radius of sphere
+     * @return surface area of given sphere
+     */
+    private static double surfaceAreaSphere(double radius) {
+<span class="nc" id="L65">        return 4 * Math.PI * radius * radius;</span>
+    }
+
+    /**
+     * Calculate the area of a rectangle
+     *
+     * @param length length of rectangle
+     * @param width width of rectangle
+     * @return area of given rectangle
+     */
+    private static double surfaceAreaRectangle(double length, double width) {
+<span class="nc" id="L76">        return length * width;</span>
+    }
+
+    /**
+     * Calculate surface area of a cylinder
+     *
+     * @param radius radius of the floor
+     * @param height height of the cylinder.
+     * @return volume of given cylinder
+     */
+    private static double surfaceAreaCylinder(double radius, double height) {
+<span class="nc" id="L87">        return 2 * (Math.PI * radius * radius + Math.PI * radius * height);</span>
+    }
+
+    /**
+     * Calculate the area of a square
+     *
+     * @param sideLength side length of square
+     * @return area of given square
+     */
+    private static double surfaceAreaSquare(double sideLength) {
+<span class="nc" id="L97">        return sideLength * sideLength;</span>
+    }
+
+    /**
+     * Calculate the area of a triangle
+     *
+     * @param base base of triangle
+     * @param height height of triangle
+     * @return area of given triangle
+     */
+    private static double surfaceAreaTriangle(double base, double height) {
+<span class="nc" id="L108">        return base * height / 2;</span>
+    }
+
+    /**
+     * Calculate the area of a parallelogram
+     *
+     * @param base base of parallelogram
+     * @param height height of parallelogram
+     * @return area of given parallelogram
+     */
+    private static double surfaceAreaParallelogram(double base, double height) {
+<span class="nc" id="L119">        return base * height;</span>
+    }
+
+    /**
+     * Calculate the area of a trapezium
+     *
+     * @param base1 upper base of trapezium
+     * @param base2 bottom base of trapezium
+     * @param height height of trapezium
+     * @return area of given trapezium
+     */
+    private static double surfaceAreaTrapezium(double base1, double base2, double height) {
+<span class="nc" id="L131">        return (base1 + base2) * height / 2;</span>
+    }
+
+    /**
+     * Calculate the area of a circle
+     *
+     * @param radius radius of circle
+     * @return area of given circle
+     */
+    private static double surfaceAreaCircle(double radius) {
+<span class="nc" id="L141">        return Math.PI * radius * radius;</span>
+    }
+
+    /**
+     * Calculate the surface area of a hemisphere.
+     *
+     * @param radius radius of hemisphere
+     * @return surface area of given hemisphere
+     */
+    private static double surfaceAreaHemisphere(double radius) {
+<span class="nc" id="L151">        return 3 * Math.PI * radius * radius;</span>
+    }
+
+    /**
+     * Calculate the surface area of a cone.
+     *
+     * @param radius radius of cone.
+     * @param height of cone.
+     * @return surface area of given cone.
+     */
+    private static double surfaceAreaCone(double radius, double height) {
+<span class="nc" id="L162">        return Math.PI * radius * (radius + Math.pow((height * height + radius * radius), 0.5));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

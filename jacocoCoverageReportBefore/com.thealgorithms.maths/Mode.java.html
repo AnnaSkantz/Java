@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">Mode.java</span></div><h1>Mode.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+
+/*
+ * Find the mode of an array of numbers
+ *
+ * The mode of an array of numbers is the most frequently occurring number in the array,
+ * or the most frequently occurring numbers if there are multiple numbers with the same frequency
+ */
+<span class="nc bnc" id="L14" title="All 2 branches missed.">public class Mode {</span>
+
+    public static void main(String[] args) {
+
+        /* Test array of integers */
+<span class="nc bnc" id="L19" title="All 4 branches missed.">        assert (mode(new int[]{})) == null;</span>
+<span class="nc bnc" id="L20" title="All 4 branches missed.">        assert Arrays.equals(mode(new int[]{5}), new int[]{5});</span>
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        assert Arrays.equals(mode(new int[]{1, 2, 3, 4, 5}), new int[]{1, 2, 3, 4, 5});</span>
+<span class="nc bnc" id="L22" title="All 4 branches missed.">        assert Arrays.equals(mode(new int[]{7, 9, 9, 4, 5, 6, 7, 7, 8}), new int[]{7});</span>
+<span class="nc bnc" id="L23" title="All 4 branches missed.">        assert Arrays.equals(mode(new int[]{7, 9, 9, 4, 5, 6, 7, 7, 9}), new int[]{7, 9});</span>
+<span class="nc" id="L24">    }</span>
+
+    /*
+   * Find the mode of an array of integers
+   *
+   * @param numbers array of integers
+   * @return mode of the array
+     */
+    public static int[] mode(int[] numbers) {
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (numbers.length == 0) {</span>
+<span class="nc" id="L35">            return null;</span>
+        }
+
+<span class="nc" id="L38">        HashMap&lt;Integer, Integer&gt; count = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int num : numbers) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (count.containsKey(num)) {</span>
+
+<span class="nc" id="L43">                count.put(num, count.get(num) + 1);</span>
+
+            } else {
+
+<span class="nc" id="L47">                count.put(num, 1);</span>
+            }
+        }
+
+<span class="nc" id="L51">        int max = Collections.max(count.values());</span>
+<span class="nc" id="L52">        ArrayList&lt;Integer&gt; modes = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int num : count.keySet()) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (count.get(num) == max) {</span>
+<span class="nc" id="L56">                modes.add(num);</span>
+            }
+<span class="nc" id="L58">        }</span>
+<span class="nc" id="L59">        return modes.stream().mapToInt(n -&gt; n).toArray();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KochSnowflake.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">KochSnowflake.java</span></div><h1>KochSnowflake.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
+/**
+ * The Koch snowflake is a fractal curve and one of the earliest fractals to
+ * have been described. The Koch snowflake can be built up iteratively, in a
+ * sequence of stages. The first stage is an equilateral triangle, and each
+ * successive stage is formed by adding outward bends to each side of the
+ * previous stage, making smaller equilateral triangles. This can be achieved
+ * through the following steps for each line: 1. divide the line segment into
+ * three segments of equal length. 2. draw an equilateral triangle that has the
+ * middle segment from step 1 as its base and points outward. 3. remove the line
+ * segment that is the base of the triangle from step 2. (description adapted
+ * from https://en.wikipedia.org/wiki/Koch_snowflake ) (for a more detailed
+ * explanation and an implementation in the Processing language, see
+ * https://natureofcode.com/book/chapter-8-fractals/
+ * #84-the-koch-curve-and-the-arraylist-technique ).
+ */
+<span class="nc bnc" id="L25" title="All 2 branches missed.">public class KochSnowflake {</span>
+
+    public static void main(String[] args) {
+        // Test Iterate-method
+<span class="nc" id="L29">        ArrayList&lt;Vector2&gt; vectors = new ArrayList&lt;Vector2&gt;();</span>
+<span class="nc" id="L30">        vectors.add(new Vector2(0, 0));</span>
+<span class="nc" id="L31">        vectors.add(new Vector2(1, 0));</span>
+<span class="nc" id="L32">        ArrayList&lt;Vector2&gt; result = Iterate(vectors, 1);</span>
+
+<span class="nc bnc" id="L34" title="All 4 branches missed.">        assert result.get(0).x == 0;</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">        assert result.get(0).y == 0;</span>
+
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        assert result.get(1).x == 1. / 3;</span>
+<span class="nc bnc" id="L38" title="All 4 branches missed.">        assert result.get(1).y == 0;</span>
+
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        assert result.get(2).x == 1. / 2;</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        assert result.get(2).y == Math.sin(Math.PI / 3) / 3;</span>
+
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        assert result.get(3).x == 2. / 3;</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        assert result.get(3).y == 0;</span>
+
+<span class="nc bnc" id="L46" title="All 4 branches missed.">        assert result.get(4).x == 1;</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        assert result.get(4).y == 0;</span>
+
+        // Test GetKochSnowflake-method
+<span class="nc" id="L50">        int imageWidth = 600;</span>
+<span class="nc" id="L51">        double offsetX = imageWidth / 10.;</span>
+<span class="nc" id="L52">        double offsetY = imageWidth / 3.7;</span>
+<span class="nc" id="L53">        BufferedImage image = GetKochSnowflake(imageWidth, 5);</span>
+
+        // The background should be white
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        assert image.getRGB(0, 0) == new Color(255, 255, 255).getRGB();</span>
+
+        // The snowflake is drawn in black and this is the position of the first vector
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        assert image.getRGB((int) offsetX, (int) offsetY) == new Color(0, 0, 0).getRGB();</span>
+
+        // Save image
+        try {
+<span class="nc" id="L63">            ImageIO.write(image, &quot;png&quot;, new File(&quot;KochSnowflake.png&quot;));</span>
+<span class="nc" id="L64">        } catch (IOException e) {</span>
+<span class="nc" id="L65">            e.printStackTrace();</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * Go through the number of iterations determined by the argument &quot;steps&quot;.
+     * Be careful with high values (above 5) since the time to calculate
+     * increases exponentially.
+     *
+     * @param initialVectors The vectors composing the shape to which the
+     * algorithm is applied.
+     * @param steps The number of iterations.
+     * @return The transformed vectors after the iteration-steps.
+     */
+    public static ArrayList&lt;Vector2&gt; Iterate(ArrayList&lt;Vector2&gt; initialVectors, int steps) {
+<span class="nc" id="L80">        ArrayList&lt;Vector2&gt; vectors = initialVectors;</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (int i = 0; i &lt; steps; i++) {</span>
+<span class="nc" id="L82">            vectors = IterationStep(vectors);</span>
+        }
+
+<span class="nc" id="L85">        return vectors;</span>
+    }
+
+    /**
+     * Method to render the Koch snowflake to a image.
+     *
+     * @param imageWidth The width of the rendered image.
+     * @param steps The number of iterations.
+     * @return The image of the rendered Koch snowflake.
+     */
+    public static BufferedImage GetKochSnowflake(int imageWidth, int steps) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (imageWidth &lt;= 0) {</span>
+<span class="nc" id="L97">            throw new IllegalArgumentException(&quot;imageWidth should be greater than zero&quot;);</span>
+        }
+
+<span class="nc" id="L100">        double offsetX = imageWidth / 10.;</span>
+<span class="nc" id="L101">        double offsetY = imageWidth / 3.7;</span>
+<span class="nc" id="L102">        Vector2 vector1 = new Vector2(offsetX, offsetY);</span>
+<span class="nc" id="L103">        Vector2 vector2</span>
+<span class="nc" id="L104">                = new Vector2(imageWidth / 2, Math.sin(Math.PI / 3) * imageWidth * 0.8 + offsetY);</span>
+<span class="nc" id="L105">        Vector2 vector3 = new Vector2(imageWidth - offsetX, offsetY);</span>
+<span class="nc" id="L106">        ArrayList&lt;Vector2&gt; initialVectors = new ArrayList&lt;Vector2&gt;();</span>
+<span class="nc" id="L107">        initialVectors.add(vector1);</span>
+<span class="nc" id="L108">        initialVectors.add(vector2);</span>
+<span class="nc" id="L109">        initialVectors.add(vector3);</span>
+<span class="nc" id="L110">        initialVectors.add(vector1);</span>
+<span class="nc" id="L111">        ArrayList&lt;Vector2&gt; vectors = Iterate(initialVectors, steps);</span>
+<span class="nc" id="L112">        return GetImage(vectors, imageWidth, imageWidth);</span>
+    }
+
+    /**
+     * Loops through each pair of adjacent vectors. Each line between two
+     * adjacent vectors is divided into 4 segments by adding 3 additional
+     * vectors in-between the original two vectors. The vector in the middle is
+     * constructed through a 60 degree rotation so it is bent outwards.
+     *
+     * @param vectors The vectors composing the shape to which the algorithm is
+     * applied.
+     * @return The transformed vectors after the iteration-step.
+     */
+    private static ArrayList&lt;Vector2&gt; IterationStep(ArrayList&lt;Vector2&gt; vectors) {
+<span class="nc" id="L126">        ArrayList&lt;Vector2&gt; newVectors = new ArrayList&lt;Vector2&gt;();</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        for (int i = 0; i &lt; vectors.size() - 1; i++) {</span>
+<span class="nc" id="L128">            Vector2 startVector = vectors.get(i);</span>
+<span class="nc" id="L129">            Vector2 endVector = vectors.get(i + 1);</span>
+<span class="nc" id="L130">            newVectors.add(startVector);</span>
+<span class="nc" id="L131">            Vector2 differenceVector = endVector.subtract(startVector).multiply(1. / 3);</span>
+<span class="nc" id="L132">            newVectors.add(startVector.add(differenceVector));</span>
+<span class="nc" id="L133">            newVectors.add(startVector.add(differenceVector).add(differenceVector.rotate(60)));</span>
+<span class="nc" id="L134">            newVectors.add(startVector.add(differenceVector.multiply(2)));</span>
+        }
+
+<span class="nc" id="L137">        newVectors.add(vectors.get(vectors.size() - 1));</span>
+<span class="nc" id="L138">        return newVectors;</span>
+    }
+
+    /**
+     * Utility-method to render the Koch snowflake to an image.
+     *
+     * @param vectors The vectors defining the edges to be rendered.
+     * @param imageWidth The width of the rendered image.
+     * @param imageHeight The height of the rendered image.
+     * @return The image of the rendered edges.
+     */
+    private static BufferedImage GetImage(
+            ArrayList&lt;Vector2&gt; vectors, int imageWidth, int imageHeight) {
+<span class="nc" id="L151">        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);</span>
+<span class="nc" id="L152">        Graphics2D g2d = image.createGraphics();</span>
+
+        // Set the background white
+<span class="nc" id="L155">        g2d.setBackground(Color.WHITE);</span>
+<span class="nc" id="L156">        g2d.fillRect(0, 0, imageWidth, imageHeight);</span>
+
+        // Draw the edges
+<span class="nc" id="L159">        g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L160">        BasicStroke bs = new BasicStroke(1);</span>
+<span class="nc" id="L161">        g2d.setStroke(bs);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        for (int i = 0; i &lt; vectors.size() - 1; i++) {</span>
+<span class="nc" id="L163">            int x1 = (int) vectors.get(i).x;</span>
+<span class="nc" id="L164">            int y1 = (int) vectors.get(i).y;</span>
+<span class="nc" id="L165">            int x2 = (int) vectors.get(i + 1).x;</span>
+<span class="nc" id="L166">            int y2 = (int) vectors.get(i + 1).y;</span>
+
+<span class="nc" id="L168">            g2d.drawLine(x1, y1, x2, y2);</span>
+        }
+
+<span class="nc" id="L171">        return image;</span>
+    }
+
+    /**
+     * Inner class to handle the vector calculations.
+     */
+    private static class Vector2 {
+
+        double x, y;
+
+<span class="nc" id="L181">        public Vector2(double x, double y) {</span>
+<span class="nc" id="L182">            this.x = x;</span>
+<span class="nc" id="L183">            this.y = y;</span>
+<span class="nc" id="L184">        }</span>
+
+        @Override
+        public String toString() {
+<span class="nc" id="L188">            return String.format(&quot;[%f, %f]&quot;, this.x, this.y);</span>
+        }
+
+        /**
+         * Vector addition
+         *
+         * @param vector The vector to be added.
+         * @return The sum-vector.
+         */
+        public Vector2 add(Vector2 vector) {
+<span class="nc" id="L198">            double x = this.x + vector.x;</span>
+<span class="nc" id="L199">            double y = this.y + vector.y;</span>
+<span class="nc" id="L200">            return new Vector2(x, y);</span>
+        }
+
+        /**
+         * Vector subtraction
+         *
+         * @param vector The vector to be subtracted.
+         * @return The difference-vector.
+         */
+        public Vector2 subtract(Vector2 vector) {
+<span class="nc" id="L210">            double x = this.x - vector.x;</span>
+<span class="nc" id="L211">            double y = this.y - vector.y;</span>
+<span class="nc" id="L212">            return new Vector2(x, y);</span>
+        }
+
+        /**
+         * Vector scalar multiplication
+         *
+         * @param scalar The factor by which to multiply the vector.
+         * @return The scaled vector.
+         */
+        public Vector2 multiply(double scalar) {
+<span class="nc" id="L222">            double x = this.x * scalar;</span>
+<span class="nc" id="L223">            double y = this.y * scalar;</span>
+<span class="nc" id="L224">            return new Vector2(x, y);</span>
+        }
+
+        /**
+         * Vector rotation (see https://en.wikipedia.org/wiki/Rotation_matrix)
+         *
+         * @param angleInDegrees The angle by which to rotate the vector.
+         * @return The rotated vector.
+         */
+        public Vector2 rotate(double angleInDegrees) {
+<span class="nc" id="L234">            double radians = angleInDegrees * Math.PI / 180;</span>
+<span class="nc" id="L235">            double ca = Math.cos(radians);</span>
+<span class="nc" id="L236">            double sa = Math.sin(radians);</span>
+<span class="nc" id="L237">            double x = ca * this.x - sa * this.y;</span>
+<span class="nc" id="L238">            double y = sa * this.x + ca * this.y;</span>
+<span class="nc" id="L239">            return new Vector2(x, y);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

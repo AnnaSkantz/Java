@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PalindromeSinglyLinkedList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">PalindromeSinglyLinkedList.java</span></div><h1>PalindromeSinglyLinkedList.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.Stack;
+import com.thealgorithms.datastructures.lists.SinglyLinkedList;
+
+/**
+ * A simple way of knowing if a singly linked list is palindrome is to push all
+ * the values into a Stack and then compare the list to popped vales from the
+ * Stack.
+ *
+ * See more:
+ * https://www.geeksforgeeks.org/function-to-check-if-a-singly-linked-list-is-palindrome/
+ */
+<span class="nc" id="L14">public class PalindromeSinglyLinkedList {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L17">        SinglyLinkedList linkedList = new SinglyLinkedList();</span>
+
+<span class="nc" id="L19">        linkedList.insertHead(3);</span>
+<span class="nc" id="L20">        linkedList.insertNth(2, 1);</span>
+<span class="nc" id="L21">        linkedList.insertNth(1, 2);</span>
+<span class="nc" id="L22">        linkedList.insertNth(2, 3);</span>
+<span class="nc" id="L23">        linkedList.insertNth(3, 4);</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (isPalindrome(linkedList)) {</span>
+<span class="nc" id="L26">            System.out.println(&quot;It's a palindrome list&quot;);</span>
+        } else {
+<span class="nc" id="L28">            System.out.println(&quot;It's NOT a palindrome list&quot;);</span>
+        }
+<span class="nc" id="L30">    }</span>
+
+    public static boolean isPalindrome(SinglyLinkedList linkedList) {
+<span class="nc" id="L33">        boolean ret = true;</span>
+<span class="nc" id="L34">        Stack&lt;Integer&gt; linkedListValues = new Stack&lt;&gt;();</span>
+
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 0; i &lt; linkedList.size(); i++) {</span>
+<span class="nc" id="L37">            linkedListValues.push(linkedList.getNth(i));</span>
+        }
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int i = 0; i &lt; linkedList.size(); i++) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (linkedList.getNth(i) != linkedListValues.pop()) {</span>
+<span class="nc" id="L42">                ret = false;</span>
+<span class="nc" id="L43">                break;</span>
+            }
+        }
+
+<span class="nc" id="L47">        return ret;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

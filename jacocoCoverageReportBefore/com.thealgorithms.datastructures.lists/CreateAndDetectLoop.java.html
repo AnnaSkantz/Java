@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateAndDetectLoop.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.lists</a> &gt; <span class="el_source">CreateAndDetectLoop.java</span></div><h1>CreateAndDetectLoop.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.lists;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class CreateAndDetectLoop {</span>
+
+    /**
+     * Prints the linked list.
+     *
+     * @param	head	head node of the linked list
+     */
+    static void printList(Node head) {
+<span class="nc" id="L13">        Node cur = head;</span>
+
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        while (cur != null) {</span>
+<span class="nc" id="L16">            System.out.print(cur.value + &quot; &quot;);</span>
+<span class="nc" id="L17">            cur = cur.next;</span>
+        }
+<span class="nc" id="L19">    }</span>
+
+    /**
+     * Creates a loop in the linked list.
+     *
+     * @see
+     * 	&lt;a href=&quot;https://www.geeksforgeeks.org/make-loop-k-th-position-linked-list/&quot;&gt;
+     * GeeksForGeeks: Make a loop at K-th position&lt;/a&gt;
+     * @param	head	head node of the linked list
+     * @param	k	position of node where loop is to be created
+     */
+    static void createLoop(Node head, int k) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (head == null) {</span>
+<span class="nc" id="L32">            return;</span>
+        }
+<span class="nc" id="L34">        Node temp = head;</span>
+<span class="nc" id="L35">        int count = 1;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        while (count &lt; k) { 		// Traverse the list till the kth node</span>
+<span class="nc" id="L37">            temp = temp.next;</span>
+<span class="nc" id="L38">            count++;</span>
+        }
+
+<span class="nc" id="L41">        Node connectedPoint = temp;</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        while (temp.next != null) // Traverse remaining nodes</span>
+        {
+<span class="nc" id="L45">            temp = temp.next;</span>
+        }
+
+<span class="nc" id="L48">        temp.next = connectedPoint; // Connect last node to k-th element</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Detects the presence of a loop in the linked list.
+     *
+     * @see
+     * 	&lt;a href=&quot;https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare&quot;&gt;
+     * Floyd's Cycle Detection Algorithm&lt;/a&gt;
+     *
+     * @param head the head node of the linked list
+     *
+     * @return true if loop exists else false
+     */
+    static boolean detectLoop(Node head) {
+<span class="nc" id="L63">        Node sptr = head;</span>
+<span class="nc" id="L64">        Node fptr = head;</span>
+
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        while (fptr != null &amp;&amp; fptr.next != null) {</span>
+<span class="nc" id="L67">            sptr = sptr.next;</span>
+<span class="nc" id="L68">            fptr = fptr.next.next;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (fptr == sptr) {</span>
+<span class="nc" id="L70">                return true;</span>
+            }
+        }
+
+<span class="nc" id="L74">        return false;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L78">        SinglyLinkedList singlyLinkedList = new SinglyLinkedList();</span>
+<span class="nc" id="L79">        Scanner sc = new Scanner(System.in);</span>
+
+<span class="nc" id="L81">        System.out.println(&quot;Enter the number of elements to be inserted: &quot;);</span>
+<span class="nc" id="L82">        int n = sc.nextInt();</span>
+<span class="nc" id="L83">        System.out.printf(&quot;Enter the %d elements: \n&quot;, n);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        while (n-- &gt; 0) {</span>
+<span class="nc" id="L85">            singlyLinkedList.insert(sc.nextInt());</span>
+        }
+
+<span class="nc" id="L88">        System.out.print(&quot;Given list: &quot;);</span>
+<span class="nc" id="L89">        printList(singlyLinkedList.getHead());</span>
+<span class="nc" id="L90">        System.out.println();</span>
+
+<span class="nc" id="L92">        System.out.println(&quot;Enter the location to generate loop: &quot;);</span>
+<span class="nc" id="L93">        int k = sc.nextInt();</span>
+
+<span class="nc" id="L95">        createLoop(singlyLinkedList.getHead(), k);</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (detectLoop(singlyLinkedList.getHead())) {</span>
+<span class="nc" id="L98">            System.out.println(&quot;Loop found&quot;);</span>
+        } else {
+<span class="nc" id="L100">            System.out.println(&quot;No loop found&quot;);</span>
+        }
+
+<span class="nc" id="L103">        sc.close();</span>
+<span class="nc" id="L104">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

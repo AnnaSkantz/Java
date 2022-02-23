@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MatrixChainRecursiveTopDownMemoisation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">MatrixChainRecursiveTopDownMemoisation.java</span></div><h1>MatrixChainRecursiveTopDownMemoisation.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+// Matrix-chain Multiplication
+// Problem Statement
+// we have given a chain A1,A2,...,Ani of n matrices, where for i = 1,2,...,n, 
+// matrix Ai has dimension pi−1 ×pi
+// , fully parenthesize the product A1A2 ···An in a way that
+// minimizes the number of scalar multiplications.
+<span class="nc" id="L9">public class MatrixChainRecursiveTopDownMemoisation {</span>
+
+    static int Memoized_Matrix_Chain(int p[]) {
+<span class="nc" id="L12">        int n = p.length;</span>
+<span class="nc" id="L13">        int m[][] = new int[n][n];</span>
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="nc" id="L16">                m[i][j] = Integer.MAX_VALUE;</span>
+            }
+        }
+<span class="nc" id="L19">        return Lookup_Chain(m, p, 1, n - 1);</span>
+    }
+
+    static int Lookup_Chain(int m[][], int p[], int i, int j) {
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (i == j) {</span>
+<span class="nc" id="L24">            m[i][j] = 0;</span>
+<span class="nc" id="L25">            return m[i][j];</span>
+        }
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (m[i][j] &lt; Integer.MAX_VALUE) {</span>
+<span class="nc" id="L28">            return m[i][j];</span>
+        } else {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            for (int k = i; k &lt; j; k++) {</span>
+<span class="nc" id="L31">                int q = Lookup_Chain(m, p, i, k) + Lookup_Chain(m, p, k + 1, j) + (p[i - 1] * p[k] * p[j]);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                if (q &lt; m[i][j]) {</span>
+<span class="nc" id="L33">                    m[i][j] = q;</span>
+                }
+            }
+        }
+<span class="nc" id="L37">        return m[i][j];</span>
+    }
+
+    // in this code we are taking the example of 4 matrixes whose orders are 1x2,2x3,3x4,4x5 respectively
+    // output should be  Minimum number of multiplications is 38
+    public static void main(String[] args) {
+
+<span class="nc" id="L44">        int arr[] = {1, 2, 3, 4, 5};</span>
+<span class="nc" id="L45">        System.out.println(&quot;Minimum number of multiplications is &quot; + Memoized_Matrix_Chain(arr));</span>
+<span class="nc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

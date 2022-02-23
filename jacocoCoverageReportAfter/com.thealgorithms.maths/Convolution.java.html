@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Convolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">Convolution.java</span></div><h1>Convolution.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/**
+ * Class for linear convolution of two discrete signals
+ *
+ * @author Ioannis Karavitsis
+ * @version 1.0
+ */
+<span class="nc" id="L9">public class Convolution {</span>
+
+    /**
+     * Discrete linear convolution function. Both input signals and the output
+     * signal must start from 0. If you have a signal that has values before 0
+     * then shift it to start from 0.
+     *
+     * @param A The first discrete signal
+     * @param B The second discrete signal
+     * @return The convolved signal
+     */
+    public static double[] convolution(double[] A, double[] B) {
+<span class="nc" id="L21">        double[] convolved = new double[A.length + B.length - 1];</span>
+
+        /*
+    The discrete convolution of two signals A and B is defined as:
+
+          A.length
+    C[i] = Σ (A[k]*B[i-k])
+          k=0
+
+    It's obvious that:  0 &lt;= k &lt;= A.length , 0 &lt;= i &lt;= A.length + B.length - 2  and  0 &lt;= i-k &lt;= B.length - 1
+    From the last inequality we get that:  i - B.length + 1 &lt;= k &lt;= i and thus we get the conditions below.
+         */
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for (int i = 0; i &lt; convolved.length; i++) {</span>
+<span class="nc" id="L34">            convolved[i] = 0;</span>
+<span class="nc" id="L35">            int k = Math.max(i - B.length + 1, 0);</span>
+
+<span class="nc bnc" id="L37" title="All 4 branches missed.">            while (k &lt; i + 1 &amp;&amp; k &lt; A.length) {</span>
+<span class="nc" id="L38">                convolved[i] += A[k] * B[i - k];</span>
+<span class="nc" id="L39">                k++;</span>
+            }
+        }
+
+<span class="nc" id="L43">        return convolved;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

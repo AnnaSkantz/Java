@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckAnagrams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">CheckAnagrams.java</span></div><h1>CheckAnagrams.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Two strings are anagrams if they are made of the same letters arranged
+ * differently (ignoring the case).
+ */
+<span class="nc bnc" id="L10" title="All 2 branches missed.">public class CheckAnagrams {</span>
+
+    public static void main(String[] args) {
+<span class="nc bnc" id="L13" title="All 4 branches missed.">        assert isAnagrams(&quot;Silent&quot;, &quot;Listen&quot;);</span>
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        assert isAnagrams(&quot;This is a string&quot;, &quot;Is this a string&quot;);</span>
+<span class="nc bnc" id="L15" title="All 4 branches missed.">        assert !isAnagrams(&quot;There&quot;, &quot;Their&quot;);</span>
+<span class="nc" id="L16">    }</span>
+
+    /**
+     * Check if two strings are anagrams or not
+     *
+     * @param s1 the first string
+     * @param s2 the second string
+     * @return {@code true} if two string are anagrams, otherwise {@code false}
+     */
+    public static boolean isAnagrams(String s1, String s2) {
+<span class="nc" id="L26">        int l1 = s1.length();</span>
+<span class="nc" id="L27">        int l2 = s2.length();</span>
+<span class="nc" id="L28">        s1 = s1.toLowerCase();</span>
+<span class="nc" id="L29">        s2 = s2.toLowerCase();</span>
+<span class="nc" id="L30">        Map&lt;Character, Integer&gt; charAppearances = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        for (int i = 0; i &lt; l1; i++) {</span>
+<span class="nc" id="L33">            char c = s1.charAt(i);</span>
+<span class="nc" id="L34">            int numOfAppearances = charAppearances.getOrDefault(c, 0);</span>
+<span class="nc" id="L35">            charAppearances.put(c, numOfAppearances + 1);</span>
+        }
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (int i = 0; i &lt; l2; i++) {</span>
+<span class="nc" id="L39">            char c = s2.charAt(i);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (!charAppearances.containsKey(c)) {</span>
+<span class="nc" id="L41">                return false;</span>
+            }
+<span class="nc" id="L43">            charAppearances.put(c, charAppearances.get(c) - 1);</span>
+        }
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int cnt : charAppearances.values()) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (cnt != 0) {</span>
+<span class="nc" id="L48">                return false;</span>
+            }
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegexMatching.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">RegexMatching.java</span></div><h1>RegexMatching.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/**
+ * Given a text and wildcard pattern implement a wildcard pattern matching
+ * algorithm that finds if wildcard is matched with text. The matching should
+ * cover the entire text ?-&gt; matches single characters *-&gt; match the sequence of
+ * characters
+ *
+ */
+/**
+ * For calculation of Time and Space Complexity. Let N be length of src and M be
+ * length of pat
+ *
+ */
+<span class="nc" id="L15">public class RegexMatching {</span>
+
+    // Method 1: Using Recursion
+    // Time Complexity=0(2^(N+M)) Space Complexity=Recursion Extra Space
+    static boolean regexRecursion(String src, String pat) {
+<span class="nc bnc" id="L20" title="All 4 branches missed.">        if (src.length() == 0 &amp;&amp; pat.length() == 0) {</span>
+<span class="nc" id="L21">            return true;</span>
+        }
+<span class="nc bnc" id="L23" title="All 4 branches missed.">        if (src.length() != 0 &amp;&amp; pat.length() == 0) {</span>
+<span class="nc" id="L24">            return false;</span>
+        }
+<span class="nc bnc" id="L26" title="All 4 branches missed.">        if (src.length() == 0 &amp;&amp; pat.length() != 0) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            for (int i = 0; i &lt; pat.length(); i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                if (pat.charAt(i) != '*') {</span>
+<span class="nc" id="L29">                    return false;</span>
+                }
+            }
+<span class="nc" id="L32">            return true;</span>
+        }
+<span class="nc" id="L34">        char chs = src.charAt(0);</span>
+<span class="nc" id="L35">        char chp = pat.charAt(0);</span>
+
+<span class="nc" id="L37">        String ros = src.substring(1);</span>
+<span class="nc" id="L38">        String rop = pat.substring(1);</span>
+
+        boolean ans;
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (chs == chp || chp == '?') {</span>
+<span class="nc" id="L42">            ans = regexRecursion(ros, rop);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        } else if (chp == '*') {</span>
+<span class="nc" id="L44">            boolean blank = regexRecursion(src, rop);</span>
+<span class="nc" id="L45">            boolean multiple = regexRecursion(ros, pat);</span>
+<span class="nc bnc" id="L46" title="All 4 branches missed.">            ans = blank || multiple;</span>
+<span class="nc" id="L47">        } else {</span>
+<span class="nc" id="L48">            ans = false;</span>
+        }
+<span class="nc" id="L50">        return ans;</span>
+    }
+
+    // Method 2: Using Recursion and breaking string using virtual index
+    // Time Complexity=0(2^(N+M)) Space Complexity=Recursion Extra Space
+    static boolean regexRecursion(String src, String pat, int svidx, int pvidx) {
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (src.length() == svidx &amp;&amp; pat.length() == pvidx) {</span>
+<span class="nc" id="L57">            return true;</span>
+        }
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        if (src.length() != svidx &amp;&amp; pat.length() == pvidx) {</span>
+<span class="nc" id="L60">            return false;</span>
+        }
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        if (src.length() == svidx &amp;&amp; pat.length() != pvidx) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (int i = pvidx; i &lt; pat.length(); i++) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (pat.charAt(i) != '*') {</span>
+<span class="nc" id="L65">                    return false;</span>
+                }
+            }
+<span class="nc" id="L68">            return true;</span>
+        }
+<span class="nc" id="L70">        char chs = src.charAt(svidx);</span>
+<span class="nc" id="L71">        char chp = pat.charAt(pvidx);</span>
+
+        boolean ans;
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        if (chs == chp || chp == '?') {</span>
+<span class="nc" id="L75">            ans = regexRecursion(src, pat, svidx + 1, pvidx + 1);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        } else if (chp == '*') {</span>
+<span class="nc" id="L77">            boolean blank = regexRecursion(src, pat, svidx, pvidx + 1);</span>
+<span class="nc" id="L78">            boolean multiple = regexRecursion(src, pat, svidx + 1, pvidx);</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">            ans = blank || multiple;</span>
+<span class="nc" id="L80">        } else {</span>
+<span class="nc" id="L81">            ans = false;</span>
+        }
+<span class="nc" id="L83">        return ans;</span>
+    }
+
+    // Method 3: Top-Down DP(Memoization)
+    // Time Complexity=0(N*M) Space Complexity=0(N*M)+Recursion Extra Space
+    static boolean regexRecursion(String src, String pat, int svidx, int pvidx, int[][] strg) {
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        if (src.length() == svidx &amp;&amp; pat.length() == pvidx) {</span>
+<span class="nc" id="L90">            return true;</span>
+        }
+<span class="nc bnc" id="L92" title="All 4 branches missed.">        if (src.length() != svidx &amp;&amp; pat.length() == pvidx) {</span>
+<span class="nc" id="L93">            return false;</span>
+        }
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (src.length() == svidx &amp;&amp; pat.length() != pvidx) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            for (int i = pvidx; i &lt; pat.length(); i++) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                if (pat.charAt(i) != '*') {</span>
+<span class="nc" id="L98">                    return false;</span>
+                }
+            }
+<span class="nc" id="L101">            return true;</span>
+        }
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (strg[svidx][pvidx] != 0) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            return strg[svidx][pvidx] == 1 ? false : true;</span>
+        }
+<span class="nc" id="L106">        char chs = src.charAt(svidx);</span>
+<span class="nc" id="L107">        char chp = pat.charAt(pvidx);</span>
+
+        boolean ans;
+<span class="nc bnc" id="L110" title="All 4 branches missed.">        if (chs == chp || chp == '?') {</span>
+<span class="nc" id="L111">            ans = regexRecursion(src, pat, svidx + 1, pvidx + 1, strg);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        } else if (chp == '*') {</span>
+<span class="nc" id="L113">            boolean blank = regexRecursion(src, pat, svidx, pvidx + 1, strg);</span>
+<span class="nc" id="L114">            boolean multiple = regexRecursion(src, pat, svidx + 1, pvidx, strg);</span>
+<span class="nc bnc" id="L115" title="All 4 branches missed.">            ans = blank || multiple;</span>
+<span class="nc" id="L116">        } else {</span>
+<span class="nc" id="L117">            ans = false;</span>
+        }
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        strg[svidx][pvidx] = ans == false ? 1 : 2;</span>
+<span class="nc" id="L120">        return ans;</span>
+    }
+
+    // Method 4: Bottom-Up DP(Tabulation)
+    // Time Complexity=0(N*M) Space Complexity=0(N*M)
+    static boolean regexBU(String src, String pat) {
+
+<span class="nc" id="L127">        boolean strg[][] = new boolean[src.length() + 1][pat.length() + 1];</span>
+<span class="nc" id="L128">        strg[src.length()][pat.length()] = true;</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        for (int row = src.length(); row &gt;= 0; row--) {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            for (int col = pat.length() - 1; col &gt;= 0; col--) {</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                if (row == src.length()) {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                    if (pat.charAt(col) == '*') {</span>
+<span class="nc" id="L133">                        strg[row][col] = strg[row][col + 1];</span>
+                    } else {
+<span class="nc" id="L135">                        strg[row][col] = false;</span>
+                    }
+                } else {
+<span class="nc" id="L138">                    char chs = src.charAt(row);</span>
+<span class="nc" id="L139">                    char chp = pat.charAt(col);</span>
+
+                    boolean ans;
+<span class="nc bnc" id="L142" title="All 4 branches missed.">                    if (chs == chp || chp == '?') {</span>
+<span class="nc" id="L143">                        ans = strg[row + 1][col + 1];</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                    } else if (chp == '*') {</span>
+<span class="nc" id="L145">                        boolean blank = strg[row][col + 1];</span>
+<span class="nc" id="L146">                        boolean multiple = strg[row + 1][col];</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">                        ans = blank || multiple;</span>
+<span class="nc" id="L148">                    } else {</span>
+<span class="nc" id="L149">                        ans = false;</span>
+                    }
+<span class="nc" id="L151">                    strg[row][col] = ans;</span>
+                }
+            }
+        }
+<span class="nc" id="L155">        return strg[0][0];</span>
+    }
+
+    public static void main(String[] args) {
+
+<span class="nc" id="L160">        String src = &quot;aa&quot;;</span>
+<span class="nc" id="L161">        String pat = &quot;*&quot;;</span>
+<span class="nc" id="L162">        System.out.println(&quot;Method 1: &quot; + regexRecursion(src, pat));</span>
+<span class="nc" id="L163">        System.out.println(&quot;Method 2: &quot; + regexRecursion(src, pat, 0, 0));</span>
+<span class="nc" id="L164">        System.out.println(&quot;Method 3: &quot; + regexRecursion(src, pat, 0, 0, new int[src.length()][pat.length()]));</span>
+<span class="nc" id="L165">        System.out.println(&quot;Method 4: &quot; + regexBU(src, pat));</span>
+
+<span class="nc" id="L167">    }</span>
+
+}
+// Memoization vs Tabulation : https://www.geeksforgeeks.org/tabulation-vs-memoization/
+// Question Link : https://practice.geeksforgeeks.org/problems/wildcard-pattern-matching/1
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

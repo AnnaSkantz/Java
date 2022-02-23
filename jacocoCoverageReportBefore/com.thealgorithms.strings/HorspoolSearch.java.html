@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HorspoolSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">HorspoolSearch.java</span></div><h1>HorspoolSearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+import java.util.HashMap;
+
+/**
+ * This class is not thread safe&lt;br&gt;
+ * &lt;br&gt;
+ * (From wikipedia) In computer science, the Boyer–Moore–Horspool algorithm or
+ * Horspool's algorithm is an algorithm for finding substrings in strings. It
+ * was published by Nigel Horspool in 1980.
+ * &lt;br&gt;
+ * &lt;a href=https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm&gt;Wikipedia
+ * page&lt;/a&gt;&lt;br&gt;
+ * &lt;br&gt;
+ *
+ * &lt;p&gt;
+ * An explanation:&lt;br&gt;
+ *
+ * &lt;p&gt;
+ * The Horspool algorithm is a simplification of the Boyer-Moore algorithm in
+ * that it uses only one of the two heuristic methods for increasing the number
+ * of characters shifted when finding a bad match in the text. This method is
+ * usually called the &quot;bad symbol&quot; or &quot;bad character&quot; shift. The bad symbol
+ * shift method is classified as an input enhancement method in the theory of
+ * algorithms. Input enhancement is (from wikipedia) the principle that
+ * processing a given input to a problem and altering it in a specific way will
+ * increase runtime efficiency or space efficiency, or both. Both algorithms try
+ * to match the pattern and text comparing the pattern symbols to the text's
+ * from right to left.&lt;br&gt;
+ * &lt;br&gt;
+ *
+ * &lt;p&gt;
+ * In the bad symbol shift method, a table is created prior to the search,
+ * called the &quot;bad symbol table&quot;. The bad symbol table contains the shift values
+ * for any symbol in the text and pattern. For these symbols, the value is the
+ * length of the pattern, if the symbol is not in the first (length - 1) of the
+ * pattern. Else it is the distance from its rightmost occurrence in the pattern
+ * to the last symbol of the pattern. In practice, we only calculate the values
+ * for the ones that exist in the first (length - 1) of the pattern.&lt;br&gt;
+ * &lt;br&gt;
+ *
+ * &lt;p&gt;
+ * For more details on the algorithm and the more advanced Boyer-Moore I
+ * recommend checking out the wikipedia page and professor Anany Levitin's book:
+ * Introduction To The Design And Analysis Of Algorithms.
+ */
+<span class="nc" id="L47">public class HorspoolSearch {</span>
+
+    private static HashMap&lt;Character, Integer&gt; shiftValues; // bad symbol table
+    private static Integer patternLength;
+<span class="nc" id="L51">    private static int comparisons = 0; // total comparisons in the current/last search</span>
+
+    /**
+     * Case sensitive version version of the algorithm
+     *
+     * @param pattern the pattern to be searched for (needle)
+     * @param text the text being searched in (haystack)
+     * @return -1 if not found or first index of the pattern in the text
+     */
+    public static int findFirst(String pattern, String text) {
+<span class="nc" id="L61">        return firstOccurrence(pattern, text, true);</span>
+    }
+
+    /**
+     * Case insensitive version version of the algorithm
+     *
+     * @param pattern the pattern to be searched for (needle)
+     * @param text the text being searched in (haystack)
+     * @return -1 if not found or first index of the pattern in the text
+     */
+    public static int findFirstInsensitive(String pattern, String text) {
+<span class="nc" id="L72">        return firstOccurrence(pattern, text, false);</span>
+    }
+
+    /**
+     * Utility method that returns comparisons made by last run (mainly for
+     * tests)
+     *
+     * @return number of character comparisons of the last search
+     */
+    public static Integer getLastComparisons() {
+<span class="nc" id="L82">        return HorspoolSearch.comparisons;</span>
+    }
+
+    /**
+     * Fairly standard implementation of the Horspool algorithm. Only the index
+     * of the last character of the pattern on the text is saved and shifted by
+     * the appropriate amount when a mismatch is found. The algorithm stops at
+     * the first match or when the entire text has been exhausted.
+     *
+     * @param pattern String to be matched in the text
+     * @param text text String
+     * @return index of first occurrence of the pattern in the text
+     */
+    private static int firstOccurrence(String pattern, String text, boolean caseSensitive) {
+<span class="nc" id="L96">        shiftValues = calcShiftValues(pattern); // build the bad symbol table</span>
+<span class="nc" id="L97">        comparisons = 0; // reset comparisons</span>
+
+<span class="nc" id="L99">        int textIndex</span>
+<span class="nc" id="L100">                = pattern.length() - 1; // align pattern with text start and get index of the last character</span>
+
+        // while pattern is not out of text bounds
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        while (textIndex &lt; text.length()) {</span>
+
+            // try to match pattern with current part of the text starting from last character
+<span class="nc" id="L106">            int i = pattern.length() - 1;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            while (i &gt;= 0) {</span>
+<span class="nc" id="L108">                comparisons++;</span>
+<span class="nc" id="L109">                char patternChar = pattern.charAt(i);</span>
+<span class="nc" id="L110">                char textChar = text.charAt((textIndex + i) - (pattern.length() - 1));</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (!charEquals(patternChar, textChar, caseSensitive)) { // bad character, shift pattern</span>
+<span class="nc" id="L112">                    textIndex += getShiftValue(text.charAt(textIndex));</span>
+<span class="nc" id="L113">                    break;</span>
+                }
+<span class="nc" id="L115">                i--;</span>
+<span class="nc" id="L116">            }</span>
+
+            // check for full match
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (i == -1) {</span>
+<span class="nc" id="L120">                return textIndex - pattern.length() + 1;</span>
+            }
+<span class="nc" id="L122">        }</span>
+
+        // text exhausted, return failure
+<span class="nc" id="L125">        return -1;</span>
+    }
+
+    /**
+     * Compares the argument characters
+     *
+     * @param c1 first character
+     * @param c2 second character
+     * @param caseSensitive boolean determining case sensitivity of comparison
+     * @return truth value of the equality comparison
+     */
+    private static boolean charEquals(char c1, char c2, boolean caseSensitive) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (caseSensitive) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            return c1 == c2;</span>
+        }
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        return Character.toLowerCase(c1) == Character.toLowerCase(c2);</span>
+    }
+
+    /**
+     * Builds the bad symbol table required to run the algorithm. The method
+     * starts from the second to last character of the pattern and moves to the
+     * left. When it meets a new character, it is by definition its rightmost
+     * occurrence and therefore puts the distance from the current index to the
+     * index of the last character into the table. If the character is already
+     * in the table, then it is not a rightmost occurrence, so it continues.
+     *
+     * @param pattern basis for the bad symbol table
+     * @return the bad symbol table
+     */
+    private static HashMap&lt;Character, Integer&gt; calcShiftValues(String pattern) {
+<span class="nc" id="L155">        patternLength = pattern.length();</span>
+<span class="nc" id="L156">        HashMap&lt;Character, Integer&gt; table = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L158">        for (int i = pattern.length() - 2;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                i &gt;= 0;</span>
+<span class="nc" id="L160">                i--) { // length - 2 is the index of the second to last character</span>
+<span class="nc" id="L161">            char c = pattern.charAt(i);</span>
+<span class="nc" id="L162">            int finalI = i;</span>
+<span class="nc" id="L163">            table.computeIfAbsent(c, k -&gt; pattern.length() - 1 - finalI);</span>
+        }
+
+<span class="nc" id="L166">        return table;</span>
+    }
+
+    /**
+     * Helper function that uses the bad symbol shift table to return the
+     * appropriate shift value for a given character
+     *
+     * @param c character
+     * @return shift value that corresponds to the character argument
+     */
+    private static Integer getShiftValue(char c) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (shiftValues.get(c) != null) {</span>
+<span class="nc" id="L178">            return shiftValues.get(c);</span>
+        } else {
+<span class="nc" id="L180">            return patternLength;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

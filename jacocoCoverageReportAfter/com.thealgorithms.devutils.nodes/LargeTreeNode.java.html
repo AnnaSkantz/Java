@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LargeTreeNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.devutils.nodes</a> &gt; <span class="el_source">LargeTreeNode.java</span></div><h1>LargeTreeNode.java</h1><pre class="source lang-java linenums">package com.thealgorithms.devutils.nodes;
+
+import java.util.Collection;
+
+/**
+ * {@link TreeNode} extension that holds a {@link Collection} of refrences to
+ * child Nodes.
+ *
+ * @param &lt;E&gt; The type of the data held in the Node.
+ *
+ * @author &lt;a href=&quot;https://github.com/aitorfi&quot;&gt;aitorfi&lt;/a&gt;
+ */
+public class LargeTreeNode&lt;E&gt; extends TreeNode&lt;E&gt; {
+
+    /**
+     * {@link Collection} that holds the Nodes' child nodes.
+     */
+    private Collection&lt;LargeTreeNode&lt;E&gt;&gt; childNodes;
+
+    /**
+     * Empty contructor.
+     */
+    public LargeTreeNode() {
+<span class="nc" id="L24">        super();</span>
+<span class="nc" id="L25">    }</span>
+
+    /**
+     * Initializes the Nodes' data.
+     *
+     * @param data Value to which data will be initialized.
+     * @see TreeNode#TreeNode(Object)
+     */
+    public LargeTreeNode(E data) {
+<span class="nc" id="L34">        super(data);</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * Initializes the Nodes' data and parent node reference.
+     *
+     * @param data Value to which data will be initialized.
+     * @param parentNode Value to which the nodes' parent reference will be set.
+     * @see TreeNode#TreeNode(Object, Node)
+     */
+    public LargeTreeNode(E data, LargeTreeNode&lt;E&gt; parentNode) {
+<span class="nc" id="L45">        super(data, parentNode);</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * Initializes the Nodes' data and parent and child nodes references.
+     *
+     * @param data Value to which data will be initialized.
+     * @param parentNode Value to which the nodes' parent reference will be set.
+     * @param childNodes {@link Collection} of child Nodes.
+     * @see TreeNode#TreeNode(Object, Node)
+     */
+    public LargeTreeNode(E data, LargeTreeNode&lt;E&gt; parentNode, Collection&lt;LargeTreeNode&lt;E&gt;&gt; childNodes) {
+<span class="nc" id="L57">        super(data, parentNode);</span>
+<span class="nc" id="L58">        this.childNodes = childNodes;</span>
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * @return True if the node is a leaf node, otherwise false.
+     * @see TreeNode#isLeafNode()
+     */
+    @Override
+    public boolean isLeafNode() {
+<span class="nc bnc" id="L67" title="All 4 branches missed.">        return (childNodes == null || childNodes.size() == 0);</span>
+    }
+
+    public Collection&lt;LargeTreeNode&lt;E&gt;&gt; getChildNodes() {
+<span class="nc" id="L71">        return childNodes;</span>
+    }
+
+    public void setChildNodes(Collection&lt;LargeTreeNode&lt;E&gt;&gt; childNodes) {
+<span class="nc" id="L75">        this.childNodes = childNodes;</span>
+<span class="nc" id="L76">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LowestBasePalindrome.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">LowestBasePalindrome.java</span></div><h1>LowestBasePalindrome.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/**
+ * Class for finding the lowest base in which a given integer is a palindrome.
+ * Includes auxiliary methods for converting between bases and reversing
+ * strings.
+ *
+ * &lt;p&gt;
+ * NOTE: There is potential for error, see note at line 63.
+ *
+ * @author RollandMichael
+ * @version 2017.09.28
+ */
+<span class="nc" id="L17">public class LowestBasePalindrome {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L20">        Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L21">        int n = 0;</span>
+        while (true) {
+            try {
+<span class="nc" id="L24">                System.out.print(&quot;Enter number: &quot;);</span>
+<span class="nc" id="L25">                n = in.nextInt();</span>
+<span class="nc" id="L26">                break;</span>
+<span class="nc" id="L27">            } catch (InputMismatchException e) {</span>
+<span class="nc" id="L28">                System.out.println(&quot;Invalid input!&quot;);</span>
+<span class="nc" id="L29">                in.next();</span>
+<span class="nc" id="L30">            }</span>
+        }
+<span class="nc" id="L32">        System.out.println(n + &quot; is a palindrome in base &quot; + lowestBasePalindrome(n));</span>
+<span class="nc" id="L33">        System.out.println(base2base(Integer.toString(n), 10, lowestBasePalindrome(n)));</span>
+<span class="nc" id="L34">        in.close();</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * Given a number in base 10, returns the lowest base in which the number is
+     * represented by a palindrome (read the same left-to-right and
+     * right-to-left).
+     *
+     * @param num A number in base 10.
+     * @return The lowest base in which num is a palindrome.
+     */
+    public static int lowestBasePalindrome(int num) {
+<span class="nc" id="L46">        int base, num2 = num;</span>
+        int digit;
+        char digitC;
+<span class="nc" id="L49">        boolean foundBase = false;</span>
+<span class="nc" id="L50">        String newNum = &quot;&quot;;</span>
+<span class="nc" id="L51">        String digits = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        while (!foundBase) {</span>
+            // Try from bases 2 to num-1
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            for (base = 2; base &lt; num2; base++) {</span>
+<span class="nc" id="L56">                newNum = &quot;&quot;;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                while (num &gt; 0) {</span>
+                    // Obtain the first digit of n in the current base,
+                    // which is equivalent to the integer remainder of (n/base).
+                    // The next digit is obtained by dividing n by the base and
+                    // continuing the process of getting the remainder. This is done
+                    // until n is &lt;=0 and the number in the new base is obtained.
+<span class="nc" id="L63">                    digit = (num % base);</span>
+<span class="nc" id="L64">                    num /= base;</span>
+                    // If the digit isn't in the set of [0-9][A-Z] (beyond base 36), its character
+                    // form is just its value in ASCII.
+
+                    // NOTE: This may cause problems, as the capital letters are ASCII values
+                    // 65-90. It may cause false positives when one digit is, for instance 10 and assigned
+                    // 'A' from the character array and the other is 65 and also assigned 'A'.
+                    // Regardless, the character is added to the representation of n
+                    // in the current base.
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                    if (digit &gt;= digits.length()) {</span>
+<span class="nc" id="L74">                        digitC = (char) (digit);</span>
+<span class="nc" id="L75">                        newNum += digitC;</span>
+<span class="nc" id="L76">                        continue;</span>
+                    }
+<span class="nc" id="L78">                    newNum += digits.charAt(digit);</span>
+                }
+                // Num is assigned back its original value for the next iteration.
+<span class="nc" id="L81">                num = num2;</span>
+                // Auxiliary method reverses the number.
+<span class="nc" id="L83">                String reverse = reverse(newNum);</span>
+                // If the number is read the same as its reverse, then it is a palindrome.
+                // The current base is returned.
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (reverse.equals(newNum)) {</span>
+<span class="nc" id="L87">                    foundBase = true;</span>
+<span class="nc" id="L88">                    return base;</span>
+                }
+            }
+        }
+        // If all else fails, n is always a palindrome in base n-1. (&quot;11&quot;)
+<span class="nc" id="L93">        return num - 1;</span>
+    }
+
+    private static String reverse(String str) {
+<span class="nc" id="L97">        String reverse = &quot;&quot;;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        for (int i = str.length() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L99">            reverse += str.charAt(i);</span>
+        }
+<span class="nc" id="L101">        return reverse;</span>
+    }
+
+    private static String base2base(String n, int b1, int b2) {
+        // Declare variables: decimal value of n,
+        // character of base b1, character of base b2,
+        // and the string that will be returned.
+<span class="nc" id="L108">        int decimalValue = 0, charB2;</span>
+        char charB1;
+<span class="nc" id="L110">        String output = &quot;&quot;;</span>
+        // Go through every character of n
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (int i = 0; i &lt; n.length(); i++) {</span>
+            // store the character in charB1
+<span class="nc" id="L114">            charB1 = n.charAt(i);</span>
+            // if it is a non-number, convert it to a decimal value &gt;9 and store it in charB2
+<span class="nc bnc" id="L116" title="All 4 branches missed.">            if (charB1 &gt;= 'A' &amp;&amp; charB1 &lt;= 'Z') {</span>
+<span class="nc" id="L117">                charB2 = 10 + (charB1 - 'A');</span>
+            } // Else, store the integer value in charB2
+            else {
+<span class="nc" id="L120">                charB2 = charB1 - '0';</span>
+            }
+            // Convert the digit to decimal and add it to the
+            // decimalValue of n
+<span class="nc" id="L124">            decimalValue = decimalValue * b1 + charB2;</span>
+        }
+
+        // Converting the decimal value to base b2:
+        // A number is converted from decimal to another base
+        // by continuously dividing by the base and recording
+        // the remainder until the quotient is zero. The number in the
+        // new base is the remainders, with the last remainder
+        // being the left-most digit.
+        // While the quotient is NOT zero:
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        while (decimalValue != 0) {</span>
+            // If the remainder is a digit &lt; 10, simply add it to
+            // the left side of the new number.
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (decimalValue % b2 &lt; 10) {</span>
+<span class="nc" id="L138">                output = Integer.toString(decimalValue % b2) + output;</span>
+            } // If the remainder is &gt;= 10, add a character with the
+            // corresponding value to the new number. (A = 10, B = 11, C = 12, ...)
+            else {
+<span class="nc" id="L142">                output = (char) ((decimalValue % b2) + 55) + output;</span>
+            }
+            // Divide by the new base again
+<span class="nc" id="L145">            decimalValue /= b2;</span>
+        }
+<span class="nc" id="L147">        return output;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

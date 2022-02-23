@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ThreeSumProblem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">ThreeSumProblem.java</span></div><h1>ThreeSumProblem.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.*;
+
+<span class="nc" id="L5">public class ThreeSumProblem {</span>
+
+    public static void main(String args[]) {
+<span class="nc" id="L8">        Scanner scan = new Scanner(System.in);</span>
+<span class="nc" id="L9">        System.out.print(&quot;Enter the target sum &quot;);</span>
+<span class="nc" id="L10">        int ts = scan.nextInt();</span>
+<span class="nc" id="L11">        System.out.print(&quot;Enter the number of elements in the array &quot;);</span>
+<span class="nc" id="L12">        int n = scan.nextInt();</span>
+<span class="nc" id="L13">        System.out.println(&quot;Enter all your array elements:&quot;);</span>
+<span class="nc" id="L14">        int arr[] = new int[n];</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L16">            arr[i] = scan.nextInt();</span>
+        }
+<span class="nc" id="L18">        ThreeSumProblem th = new ThreeSumProblem();</span>
+<span class="nc" id="L19">        System.out.println(&quot;Brute Force Approach\n&quot; + (th.BruteForce(arr, ts)) + &quot;\n&quot;);</span>
+<span class="nc" id="L20">        System.out.println(&quot;Two Pointer Approach\n&quot; + (th.TwoPointer(arr, ts)) + &quot;\n&quot;);</span>
+<span class="nc" id="L21">        System.out.println(&quot;Hashmap Approach\n&quot; + (th.Hashmap(arr, ts)));</span>
+
+<span class="nc" id="L23">    }</span>
+
+    public List&lt;List&lt;Integer&gt;&gt; BruteForce(int[] nums, int target) {
+<span class="nc" id="L26">        List&lt;List&lt;Integer&gt;&gt; arr = new ArrayList&lt;List&lt;Integer&gt;&gt;();</span>
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (int i = 0; i &lt; nums.length; i++) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            for (int j = i + 1; j &lt; nums.length; j++) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                for (int k = j + 1; k &lt; nums.length; k++) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">                    if (nums[i] + nums[j] + nums[k] == target) {</span>
+<span class="nc" id="L32">                        List&lt;Integer&gt; temp = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L33">                        temp.add(nums[i]);</span>
+<span class="nc" id="L34">                        temp.add(nums[j]);</span>
+<span class="nc" id="L35">                        temp.add(nums[k]);</span>
+<span class="nc" id="L36">                        Collections.sort(temp);</span>
+<span class="nc" id="L37">                        arr.add(temp);</span>
+                    }
+
+                }
+            }
+        }
+<span class="nc" id="L43">        arr = new ArrayList&lt;List&lt;Integer&gt;&gt;(new LinkedHashSet&lt;List&lt;Integer&gt;&gt;(arr));</span>
+<span class="nc" id="L44">        return arr;</span>
+    }
+
+    public List&lt;List&lt;Integer&gt;&gt; TwoPointer(int[] nums, int target) {
+<span class="nc" id="L48">        Arrays.sort(nums);</span>
+<span class="nc" id="L49">        List&lt;List&lt;Integer&gt;&gt; arr = new ArrayList&lt;List&lt;Integer&gt;&gt;();</span>
+<span class="nc" id="L50">        int start = 0;</span>
+<span class="nc" id="L51">        int end = 0;</span>
+<span class="nc" id="L52">        int i = 0;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        while (i &lt; nums.length - 1) {</span>
+<span class="nc" id="L54">            start = i + 1;</span>
+<span class="nc" id="L55">            end = nums.length - 1;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            while (start &lt; end) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                if (nums[start] + nums[end] + nums[i] == target) {</span>
+<span class="nc" id="L58">                    List&lt;Integer&gt; temp = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L59">                    temp.add(nums[i]);</span>
+<span class="nc" id="L60">                    temp.add(nums[start]);</span>
+<span class="nc" id="L61">                    temp.add(nums[end]);</span>
+<span class="nc" id="L62">                    arr.add(temp);</span>
+<span class="nc" id="L63">                    start++;</span>
+<span class="nc" id="L64">                    end--;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                } else if (nums[start] + nums[end] + nums[i] &lt; target) {</span>
+<span class="nc" id="L66">                    start += 1;</span>
+                } else {
+<span class="nc" id="L68">                    end -= 1;</span>
+                }
+
+            }
+<span class="nc" id="L72">            i++;</span>
+        }
+<span class="nc" id="L74">        Set&lt;List&lt;Integer&gt;&gt; set = new LinkedHashSet&lt;List&lt;Integer&gt;&gt;(arr);</span>
+<span class="nc" id="L75">        return new ArrayList&lt;List&lt;Integer&gt;&gt;(set);</span>
+    }
+
+    public List&lt;List&lt;Integer&gt;&gt; Hashmap(int[] nums, int target) {
+<span class="nc" id="L79">        Arrays.sort(nums);</span>
+<span class="nc" id="L80">        Set&lt;List&lt;Integer&gt;&gt; ts = new HashSet();</span>
+<span class="nc" id="L81">        HashMap&lt;Integer, Integer&gt; hm = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (int i = 0; i &lt; nums.length; i++) {</span>
+<span class="nc" id="L84">            hm.put(nums[i], i);</span>
+        }
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; nums.length; i++) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            for (int j = i + 1; j &lt; nums.length; j++) {</span>
+<span class="nc" id="L89">                int t = target - nums[i] - nums[j];</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">                if (hm.containsKey(t) &amp;&amp; hm.get(t) &gt; j) {</span>
+<span class="nc" id="L91">                    List&lt;Integer&gt; temp = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L92">                    temp.add(nums[i]);</span>
+<span class="nc" id="L93">                    temp.add(nums[j]);</span>
+<span class="nc" id="L94">                    temp.add(t);</span>
+<span class="nc" id="L95">                    ts.add(temp);</span>
+                }
+            }
+        }
+<span class="nc" id="L99">        return new ArrayList(ts);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

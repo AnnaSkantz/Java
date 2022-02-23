@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerticalOrderTraversal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">VerticalOrderTraversal.java</span></div><h1>VerticalOrderTraversal.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
+/* The following class implements a vertical order traversal
+in a tree from top to bottom and left to right, so for a tree :
+           1
+          / \
+         2   3
+        / \   \
+       4   5   6
+        \     / \
+         7   8   10
+          \
+           9
+ the sequence will be :
+ 4 2 7 1 5 9 3 8 6 10
+ */
+<span class="nc" id="L23">public class VerticalOrderTraversal {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L26">        BinaryTree tree = new BinaryTree();</span>
+<span class="nc" id="L27">        tree.put(5);</span>
+<span class="nc" id="L28">        tree.put(6);</span>
+<span class="nc" id="L29">        tree.put(3);</span>
+<span class="nc" id="L30">        tree.put(1);</span>
+<span class="nc" id="L31">        tree.put(4);</span>
+<span class="nc" id="L32">        BinaryTree.Node root = tree.getRoot();</span>
+<span class="nc" id="L33">        ArrayList&lt;Integer&gt; ans = verticalTraversal(root);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (int i : ans) {</span>
+<span class="nc" id="L35">            System.out.print(i + &quot; &quot;);</span>
+<span class="nc" id="L36">        }</span>
+<span class="nc" id="L37">    }</span>
+
+    /*Function that receives a root Node and prints the tree 
+	in Vertical Order.*/
+    private static ArrayList&lt;Integer&gt; verticalTraversal(BinaryTree.Node root) {
+        /*Queue to store the Nodes.*/
+<span class="nc" id="L43">        Queue&lt;BinaryTree.Node&gt; queue = new LinkedList&lt;&gt;();</span>
+
+        /*Queue to store the index of particular vertical 
+		 column of a tree , with root at 0, Nodes on left 
+		 with negative index and Nodes on right with positive
+		 index. */
+<span class="nc" id="L49">        Queue&lt;Integer&gt; index = new LinkedList&lt;&gt;();</span>
+
+        /*Map of Integer and ArrayList to store all the 
+		 elements in a particular index in a single arrayList
+		 that will have a key equal to the index itself. */
+<span class="nc" id="L54">        Map&lt;Integer, ArrayList&lt;Integer&gt;&gt; map = new HashMap&lt;&gt;();</span>
+
+        /* min and max stores leftmost and right most index to
+		 later print the tree in vertical fashion.*/
+<span class="nc" id="L58">        int max = 0, min = 0;</span>
+<span class="nc" id="L59">        queue.offer(root);</span>
+<span class="nc" id="L60">        index.offer(0);</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        while (!queue.isEmpty()) {</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (queue.peek().left != null) {</span>
+                /*Adding the left Node if it is not null
+				and its index by subtracting 1 from it's 
+				parent's index*/
+<span class="nc" id="L68">                queue.offer(queue.peek().left);</span>
+<span class="nc" id="L69">                index.offer(index.peek() - 1);</span>
+            }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (queue.peek().right != null) {</span>
+                /*Adding the right Node if it is not null
+				and its index by adding 1 from it's 
+				parent's index*/
+<span class="nc" id="L75">                queue.offer(queue.peek().right);</span>
+<span class="nc" id="L76">                index.offer(index.peek() + 1);</span>
+            }
+            /*If the map does not contains the index a new
+			 ArrayList is created with the index as key.*/
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (!map.containsKey(index.peek())) {</span>
+<span class="nc" id="L81">                ArrayList&lt;Integer&gt; a = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L82">                map.put(index.peek(), a);</span>
+            }
+            /*For a index, corresponding Node data is added
+			 to the respective ArrayList present at that
+			 index. */
+<span class="nc" id="L87">            map.get(index.peek()).add(queue.peek().data);</span>
+<span class="nc" id="L88">            max = (int) Math.max(max, index.peek());</span>
+<span class="nc" id="L89">            min = (int) Math.min(min, index.peek());</span>
+            /*The Node and its index are removed 
+			 from their respective queues.*/
+<span class="nc" id="L92">            index.poll();</span>
+<span class="nc" id="L93">            queue.poll();</span>
+        }
+        /*Finally map data is printed here which has keys
+		from min to max. Each ArrayList represents a 
+		vertical column that is added in ans ArrayList.*/
+<span class="nc" id="L98">        ArrayList&lt;Integer&gt; ans = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i = min; i &lt;= max; i++) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            for (int j = 0; j &lt; map.get(i).size(); j++) {</span>
+<span class="nc" id="L101">                ans.add(map.get(i).get(j));</span>
+            }
+        }
+<span class="nc" id="L104">        return ans;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

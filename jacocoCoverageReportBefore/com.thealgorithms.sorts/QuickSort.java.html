@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuickSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">QuickSort.java</span></div><h1>QuickSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+/**
+ * @author Varun Upadhyay (https://github.com/varunu28)
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see SortAlgorithm
+ */
+<span class="nc" id="L10">class QuickSort implements SortAlgorithm {</span>
+
+    /**
+     * This method implements the Generic Quick Sort
+     *
+     * @param array The array to be sorted Sorts the array in increasing order
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] array) {
+<span class="nc" id="L19">        doSort(array, 0, array.length - 1);</span>
+<span class="nc" id="L20">        return array;</span>
+    }
+
+    /**
+     * The sorting process
+     *
+     * @param left The first index of an array
+     * @param right The last index of an array
+     * @param array The array to be sorted
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; void doSort(T[] array, int left, int right) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (left &lt; right) {</span>
+<span class="nc" id="L32">            int pivot = randomPartition(array, left, right);</span>
+<span class="nc" id="L33">            doSort(array, left, pivot - 1);</span>
+<span class="nc" id="L34">            doSort(array, pivot, right);</span>
+        }
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Ramdomize the array to avoid the basically ordered sequences
+     *
+     * @param array The array to be sorted
+     * @param left The first index of an array
+     * @param right The last index of an array
+     * @return the partition index of the array
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int randomPartition(T[] array, int left, int right) {
+<span class="nc" id="L47">        int randomIndex = left + (int) (Math.random() * (right - left + 1));</span>
+<span class="nc" id="L48">        swap(array, randomIndex, right);</span>
+<span class="nc" id="L49">        return partition(array, left, right);</span>
+    }
+
+    /**
+     * This method finds the partition index for an array
+     *
+     * @param array The array to be sorted
+     * @param left The first index of an array
+     * @param right The last index of an array Finds the partition index of an
+     * array
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int partition(T[] array, int left, int right) {
+<span class="nc" id="L61">        int mid = (left + right) &gt;&gt;&gt; 1;</span>
+<span class="nc" id="L62">        T pivot = array[mid];</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        while (left &lt;= right) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            while (less(array[left], pivot)) {</span>
+<span class="nc" id="L66">                ++left;</span>
+            }
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            while (less(pivot, array[right])) {</span>
+<span class="nc" id="L69">                --right;</span>
+            }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (left &lt;= right) {</span>
+<span class="nc" id="L72">                swap(array, left, right);</span>
+<span class="nc" id="L73">                ++left;</span>
+<span class="nc" id="L74">                --right;</span>
+            }
+        }
+<span class="nc" id="L77">        return left;</span>
+    }
+
+    // Driver Program
+    public static void main(String[] args) {
+
+        // For integer input
+<span class="nc" id="L84">        Integer[] array = {3, 4, 1, 32, 0, 1, 5, 12, 2, 5, 7, 8, 9, 2, 44, 111, 5};</span>
+
+<span class="nc" id="L86">        QuickSort quickSort = new QuickSort();</span>
+<span class="nc" id="L87">        quickSort.sort(array);</span>
+
+        // Output =&gt; 0 1 1 2 2 3 4 5 5 5 7 8 9 12 32 44 111
+<span class="nc" id="L90">        print(array);</span>
+
+<span class="nc" id="L92">        String[] stringArray = {&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;};</span>
+<span class="nc" id="L93">        quickSort.sort(stringArray);</span>
+
+        // Output =&gt; a	b	c	d	e
+<span class="nc" id="L96">        print(stringArray);</span>
+<span class="nc" id="L97">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

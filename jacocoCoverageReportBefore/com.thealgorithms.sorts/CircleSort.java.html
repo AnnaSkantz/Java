@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CircleSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">CircleSort.java</span></div><h1>CircleSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+<span class="nc bnc" id="L5" title="All 2 branches missed.">public class CircleSort implements SortAlgorithm {</span>
+
+    /* This method implements the circle sort
+    * @param array The array to be sorted 
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] array) {
+<span class="nc" id="L12">        int n = array.length;</span>
+<span class="nc bnc" id="L13" title="All 2 branches missed.">        while (doSort(array, 0, n - 1));</span>
+<span class="nc" id="L14">        return array;</span>
+    }
+
+    /* This method implements the cyclic sort recursive version
+    * @param array The array to be sorted
+    * @param the left boundary of the part currently being sorted
+    * @param the right boundary of the part currently being sorted
+     */
+    private &lt;T extends Comparable&lt;T&gt;&gt; Boolean doSort(T[] array, int left, int right) {
+<span class="nc" id="L23">        Boolean swapped = false;</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (left == right) {</span>
+<span class="nc" id="L26">            return false;</span>
+        }
+
+<span class="nc" id="L29">        int low = left;</span>
+<span class="nc" id="L30">        int high = right;</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        while (low &lt; high) {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (array[low].compareTo(array[high]) &gt; 0) {</span>
+<span class="nc" id="L34">                swap(array, low, high);</span>
+<span class="nc" id="L35">                swapped = true;</span>
+            }
+<span class="nc" id="L37">            low++;</span>
+<span class="nc" id="L38">            high--;</span>
+        }
+
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (low == high &amp;&amp; array[low].compareTo(array[high + 1]) &gt; 0) {</span>
+<span class="nc" id="L42">            swap(array, low, high + 1);</span>
+<span class="nc" id="L43">            swapped = true;</span>
+        }
+
+<span class="nc" id="L46">        int mid = left + (right - left) / 2;</span>
+<span class="nc" id="L47">        Boolean leftHalf = doSort(array, left, mid);</span>
+<span class="nc" id="L48">        Boolean rightHalf = doSort(array, mid + 1, right);</span>
+
+<span class="nc bnc" id="L50" title="All 6 branches missed.">        return swapped || leftHalf || rightHalf;</span>
+    }
+
+    /* Driver code*/
+    public static void main(String[] args) {
+<span class="nc" id="L55">        CircleSort CSort = new CircleSort();</span>
+
+<span class="nc" id="L57">        Integer[] arr = {4, 23, 6, 78, 1, 54, 231, 9, 12};</span>
+<span class="nc" id="L58">        CSort.sort(arr);</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length - 1; ++i) {</span>
+<span class="nc bnc" id="L60" title="All 4 branches missed.">            assert arr[i] &lt;= arr[i + 1];</span>
+        }
+
+<span class="nc" id="L63">        String[] stringArray = {&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;};</span>
+<span class="nc" id="L64">        CSort.sort(stringArray);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int i = 0; i &lt; stringArray.length - 1; ++i) {</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">            assert arr[i].compareTo(arr[i + 1]) &lt;= 0;</span>
+        }
+<span class="nc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinearDiophantineEquationsSolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">LinearDiophantineEquationsSolver.java</span></div><h1>LinearDiophantineEquationsSolver.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+import java.util.Objects;
+
+<span class="nc" id="L5">public final class LinearDiophantineEquationsSolver {</span>
+
+    public static void main(String[] args) {
+        // 3x + 4y = 7
+<span class="nc" id="L9">        final var toSolve = new Equation(3, 4, 7);</span>
+<span class="nc" id="L10">        System.out.println(findAnySolution(toSolve));</span>
+<span class="nc" id="L11">    }</span>
+
+    public static Solution findAnySolution(final Equation equation) {
+<span class="nc bnc" id="L14" title="All 6 branches missed.">        if (equation.a() == 0 &amp;&amp; equation.b() == 0 &amp;&amp; equation.c() == 0) {</span>
+<span class="nc" id="L15">            return Solution.INFINITE_SOLUTIONS;</span>
+        }
+<span class="nc" id="L17">        final var stub = new GcdSolutionWrapper(0, new Solution(0, 0));</span>
+<span class="nc" id="L18">        final var gcdSolution = gcd(equation.a(), equation.b(), stub);</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (equation.c() % gcdSolution.getGcd() != 0) {</span>
+<span class="nc" id="L20">            return Solution.NO_SOLUTION;</span>
+        }
+<span class="nc" id="L22">        final var toReturn = new Solution(0, 0);</span>
+<span class="nc" id="L23">        var xToSet = stub.getSolution().getX() * (equation.c() / stub.getGcd());</span>
+<span class="nc" id="L24">        var yToSet = stub.getSolution().getY() * (equation.c() / stub.getGcd());</span>
+<span class="nc" id="L25">        toReturn.setX(xToSet);</span>
+<span class="nc" id="L26">        toReturn.setY(yToSet);</span>
+<span class="nc" id="L27">        return toReturn;</span>
+    }
+
+    private static GcdSolutionWrapper gcd(final int a, final int b, final GcdSolutionWrapper previous) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (b == 0) {</span>
+<span class="nc" id="L32">            return new GcdSolutionWrapper(a, new Solution(1, 0));</span>
+        }
+        // stub wrapper becomes the `previous` of the next recursive call
+<span class="nc" id="L35">        final var stubWrapper = new GcdSolutionWrapper(0, new Solution(0, 0));</span>
+<span class="nc" id="L36">        final var next = /* recursive call */ gcd(b, a % b, stubWrapper);</span>
+<span class="nc" id="L37">        previous.getSolution().setX(next.getSolution().getY());</span>
+<span class="nc" id="L38">        previous.getSolution().setY(next.getSolution().getX() - (a / b) * (next.getSolution().getY()));</span>
+<span class="nc" id="L39">        previous.setGcd(next.getGcd());</span>
+<span class="nc" id="L40">        return new GcdSolutionWrapper(next.getGcd(), previous.getSolution());</span>
+    }
+
+    public static final class Solution {
+
+<span class="nc" id="L45">        public static final Solution NO_SOLUTION = new Solution(Integer.MAX_VALUE, Integer.MAX_VALUE);</span>
+<span class="nc" id="L46">        public static final Solution INFINITE_SOLUTIONS = new Solution(Integer.MIN_VALUE, Integer.MIN_VALUE);</span>
+        private int x;
+        private int y;
+
+<span class="nc" id="L50">        public Solution(int x, int y) {</span>
+<span class="nc" id="L51">            this.x = x;</span>
+<span class="nc" id="L52">            this.y = y;</span>
+<span class="nc" id="L53">        }</span>
+
+        public int getX() {
+<span class="nc" id="L56">            return x;</span>
+        }
+
+        public int getY() {
+<span class="nc" id="L60">            return y;</span>
+        }
+
+        public void setX(int x) {
+<span class="nc" id="L64">            this.x = x;</span>
+<span class="nc" id="L65">        }</span>
+
+        public void setY(int y) {
+<span class="nc" id="L68">            this.y = y;</span>
+<span class="nc" id="L69">        }</span>
+
+        @Override
+        public boolean equals(Object obj) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (obj == this) {</span>
+<span class="nc" id="L74">                return true;</span>
+            }
+<span class="nc bnc" id="L76" title="All 4 branches missed.">            if (obj == null || obj.getClass() != this.getClass()) {</span>
+<span class="nc" id="L77">                return false;</span>
+            }
+<span class="nc" id="L79">            var that = (Solution) obj;</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">            return this.x == that.x</span>
+                    &amp;&amp; this.y == that.y;
+        }
+
+        @Override
+        public int hashCode() {
+<span class="nc" id="L86">            return Objects.hash(x, y);</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L91">            return &quot;Solution[&quot;</span>
+                    + &quot;x=&quot; + x + &quot;, &quot;
+                    + &quot;y=&quot; + y + ']';
+        }
+
+    }
+
+<span class="nc" id="L98">    public record Equation(int a, int b, int c) {</span>
+
+    }
+
+    public static final class GcdSolutionWrapper {
+
+        private int gcd;
+        private Solution solution;
+
+<span class="nc" id="L107">        public GcdSolutionWrapper(int gcd, Solution solution) {</span>
+<span class="nc" id="L108">            this.gcd = gcd;</span>
+<span class="nc" id="L109">            this.solution = solution;</span>
+<span class="nc" id="L110">        }</span>
+
+        @Override
+        public boolean equals(Object obj) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (obj == this) {</span>
+<span class="nc" id="L115">                return true;</span>
+            }
+<span class="nc bnc" id="L117" title="All 4 branches missed.">            if (obj == null || obj.getClass() != this.getClass()) {</span>
+<span class="nc" id="L118">                return false;</span>
+            }
+<span class="nc" id="L120">            var that = (GcdSolutionWrapper) obj;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            return this.gcd == that.gcd</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                    &amp;&amp; Objects.equals(this.solution, that.solution);</span>
+        }
+
+        public int getGcd() {
+<span class="nc" id="L126">            return gcd;</span>
+        }
+
+        public void setGcd(int gcd) {
+<span class="nc" id="L130">            this.gcd = gcd;</span>
+<span class="nc" id="L131">        }</span>
+
+        public Solution getSolution() {
+<span class="nc" id="L134">            return solution;</span>
+        }
+
+        public void setSolution(Solution solution) {
+<span class="nc" id="L138">            this.solution = solution;</span>
+<span class="nc" id="L139">        }</span>
+
+        @Override
+        public int hashCode() {
+<span class="nc" id="L143">            return Objects.hash(gcd, solution);</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L148">            return &quot;GcdSolutionWrapper[&quot;</span>
+                    + &quot;gcd=&quot; + gcd + &quot;, &quot;
+                    + &quot;solution=&quot; + solution + ']';
+        }
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

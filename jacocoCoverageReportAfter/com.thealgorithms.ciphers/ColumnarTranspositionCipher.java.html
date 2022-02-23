@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColumnarTranspositionCipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">ColumnarTranspositionCipher.java</span></div><h1>ColumnarTranspositionCipher.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+
+import java.util.Objects;
+
+/**
+ * Columnar Transposition Cipher Encryption and Decryption.
+ *
+ * @author &lt;a href=&quot;https://github.com/freitzzz&quot;&gt;freitzzz&lt;/a&gt;
+ */
+<span class="nc" id="L10">public class ColumnarTranspositionCipher {</span>
+
+    private static String keyword;
+    private static Object[][] table;
+    private static String abecedarium;
+    public static final String ABECEDARIUM
+            = &quot;abcdefghijklmnopqrstuvwxyzABCDEFG&quot; + &quot;HIJKLMNOPQRSTUVWXYZ0123456789,.;:-@&quot;;
+    private static final String ENCRYPTION_FIELD = &quot;≈&quot;;
+    private static final char ENCRYPTION_FIELD_CHAR = '≈';
+
+    /**
+     * Encrypts a certain String with the Columnar Transposition Cipher Rule
+     *
+     * @param word Word being encrypted
+     * @param keyword String with keyword being used
+     * @return a String with the word encrypted by the Columnar Transposition
+     * Cipher Rule
+     */
+    public static String encrpyter(String word, String keyword) {
+<span class="nc" id="L29">        ColumnarTranspositionCipher.keyword = keyword;</span>
+<span class="nc" id="L30">        abecedariumBuilder(500);</span>
+<span class="nc" id="L31">        table = tableBuilder(word);</span>
+<span class="nc" id="L32">        Object[][] sortedTable = sortTable(table);</span>
+<span class="nc" id="L33">        StringBuilder wordEncrypted = new StringBuilder();</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (int i = 0; i &lt; sortedTable[i].length; i++) {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            for (int j = 1; j &lt; sortedTable.length; j++) {</span>
+<span class="nc" id="L36">                wordEncrypted.append(sortedTable[j][i]);</span>
+            }
+        }
+<span class="nc" id="L39">        return wordEncrypted.toString();</span>
+    }
+
+    /**
+     * Encrypts a certain String with the Columnar Transposition Cipher Rule
+     *
+     * @param word Word being encrypted
+     * @param keyword String with keyword being used
+     * @param abecedarium String with the abecedarium being used. null for
+     * default one
+     * @return a String with the word encrypted by the Columnar Transposition
+     * Cipher Rule
+     */
+    public static String encrpyter(String word, String keyword, String abecedarium) {
+<span class="nc" id="L53">        ColumnarTranspositionCipher.keyword = keyword;</span>
+<span class="nc" id="L54">        ColumnarTranspositionCipher.abecedarium = Objects.requireNonNullElse(abecedarium, ABECEDARIUM);</span>
+<span class="nc" id="L55">        table = tableBuilder(word);</span>
+<span class="nc" id="L56">        Object[][] sortedTable = sortTable(table);</span>
+<span class="nc" id="L57">        StringBuilder wordEncrypted = new StringBuilder();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (int i = 0; i &lt; sortedTable[0].length; i++) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            for (int j = 1; j &lt; sortedTable.length; j++) {</span>
+<span class="nc" id="L60">                wordEncrypted.append(sortedTable[j][i]);</span>
+            }
+        }
+<span class="nc" id="L63">        return wordEncrypted.toString();</span>
+    }
+
+    /**
+     * Decrypts a certain encrypted String with the Columnar Transposition
+     * Cipher Rule
+     *
+     * @return a String decrypted with the word encrypted by the Columnar
+     * Transposition Cipher Rule
+     */
+    public static String decrypter() {
+<span class="nc" id="L74">        StringBuilder wordDecrypted = new StringBuilder();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (int i = 1; i &lt; table.length; i++) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            for (Object item : table[i]) {</span>
+<span class="nc" id="L77">                wordDecrypted.append(item);</span>
+            }
+        }
+<span class="nc" id="L80">        return wordDecrypted.toString().replaceAll(ENCRYPTION_FIELD, &quot;&quot;);</span>
+    }
+
+    /**
+     * Builds a table with the word to be encrypted in rows by the Columnar
+     * Transposition Cipher Rule
+     *
+     * @return An Object[][] with the word to be encrypted filled in rows and
+     * columns
+     */
+    private static Object[][] tableBuilder(String word) {
+<span class="nc" id="L91">        Object[][] table = new Object[numberOfRows(word) + 1][keyword.length()];</span>
+<span class="nc" id="L92">        char[] wordInChards = word.toCharArray();</span>
+        // Fils in the respective numbers
+<span class="nc" id="L94">        table[0] = findElements();</span>
+<span class="nc" id="L95">        int charElement = 0;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (int i = 1; i &lt; table.length; i++) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            for (int j = 0; j &lt; table[i].length; j++) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                if (charElement &lt; wordInChards.length) {</span>
+<span class="nc" id="L99">                    table[i][j] = wordInChards[charElement];</span>
+<span class="nc" id="L100">                    charElement++;</span>
+                } else {
+<span class="nc" id="L102">                    table[i][j] = ENCRYPTION_FIELD_CHAR;</span>
+                }
+            }
+        }
+<span class="nc" id="L106">        return table;</span>
+    }
+
+    /**
+     * Determines the number of rows the table should have regarding the
+     * Columnar Transposition Cipher Rule
+     *
+     * @return an int with the number of rows that the table should have in
+     * order to respect the Columnar Transposition Cipher Rule.
+     */
+    private static int numberOfRows(String word) {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (word.length() / keyword.length() &gt; word.length() / keyword.length()) {</span>
+<span class="nc" id="L118">            return (word.length() / keyword.length()) + 1;</span>
+        } else {
+<span class="nc" id="L120">            return word.length() / keyword.length();</span>
+        }
+    }
+
+    /**
+     * @return charValues
+     */
+    private static Object[] findElements() {
+<span class="nc" id="L128">        Object[] charValues = new Object[keyword.length()];</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        for (int i = 0; i &lt; charValues.length; i++) {</span>
+<span class="nc" id="L130">            int charValueIndex = abecedarium.indexOf(keyword.charAt(i));</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            charValues[i] = charValueIndex &gt; -1 ? charValueIndex : null;</span>
+        }
+<span class="nc" id="L133">        return charValues;</span>
+    }
+
+    /**
+     * @return tableSorted
+     */
+    private static Object[][] sortTable(Object[][] table) {
+<span class="nc" id="L140">        Object[][] tableSorted = new Object[table.length][table[0].length];</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        for (int i = 0; i &lt; tableSorted.length; i++) {</span>
+<span class="nc" id="L142">            System.arraycopy(table[i], 0, tableSorted[i], 0, tableSorted[i].length);</span>
+        }
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        for (int i = 0; i &lt; tableSorted[0].length; i++) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            for (int j = i + 1; j &lt; tableSorted[0].length; j++) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                if ((int) tableSorted[0][i] &gt; (int) table[0][j]) {</span>
+<span class="nc" id="L147">                    Object[] column = getColumn(tableSorted, tableSorted.length, i);</span>
+<span class="nc" id="L148">                    switchColumns(tableSorted, j, i, column);</span>
+                }
+            }
+        }
+<span class="nc" id="L152">        return tableSorted;</span>
+    }
+
+    /**
+     * @return columnArray
+     */
+    private static Object[] getColumn(Object[][] table, int rows, int column) {
+<span class="nc" id="L159">        Object[] columnArray = new Object[rows];</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        for (int i = 0; i &lt; rows; i++) {</span>
+<span class="nc" id="L161">            columnArray[i] = table[i][column];</span>
+        }
+<span class="nc" id="L163">        return columnArray;</span>
+    }
+
+    private static void switchColumns(
+            Object[][] table, int firstColumnIndex, int secondColumnIndex, Object[] columnToSwitch) {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        for (int i = 0; i &lt; table.length; i++) {</span>
+<span class="nc" id="L169">            table[i][secondColumnIndex] = table[i][firstColumnIndex];</span>
+<span class="nc" id="L170">            table[i][firstColumnIndex] = columnToSwitch[i];</span>
+        }
+<span class="nc" id="L172">    }</span>
+
+    /**
+     * Creates an abecedarium with a specified ascii inded
+     *
+     * @param value Number of characters being used based on the ASCII Table
+     */
+    private static void abecedariumBuilder(int value) {
+<span class="nc" id="L180">        StringBuilder t = new StringBuilder();</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        for (int i = 0; i &lt; value; i++) {</span>
+<span class="nc" id="L182">            t.append((char) i);</span>
+        }
+<span class="nc" id="L184">        abecedarium = t.toString();</span>
+<span class="nc" id="L185">    }</span>
+
+    private static void showTable() {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        for (Object[] table1 : table) {</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            for (Object item : table1) {</span>
+<span class="nc" id="L190">                System.out.print(item + &quot; &quot;);</span>
+            }
+<span class="nc" id="L192">            System.out.println();</span>
+        }
+<span class="nc" id="L194">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L197">        String keywordForExample = &quot;asd215&quot;;</span>
+<span class="nc" id="L198">        String wordBeingEncrypted = &quot;This is a test of the Columnar Transposition Cipher&quot;;</span>
+<span class="nc" id="L199">        System.out.println(&quot;### Example of Columnar Transposition Cipher ###\n&quot;);</span>
+<span class="nc" id="L200">        System.out.println(&quot;Word being encryped -&gt;&gt;&gt; &quot; + wordBeingEncrypted);</span>
+<span class="nc" id="L201">        System.out.println(</span>
+                &quot;Word encrypted -&gt;&gt;&gt; &quot;
+<span class="nc" id="L203">                + ColumnarTranspositionCipher.encrpyter(wordBeingEncrypted, keywordForExample));</span>
+<span class="nc" id="L204">        System.out.println(&quot;Word decryped -&gt;&gt;&gt; &quot; + ColumnarTranspositionCipher.decrypter());</span>
+<span class="nc" id="L205">        System.out.println(&quot;\n### Encrypted Table ###&quot;);</span>
+<span class="nc" id="L206">        showTable();</span>
+<span class="nc" id="L207">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

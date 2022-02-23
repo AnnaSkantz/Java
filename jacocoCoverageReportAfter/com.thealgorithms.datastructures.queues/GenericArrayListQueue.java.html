@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericArrayListQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.queues</a> &gt; <span class="el_source">GenericArrayListQueue.java</span></div><h1>GenericArrayListQueue.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.queues;
+
+import java.util.ArrayList;
+
+/**
+ * This class implements a GenericArrayListQueue.
+ *
+ * A GenericArrayListQueue data structure functions the same as any
+ * specific-typed queue. The GenericArrayListQueue holds elements of types
+ * to-be-specified at runtime. The elements that are added first are the first
+ * to be removed (FIFO). New elements are added to the back/rear of the queue.
+ */
+<span class="nc bnc" id="L13" title="All 2 branches missed.">public class GenericArrayListQueue&lt;T&gt; {</span>
+
+    /**
+     * The generic ArrayList for the queue T is the generic element
+     */
+<span class="nc" id="L18">    ArrayList&lt;T&gt; _queue = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Checks if the queue has elements (not empty).
+     *
+     * @return True if the queue has elements. False otherwise.
+     */
+    private boolean hasElements() {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        return !_queue.isEmpty();</span>
+    }
+
+    /**
+     * Checks what's at the front of the queue.
+     *
+     * @return If queue is not empty, element at the front of the queue.
+     * Otherwise, null
+     */
+    public T peek() {
+<span class="nc" id="L36">        T result = null;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (this.hasElements()) {</span>
+<span class="nc" id="L38">            result = _queue.get(0);</span>
+        }
+<span class="nc" id="L40">        return result;</span>
+    }
+
+    /**
+     * Inserts an element of type T to the queue.
+     *
+     * @param element of type T to be added
+     * @return True if the element was added successfully
+     */
+    public boolean add(T element) {
+<span class="nc" id="L50">        return _queue.add(element);</span>
+    }
+
+    /**
+     * Retrieve what's at the front of the queue
+     *
+     * @return If queue is not empty, element retrieved. Otherwise, null
+     */
+    public T pull() {
+<span class="nc" id="L59">        T result = null;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (this.hasElements()) {</span>
+<span class="nc" id="L61">            result = _queue.remove(0);</span>
+        }
+<span class="nc" id="L63">        return result;</span>
+    }
+
+    /**
+     * Main method
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L72">        GenericArrayListQueue&lt;Integer&gt; queue = new GenericArrayListQueue&lt;&gt;();</span>
+<span class="nc" id="L73">        System.out.println(&quot;Running...&quot;);</span>
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        assert queue.peek() == null;</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">        assert queue.pull() == null;</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">        assert queue.add(1);</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">        assert queue.peek() == 1;</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">        assert queue.add(2);</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">        assert queue.peek() == 1;</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        assert queue.pull() == 1;</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        assert queue.peek() == 2;</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">        assert queue.pull() == 2;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">        assert queue.peek() == null;</span>
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        assert queue.pull() == null;</span>
+<span class="nc" id="L85">        System.out.println(&quot;Finished.&quot;);</span>
+<span class="nc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

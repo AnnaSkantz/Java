@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PronicNumber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">PronicNumber.java</span></div><h1>PronicNumber.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/*
+ * Java program for Pronic Number
+ * Pronic Number: A number n is a pronic number if
+ * it is equal to product of two consecutive numbers m and m+1.
+ * Wikipedia: https://en.wikipedia.org/wiki/Pronic_number
+ * 
+ * Author: Akshay Dubey (https://github.com/itsAkshayDubey)
+ * 
+ * */
+
+<span class="nc" id="L13">public class PronicNumber {</span>
+
+	/**
+     * This method checks if the given number is pronic number or non-pronic number
+     *
+     * @param input_number Integer value which is to be checked if is a pronic number or not 
+     * @return true if input number is a pronic number, false otherwise
+     */
+	static boolean isPronic(int input_number) {
+		
+		//Iterating from 0 to input_number
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		for(int i = 0; i &lt;= input_number; i++) {</span>
+			
+			//Checking if product of i and (i+1) is equals input_number
+<span class="pc bpc" id="L27" title="1 of 4 branches missed.">			if(i * (i+1) == input_number &amp;&amp; i != input_number) {</span>
+				
+				//return true if product of i and (i+1) is equals input_number
+<span class="fc" id="L30">				return true;</span>
+			}
+			
+		}
+		
+		//return false if product of i and (i+1) for all values from 0 to input_number is not equals input_number
+<span class="fc" id="L36">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OddEvenSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">OddEvenSort.java</span></div><h1>OddEvenSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import java.util.Random;
+
+// https://en.wikipedia.org/wiki/Odd%E2%80%93even_sort
+<span class="nc bnc" id="L6" title="All 2 branches missed.">public class OddEvenSort {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L9">        int[] arr = new int[100];</span>
+
+<span class="nc" id="L11">        Random random = new Random();</span>
+
+        // Print out unsorted elements
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length; ++i) {</span>
+<span class="nc" id="L15">            arr[i] = random.nextInt(100) - 50;</span>
+<span class="nc" id="L16">            System.out.println(arr[i]);</span>
+        }
+<span class="nc" id="L18">        System.out.println(&quot;--------------&quot;);</span>
+
+<span class="nc" id="L20">        oddEvenSort(arr);</span>
+
+        //Print Sorted elements
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length - 1; ++i) {</span>
+<span class="nc" id="L24">            System.out.println(arr[i]);</span>
+<span class="nc bnc" id="L25" title="All 4 branches missed.">            assert arr[i] &lt;= arr[i + 1];</span>
+        }
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * Odd Even Sort algorithms implements
+     *
+     * @param arr the array contains elements
+     */
+    public static void oddEvenSort(int[] arr) {
+<span class="nc" id="L35">        boolean sorted = false;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        while (!sorted) {</span>
+<span class="nc" id="L37">            sorted = true;</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            for (int i = 1; i &lt; arr.length - 1; i += 2) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                if (arr[i] &gt; arr[i + 1]) {</span>
+<span class="nc" id="L41">                    swap(arr, i, i + 1);</span>
+<span class="nc" id="L42">                    sorted = false;</span>
+                }
+            }
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            for (int i = 0; i &lt; arr.length - 1; i += 2) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (arr[i] &gt; arr[i + 1]) {</span>
+<span class="nc" id="L48">                    swap(arr, i, i + 1);</span>
+<span class="nc" id="L49">                    sorted = false;</span>
+                }
+            }
+        }
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * Helper function to swap two array values.
+     *
+     * @param arr the array contains elements
+     * @param i the first index to be swapped
+     * @param j the second index to be swapped
+     */
+    private static void swap(int[] arr, int i, int j) {
+<span class="nc" id="L63">        int temp = arr[i];</span>
+<span class="nc" id="L64">        arr[i] = arr[j];</span>
+<span class="nc" id="L65">        arr[j] = temp;</span>
+<span class="nc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

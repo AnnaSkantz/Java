@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">TimSort.java</span></div><h1>TimSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import java.util.Random;
+
+/**
+ * @author [Hemanth Kotagiri](https://github.com/hemanth-kotagiri)
+ * @see [Tim Sort](https://en.wikipedia.org/wiki/Tim_sort)
+ */
+<span class="nc bnc" id="L9" title="All 2 branches missed.">class TimSort {</span>
+
+    int array[];
+    int array_length;
+<span class="nc" id="L13">    int RUN = 32;</span>
+
+    /**
+     * @brief A constructor which takes in the array specified by the user.
+     * @param array : Array given by the user.
+     */
+<span class="nc" id="L19">    public TimSort(int[] array) {</span>
+<span class="nc" id="L20">        this.array = array;</span>
+<span class="nc" id="L21">        this.array_length = array.length;</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * @brief A constructor which takes in an array length and randomly
+     * initializes an array.
+     * @param array_length length given by the user.
+     */
+<span class="nc" id="L29">    public TimSort(int array_length) {</span>
+<span class="nc" id="L30">        Random rand = new Random();</span>
+
+<span class="nc" id="L32">        this.array_length = array_length;</span>
+<span class="nc" id="L33">        this.array = new int[this.array_length];</span>
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (int i = 0; i &lt; this.array_length; i++) {</span>
+<span class="nc" id="L36">            int random_number = rand.nextInt(1000);</span>
+<span class="nc" id="L37">            this.array[i] = random_number;</span>
+        }
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * @brief A method to change the size of the run.
+     * @param run : Value specified by the user to change the run.
+     */
+    public void change_run(int run) {
+<span class="nc" id="L46">        this.RUN = run;</span>
+<span class="nc" id="L47">    }</span>
+
+    /**
+     * @brief A default constructor when no parameters are given. Initializes
+     * the array length to be 100. Generates a random number array of size 100.
+     */
+<span class="nc" id="L53">    public TimSort() {</span>
+<span class="nc" id="L54">        this.array_length = 100;</span>
+<span class="nc" id="L55">        this.array = new int[this.array_length];</span>
+
+<span class="nc" id="L57">        Random rand = new Random();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (int i = 0; i &lt; this.array_length; i++) {</span>
+<span class="nc" id="L59">            int random_number = rand.nextInt(1000);</span>
+<span class="nc" id="L60">            this.array[i] = random_number;</span>
+        }
+<span class="nc" id="L62">    }</span>
+
+    /**
+     * @brief Performs Insertion Sort Algorithm on given array with bounded
+     * indices.
+     * @param array: The array on which the algorithm is to be performed.
+     * @param start_idx: The starting index from which the algorithm is to be
+     * performed.
+     * @param end_idx: The ending index at which the algorithm needs to stop
+     * sorting.
+     */
+    public void insertion_sort(int[] array, int start_idx, int end_idx) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="nc" id="L75">            int current_element = array[i];</span>
+<span class="nc" id="L76">            int j = i - 1;</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">            while (j &gt;= 0 &amp;&amp; array[j] &gt; current_element) {</span>
+<span class="nc" id="L78">                array[j + 1] = array[j];</span>
+<span class="nc" id="L79">                j--;</span>
+            }
+<span class="nc" id="L81">            array[j + 1] = current_element;</span>
+        }
+<span class="nc" id="L83">    }</span>
+
+    /**
+     * @brief A method to merge two runs(chunks of array).
+     * @param array: The origin array which is to be sorted.
+     * @param start: Starting index of the first run(chunk).
+     * @param mid: The ending index of the first run(chunk).
+     * @param end: Ending index of the second run(chunk).
+     */
+    public void merge_runs(int array[], int start, int mid, int end) {
+
+<span class="nc" id="L94">        int first_array_size = mid - start + 1, second_array_size = end - mid;</span>
+<span class="nc" id="L95">        int array1[] = new int[first_array_size], array2[] = new int[second_array_size];</span>
+<span class="nc" id="L96">        int i = 0, j = 0, k = 0;</span>
+
+        // Building the two sub arrays from the array to merge later
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (i = 0; i &lt; first_array_size; i++) {</span>
+<span class="nc" id="L100">            array1[i] = array[start + i];</span>
+        }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (i = 0; i &lt; second_array_size; i++) {</span>
+<span class="nc" id="L103">            array2[i] = array[mid + 1 + i];</span>
+        }
+
+<span class="nc" id="L106">        i = 0;</span>
+<span class="nc" id="L107">        j = 0;</span>
+<span class="nc" id="L108">        k = start;</span>
+
+<span class="nc bnc" id="L110" title="All 4 branches missed.">        while (i &lt; first_array_size &amp;&amp; j &lt; second_array_size) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (array1[i] &lt;= array2[j]) {</span>
+<span class="nc" id="L112">                array[k] = array1[i];</span>
+<span class="nc" id="L113">                i++;</span>
+            } else {
+<span class="nc" id="L115">                array[k] = array2[j];</span>
+<span class="nc" id="L116">                j++;</span>
+            }
+<span class="nc" id="L118">            k++;</span>
+        }
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        while (i &lt; first_array_size) {</span>
+<span class="nc" id="L122">            array[k] = array1[i];</span>
+<span class="nc" id="L123">            k++;</span>
+<span class="nc" id="L124">            i++;</span>
+        }
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        while (j &lt; second_array_size) {</span>
+<span class="nc" id="L128">            array[k] = array2[j];</span>
+<span class="nc" id="L129">            k++;</span>
+<span class="nc" id="L130">            j++;</span>
+        }
+<span class="nc" id="L132">    }</span>
+
+    /**
+     * @brief Tim Sort Algorithm method.
+     */
+    public void algorithm() {
+        // Before Sorting
+<span class="nc" id="L139">        System.out.println(&quot;Before sorting the array: &quot;);</span>
+<span class="nc" id="L140">        this.showArrayElements();</span>
+<span class="nc" id="L141">        System.out.println();</span>
+
+        // Applying insertion sort on RUNS.
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        for (int i = 0; i &lt; this.array_length; i += this.RUN) {</span>
+<span class="nc" id="L145">            this.insertion_sort(this.array, i, Math.min(i + this.RUN, (this.array_length - 1)));</span>
+        }
+
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        for (int split = this.RUN; split &lt; this.array_length; split = 2 * split) {</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            for (int start_idx = 0; start_idx &lt; this.array_length; start_idx += 2 * split) {</span>
+<span class="nc" id="L150">                int mid = start_idx + split - 1;</span>
+<span class="nc" id="L151">                int end_idx = Math.min((start_idx + 2 * split - 1), (this.array_length - 1));</span>
+
+<span class="nc" id="L153">                this.merge_runs(this.array, start_idx, mid, end_idx);</span>
+            }
+        }
+        // After sorting
+<span class="nc" id="L157">        System.out.println(&quot;After sorting the array: &quot;);</span>
+<span class="nc" id="L158">        this.showArrayElements();</span>
+<span class="nc" id="L159">        System.out.println();</span>
+<span class="nc" id="L160">    }</span>
+
+    /**
+     * @brief A method to show the elements inside the array.
+     */
+    public void showArrayElements() {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        for (int i = 0; i &lt; this.array.length; i++) {</span>
+<span class="nc" id="L167">            System.out.print(this.array[i] + &quot; &quot;);</span>
+        }
+<span class="nc" id="L169">        System.out.println();</span>
+<span class="nc" id="L170">    }</span>
+
+    /**
+     * @brief A method to test the sorting algorithm
+     */
+    static void test() {
+<span class="nc" id="L176">        int[] array = {4, 1, 3, 17, 12, 11, 8};</span>
+<span class="nc" id="L177">        TimSort sorterObj1 = new TimSort();</span>
+<span class="nc" id="L178">        TimSort sorterObj2 = new TimSort(50);</span>
+<span class="nc" id="L179">        TimSort sorterObj3 = new TimSort(array);</span>
+
+<span class="nc" id="L181">        sorterObj1.algorithm();</span>
+<span class="nc" id="L182">        sorterObj2.algorithm();</span>
+<span class="nc" id="L183">        sorterObj3.algorithm();</span>
+
+        // Testing the first array
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        for (int i = 0; i &lt; sorterObj1.array_length - 1; i++) {</span>
+<span class="nc bnc" id="L187" title="All 4 branches missed.">            assert ((sorterObj1.array[i] &lt;= sorterObj1.array[i + 1])) : &quot;Array is not sorted&quot;;</span>
+        }
+
+        // Testing the second array.
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        for (int i = 0; i &lt; sorterObj2.array_length - 1; i++) {</span>
+<span class="nc bnc" id="L192" title="All 4 branches missed.">            assert ((sorterObj2.array[i] &lt;= sorterObj2.array[i + 1])) : &quot;Array is not sorted&quot;;</span>
+        }
+
+        // Testing the third array.
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        for (int i = 0; i &lt; sorterObj3.array_length - 1; i++) {</span>
+<span class="nc bnc" id="L197" title="All 4 branches missed.">            assert ((sorterObj3.array[i] &lt;= sorterObj3.array[i + 1])) : &quot;Array is not sorted&quot;;</span>
+        }
+<span class="nc" id="L199">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L202">        test();</span>
+<span class="nc" id="L203">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

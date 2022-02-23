@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainLinearProbing.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.hashmap.hashing</a> &gt; <span class="el_source">MainLinearProbing.java</span></div><h1>MainLinearProbing.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.hashmap.hashing;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class MainLinearProbing {</span>
+
+    public static void main(String[] args) {
+
+        int choice, key;
+
+<span class="nc" id="L11">        HashMapLinearProbing h = new HashMapLinearProbing(7);</span>
+<span class="nc" id="L12">        Scanner In = new Scanner(System.in);</span>
+
+        while (true) {
+<span class="nc" id="L15">            System.out.println(&quot;Enter your Choice :&quot;);</span>
+<span class="nc" id="L16">            System.out.println(&quot;1. Add Key&quot;);</span>
+<span class="nc" id="L17">            System.out.println(&quot;2. Delete Key&quot;);</span>
+<span class="nc" id="L18">            System.out.println(&quot;3. Print Table&quot;);</span>
+<span class="nc" id="L19">            System.out.println(&quot;4. Exit&quot;);</span>
+<span class="nc" id="L20">            System.out.println(&quot;5. Search and print key index&quot;);</span>
+<span class="nc" id="L21">            System.out.println(&quot;6. Check load factor&quot;);</span>
+
+<span class="nc" id="L23">            choice = In.nextInt();</span>
+
+<span class="nc bnc" id="L25" title="All 7 branches missed.">            switch (choice) {</span>
+                case 1: {
+<span class="nc" id="L27">                    System.out.println(&quot;Enter the Key: &quot;);</span>
+<span class="nc" id="L28">                    key = In.nextInt();</span>
+<span class="nc" id="L29">                    h.insertHash(key);</span>
+<span class="nc" id="L30">                    break;</span>
+                }
+                case 2: {
+<span class="nc" id="L33">                    System.out.println(&quot;Enter the Key delete:  &quot;);</span>
+<span class="nc" id="L34">                    key = In.nextInt();</span>
+<span class="nc" id="L35">                    h.deleteHash(key);</span>
+<span class="nc" id="L36">                    break;</span>
+                }
+                case 3: {
+<span class="nc" id="L39">                    System.out.println(&quot;Print table&quot;);</span>
+<span class="nc" id="L40">                    h.displayHashtable();</span>
+<span class="nc" id="L41">                    break;</span>
+                }
+                case 4: {
+<span class="nc" id="L44">                    In.close();</span>
+<span class="nc" id="L45">                    return;</span>
+                }
+                case 5: {
+<span class="nc" id="L48">                    System.out.println(&quot;Enter the Key to find and print:  &quot;);</span>
+<span class="nc" id="L49">                    key = In.nextInt();</span>
+<span class="nc" id="L50">                    System.out.println(&quot;Key: &quot; + key + &quot; is at index: &quot; + h.findHash(key));</span>
+<span class="nc" id="L51">                    break;</span>
+                }
+                case 6: {
+<span class="nc" id="L54">                    h.checkLoadFactor();</span>
+<span class="nc" id="L55">                    break;</span>
+                }
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

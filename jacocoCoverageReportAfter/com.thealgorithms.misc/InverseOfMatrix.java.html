@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InverseOfMatrix.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">InverseOfMatrix.java</span></div><h1>InverseOfMatrix.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.Scanner;
+
+/*
+* Wikipedia link : https://en.wikipedia.org/wiki/Invertible_matrix
+*
+* Here we use gauss elimination method to find the inverse of a given matrix.
+* To understand gauss elimination method to find inverse of a matrix: https://www.sangakoo.com/en/unit/inverse-matrix-method-of-gaussian-elimination
+*
+* We can also find the inverse of a matrix 
+ */
+<span class="nc" id="L13">public class InverseOfMatrix {</span>
+
+    public static void main(String argv[]) {
+<span class="nc" id="L16">        Scanner input = new Scanner(System.in);</span>
+<span class="nc" id="L17">        System.out.println(&quot;Enter the matrix size (Square matrix only): &quot;);</span>
+<span class="nc" id="L18">        int n = input.nextInt();</span>
+<span class="nc" id="L19">        double a[][] = new double[n][n];</span>
+<span class="nc" id="L20">        System.out.println(&quot;Enter the elements of matrix: &quot;);</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="nc" id="L23">                a[i][j] = input.nextDouble();</span>
+            }
+        }
+
+<span class="nc" id="L27">        double d[][] = invert(a);</span>
+<span class="nc" id="L28">        System.out.println();</span>
+<span class="nc" id="L29">        System.out.println(&quot;The inverse is: &quot;);</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            for (int j = 0; j &lt; n; ++j) {</span>
+<span class="nc" id="L32">                System.out.print(d[i][j] + &quot;  &quot;);</span>
+            }
+<span class="nc" id="L34">            System.out.println();</span>
+        }
+<span class="nc" id="L36">        input.close();</span>
+<span class="nc" id="L37">    }</span>
+
+    public static double[][] invert(double a[][]) {
+<span class="nc" id="L40">        int n = a.length;</span>
+<span class="nc" id="L41">        double x[][] = new double[n][n];</span>
+<span class="nc" id="L42">        double b[][] = new double[n][n];</span>
+<span class="nc" id="L43">        int index[] = new int[n];</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc" id="L45">            b[i][i] = 1;</span>
+        }
+
+        // Transform the matrix into an upper triangle
+<span class="nc" id="L49">        gaussian(a, index);</span>
+
+        // Update the matrix b[i][j] with the ratios stored
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (int i = 0; i &lt; n - 1; ++i) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            for (int j = i + 1; j &lt; n; ++j) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                for (int k = 0; k &lt; n; ++k) {</span>
+<span class="nc" id="L55">                    b[index[j]][k]</span>
+                            -= a[index[j]][i] * b[index[i]][k];
+                }
+            }
+        }
+
+        // Perform backward substitutions
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc" id="L63">            x[n - 1][i] = b[index[n - 1]][i] / a[index[n - 1]][n - 1];</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            for (int j = n - 2; j &gt;= 0; --j) {</span>
+<span class="nc" id="L65">                x[j][i] = b[index[j]][i];</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                for (int k = j + 1; k &lt; n; ++k) {</span>
+<span class="nc" id="L67">                    x[j][i] -= a[index[j]][k] * x[k][i];</span>
+                }
+<span class="nc" id="L69">                x[j][i] /= a[index[j]][j];</span>
+            }
+        }
+<span class="nc" id="L72">        return x;</span>
+    }
+
+// Method to carry out the partial-pivoting Gaussian
+// elimination.  Here index[] stores pivoting order.
+    public static void gaussian(double a[][], int index[]) {
+<span class="nc" id="L78">        int n = index.length;</span>
+<span class="nc" id="L79">        double c[] = new double[n];</span>
+
+        // Initialize the index
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc" id="L83">            index[i] = i;</span>
+        }
+
+        // Find the rescaling factors, one from each row
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc" id="L88">            double c1 = 0;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            for (int j = 0; j &lt; n; ++j) {</span>
+<span class="nc" id="L90">                double c0 = Math.abs(a[i][j]);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if (c0 &gt; c1) {</span>
+<span class="nc" id="L92">                    c1 = c0;</span>
+                }
+            }
+<span class="nc" id="L95">            c[i] = c1;</span>
+        }
+
+        // Search the pivoting element from each column
+<span class="nc" id="L99">        int k = 0;</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (int j = 0; j &lt; n - 1; ++j) {</span>
+<span class="nc" id="L101">            double pi1 = 0;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            for (int i = j; i &lt; n; ++i) {</span>
+<span class="nc" id="L103">                double pi0 = Math.abs(a[index[i]][j]);</span>
+<span class="nc" id="L104">                pi0 /= c[index[i]];</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                if (pi0 &gt; pi1) {</span>
+<span class="nc" id="L106">                    pi1 = pi0;</span>
+<span class="nc" id="L107">                    k = i;</span>
+                }
+            }
+            // Interchange rows according to the pivoting order
+<span class="nc" id="L111">            int itmp = index[j];</span>
+<span class="nc" id="L112">            index[j] = index[k];</span>
+<span class="nc" id="L113">            index[k] = itmp;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            for (int i = j + 1; i &lt; n; ++i) {</span>
+<span class="nc" id="L115">                double pj = a[index[i]][j] / a[index[j]][j];</span>
+
+                // Record pivoting ratios below the diagonal
+<span class="nc" id="L118">                a[index[i]][j] = pj;</span>
+
+                // Modify other elements accordingly
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                for (int l = j + 1; l &lt; n; ++l) {</span>
+<span class="nc" id="L122">                    a[index[i]][l] -= pj * a[index[j]][l];</span>
+                }
+            }
+        }
+<span class="nc" id="L126">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

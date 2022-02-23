@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Combination.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.backtracking</a> &gt; <span class="el_source">Combination.java</span></div><h1>Combination.java</h1><pre class="source lang-java linenums">package com.thealgorithms.backtracking;
+
+import java.util.*;
+
+/**
+ * Finds all permutations of given array
+ * @author Alan Piao (https://github.com/cpiao3)
+ */
+<span class="nc" id="L9">public class Combination {</span>
+    private static int length;
+    /**
+     * Find all combinations of given array using backtracking
+     * @param arr the array.
+     * @param n length of combination
+     * @param &lt;T&gt; the type of elements in the array.
+     * @return a list of all combinations of length n. If n == 0, return null.
+     */
+    public static &lt;T&gt; List&lt;TreeSet&lt;T&gt;&gt; combination(T[] arr, int n) {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc" id="L20">            return null;</span>
+        }
+<span class="fc" id="L22">        length = n;</span>
+<span class="fc" id="L23">        T[] array = arr.clone();</span>
+<span class="fc" id="L24">        Arrays.sort(array);</span>
+<span class="fc" id="L25">        List&lt;TreeSet&lt;T&gt;&gt; result = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L26">        backtracking(array, 0, new TreeSet&lt;T&gt;(), result);</span>
+<span class="fc" id="L27">        return result;</span>
+    }
+    /**
+     * Backtrack all possible combinations of a given array
+     * @param arr the array.
+     * @param index the starting index.
+     * @param currSet set that tracks current combination
+     * @param result the list contains all combination.
+     * @param &lt;T&gt; the type of elements in the array.
+     */
+    private static &lt;T&gt; void backtracking(T[] arr, int index, TreeSet&lt;T&gt; currSet, List&lt;TreeSet&lt;T&gt;&gt; result) {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (index + length - currSet.size() &gt; arr.length) return;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (length - 1 == currSet.size()) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            for (int i = index; i &lt; arr.length; i++) {</span>
+<span class="fc" id="L41">                currSet.add(arr[i]);</span>
+<span class="fc" id="L42">                result.add((TreeSet&lt;T&gt;) currSet.clone());</span>
+<span class="fc" id="L43">                currSet.remove(arr[i]);</span>
+            }
+        }
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (int i = index; i &lt; arr.length; i++) {</span>
+<span class="fc" id="L47">            currSet.add(arr[i]);</span>
+<span class="fc" id="L48">            backtracking(arr, i + 1, currSet, result);</span>
+<span class="fc" id="L49">            currSet.remove(arr[i]);</span>
+        }
+<span class="fc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

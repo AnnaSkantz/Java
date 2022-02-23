@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NextSmallerElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">NextSmallerElement.java</span></div><h1>NextSmallerElement.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+import java.util.Arrays;
+import java.util.Stack;
+
+
+/*
+    Given an array &quot;input&quot; you need to print the first smaller element for each element to the left side of an array.
+    For a given element x of an array, the Next Smaller element of that element is the 
+    first smaller element to the left side of it. If no such element is present print -1.
+    
+    Example
+    input = { 2, 7, 3, 5, 4, 6, 8 };
+    At i = 0
+    No elements to left of it : -1
+    At i = 1
+    Next smaller element between (0 , 0) is 2
+    At i = 2
+    Next smaller element between (0 , 1) is 2
+    At i = 3
+    Next smaller element between (0 , 2) is 3
+    At i = 4
+    Next smaller element between (0 , 3) is 4
+    At i = 5
+    Next smaller element between (0 , 4) is 3
+    At i = 6
+    Next smaller element between (0 , 5) is 6
+    
+    result : [-1, 2, 2, 3, 3, 4, 6]
+    
+    1) Create a new empty stack st
+    
+    2) Iterate over array &quot;input&quot; , where &quot;i&quot;  goes from 0 to input.length -1.
+        a) We are looking for value just smaller than `input[i]`. So keep popping from &quot;stack&quot; 
+           till elements in &quot;stack.peek() &gt;= input[i]&quot; or stack becomes empty.
+        b) If the stack is non-empty, then the top element is our previous element. Else the previous element does not exist. 
+        c) push input[i] in stack.
+    3) If elements are left then their answer is -1
+ */
+
+<span class="nc" id="L40">public class NextSmallerElement {</span>
+    public static int[] findNextSmallerElements(int[] array)
+    {
+        // base case
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (array == null) {</span>
+<span class="nc" id="L45">            return array;</span>
+        }
+<span class="nc" id="L47">        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();</span>
+<span class="nc" id="L48">        int[] result = new int[array.length];</span>
+<span class="nc" id="L49">        Arrays.fill(result, -1);</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">            while (!stack.empty() &amp;&amp; stack.peek() &gt;= array[i]) stack.pop();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (stack.empty()) {</span>
+<span class="nc" id="L54">                result[i] = -1;</span>
+            } else {
+<span class="nc" id="L56">                result[i] = stack.peek();</span>
+            }
+<span class="nc" id="L58">            stack.push(array[i]);</span>
+        }
+<span class="nc" id="L60">        return result;</span>
+    }
+
+    public static void main(String[] args)
+    {
+<span class="nc" id="L65">        int[] input = { 2, 7, 3, 5, 4, 6, 8 };</span>
+<span class="nc" id="L66">        int[] result = findNextSmallerElements(input);</span>
+<span class="nc" id="L67">        System.out.println(Arrays.toString(result));</span>
+<span class="nc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

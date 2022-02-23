@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Queues.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.queues</a> &gt; <span class="el_source">Queues.java</span></div><h1>Queues.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.queues;
+
+/**
+ * This implements Queues by using the class Queue.
+ *
+ * A queue data structure functions the same as a real world queue. The elements
+ * that are added first are the first to be removed. New elements are added to
+ * the back/rear of the queue.
+ */
+class Queue {
+
+    /**
+     * Default initial capacity.
+     */
+    private static final int DEFAULT_CAPACITY = 10;
+
+    /**
+     * Max size of the queue
+     */
+    private int maxSize;
+    /**
+     * The array representing the queue
+     */
+    private int[] queueArray;
+    /**
+     * Front of the queue
+     */
+    private int front;
+    /**
+     * Rear of the queue
+     */
+    private int rear;
+    /**
+     * How many items are in the queue
+     */
+    private int nItems;
+
+    /**
+     * init with DEFAULT_CAPACITY
+     */
+    public Queue() {
+<span class="nc" id="L42">        this(DEFAULT_CAPACITY);</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * Constructor
+     *
+     * @param size Size of the new queue
+     */
+<span class="nc" id="L50">    public Queue(int size) {</span>
+<span class="nc" id="L51">        maxSize = size;</span>
+<span class="nc" id="L52">        queueArray = new int[size];</span>
+<span class="nc" id="L53">        front = 0;</span>
+<span class="nc" id="L54">        rear = -1;</span>
+<span class="nc" id="L55">        nItems = 0;</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * Inserts an element at the rear of the queue
+     *
+     * @param x element to be added
+     * @return True if the element was added successfully
+     */
+    public boolean insert(int x) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (isFull()) {</span>
+<span class="nc" id="L66">            return false;</span>
+        }
+        // If the back of the queue is the end of the array wrap around to the front
+<span class="nc" id="L69">        rear = (rear + 1) % maxSize;</span>
+<span class="nc" id="L70">        queueArray[rear] = x;</span>
+<span class="nc" id="L71">        nItems++;</span>
+<span class="nc" id="L72">        return true;</span>
+    }
+
+    /**
+     * Remove an element from the front of the queue
+     *
+     * @return the new front of the queue
+     */
+    public int remove() {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L82">            return -1;</span>
+        }
+<span class="nc" id="L84">        int temp = queueArray[front];</span>
+<span class="nc" id="L85">        front = (front + 1) % maxSize;</span>
+<span class="nc" id="L86">        nItems--;</span>
+<span class="nc" id="L87">        return temp;</span>
+    }
+
+    /**
+     * Checks what's at the front of the queue
+     *
+     * @return element at the front of the queue
+     */
+    public int peekFront() {
+<span class="nc" id="L96">        return queueArray[front];</span>
+    }
+
+    /**
+     * Checks what's at the rear of the queue
+     *
+     * @return element at the rear of the queue
+     */
+    public int peekRear() {
+<span class="nc" id="L105">        return queueArray[rear];</span>
+    }
+
+    /**
+     * Returns true if the queue is empty
+     *
+     * @return true if the queue is empty
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        return nItems == 0;</span>
+    }
+
+    /**
+     * Returns true if the queue is full
+     *
+     * @return true if the queue is full
+     */
+    public boolean isFull() {
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        return nItems == maxSize;</span>
+    }
+
+    /**
+     * Returns the number of elements in the queue
+     *
+     * @return number of elements in the queue
+     */
+    public int getSize() {
+<span class="nc" id="L132">        return nItems;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L137">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L138">        sb.append(&quot;[&quot;);</span>
+<span class="nc" id="L139">        for (int i = front;; i = ++i % maxSize) {</span>
+<span class="nc" id="L140">            sb.append(queueArray[i]).append(&quot;, &quot;);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (i == rear) {</span>
+<span class="nc" id="L142">                break;</span>
+            }
+        }
+<span class="nc" id="L145">        sb.replace(sb.length() - 2, sb.length(), &quot;]&quot;);</span>
+<span class="nc" id="L146">        return sb.toString();</span>
+    }
+}
+
+/**
+ * This class is the example for the Queue class
+ *
+ * @author Unknown
+ */
+<span class="nc" id="L155">public class Queues {</span>
+
+    /**
+     * Main method
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L163">        Queue myQueue = new Queue(4);</span>
+<span class="nc" id="L164">        myQueue.insert(10);</span>
+<span class="nc" id="L165">        myQueue.insert(2);</span>
+<span class="nc" id="L166">        myQueue.insert(5);</span>
+<span class="nc" id="L167">        myQueue.insert(3);</span>
+        // [10(front), 2, 5, 3(rear)]
+
+<span class="nc" id="L170">        System.out.println(myQueue.isFull()); // Will print true</span>
+
+<span class="nc" id="L172">        myQueue.remove(); // Will make 2 the new front, making 10 no longer part of the queue</span>
+        // [10, 2(front), 5, 3(rear)]
+
+<span class="nc" id="L175">        myQueue.insert(7); // Insert 7 at the rear which will get 0 index because of wrap around</span>
+        // [7(rear), 2(front), 5, 3]
+
+<span class="nc" id="L178">        System.out.println(myQueue.peekFront()); // Will print 2</span>
+<span class="nc" id="L179">        System.out.println(myQueue.peekRear()); // Will print 7</span>
+<span class="nc" id="L180">        System.out.println(myQueue.toString()); // Will print [2, 5, 3, 7]</span>
+<span class="nc" id="L181">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

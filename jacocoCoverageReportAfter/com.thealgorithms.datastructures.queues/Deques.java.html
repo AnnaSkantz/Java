@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Deques.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.queues</a> &gt; <span class="el_source">Deques.java</span></div><h1>Deques.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.queues;
+
+/**
+ * A [deque](https://en.wikipedia.org/wiki/Double-ended_queue) is short for a
+ * double ended queue pronounced &quot;deck&quot; and sometimes referred to as a head-tail
+ * linked list. A deque is a data structure based on a doubly linked list, but
+ * only supports adding and removal of nodes from the beginning and the end of
+ * the list.
+ *
+ * @author [Ian Cowan](https://github.com/iccowan)
+ */
+<span class="nc" id="L12">public class Deques&lt;T&gt; {</span>
+
+    /**
+     * Node for the deque
+     */
+    class DequeNode&lt;S&gt; {
+
+        /**
+         * Value of the node
+         */
+        S val;
+
+        /**
+         * Next node in the deque from this node
+         */
+<span class="nc" id="L27">        DequeNode&lt;S&gt; next = null;</span>
+
+        /**
+         * Previous node in the deque from this node
+         */
+<span class="nc" id="L32">        DequeNode&lt;S&gt; prev = null;</span>
+
+        /**
+         * Constructor
+         */
+<span class="nc" id="L37">        DequeNode(S val) {</span>
+<span class="nc" id="L38">            this.val = val;</span>
+<span class="nc" id="L39">        }</span>
+    }
+
+    /**
+     * Head of the deque
+     */
+<span class="nc" id="L45">    DequeNode&lt;T&gt; head = null;</span>
+
+    /**
+     * Tail of the deque
+     */
+<span class="nc" id="L50">    DequeNode&lt;T&gt; tail = null;</span>
+
+    /**
+     * Size of the deque
+     */
+<span class="nc" id="L55">    int size = 0;</span>
+
+    /**
+     * Adds the specified value to the head of the deque
+     *
+     * @param val Value to add to the deque
+     */
+    public void addFirst(T val) {
+        // Create a new node with the given value
+<span class="nc" id="L64">        DequeNode&lt;T&gt; newNode = new DequeNode&lt;T&gt;(val);</span>
+
+        // Add the node
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (head == null) {</span>
+            // If the deque is empty, add the node as the head and tail
+<span class="nc" id="L69">            head = newNode;</span>
+<span class="nc" id="L70">            tail = newNode;</span>
+        } else {
+            // If the deque is not empty, insert the node as the new head
+<span class="nc" id="L73">            newNode.next = head;</span>
+<span class="nc" id="L74">            head.prev = newNode;</span>
+<span class="nc" id="L75">            head = newNode;</span>
+        }
+
+<span class="nc" id="L78">        size++;</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * Adds the specified value to the tail of the deque
+     *
+     * @param val Value to add to the deque
+     */
+    public void addLast(T val) {
+        // Create a new node with the given value
+<span class="nc" id="L88">        DequeNode&lt;T&gt; newNode = new DequeNode&lt;T&gt;(val);</span>
+
+        // Add the node
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (tail == null) {</span>
+            // If the deque is empty, add the node as the head and tail
+<span class="nc" id="L93">            head = newNode;</span>
+<span class="nc" id="L94">            tail = newNode;</span>
+        } else {
+            // If the deque is not empty, insert the node as the new tail
+<span class="nc" id="L97">            newNode.prev = tail;</span>
+<span class="nc" id="L98">            tail.next = newNode;</span>
+<span class="nc" id="L99">            tail = newNode;</span>
+        }
+
+<span class="nc" id="L102">        size++;</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * Removes and returns the first (head) value in the deque
+     *
+     * @return the value of the head of the deque
+     */
+    public T pollFirst() {
+        // If the head is null, return null
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (head == null) {</span>
+<span class="nc" id="L113">            return null;</span>
+        }
+
+        // First, let's get the value of the old head
+<span class="nc" id="L117">        T oldHeadVal = head.val;</span>
+
+        // Now, let's remove the head
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (head == tail) {</span>
+            // If there is only one node, remove it
+<span class="nc" id="L122">            head = null;</span>
+<span class="nc" id="L123">            tail = null;</span>
+        } else {
+            // If there is more than one node, fix the references
+<span class="nc" id="L126">            head.next.prev = null;</span>
+<span class="nc" id="L127">            DequeNode&lt;T&gt; oldHead = head;</span>
+<span class="nc" id="L128">            head = head.next;</span>
+
+            // Can be considered unnecessary...
+            // Unlinking the old head to make sure there are no random
+            // references possibly affecting garbage collection
+<span class="nc" id="L133">            oldHead.next = null;</span>
+        }
+
+<span class="nc" id="L136">        size--;</span>
+<span class="nc" id="L137">        return oldHeadVal;</span>
+    }
+
+    /**
+     * Removes and returns the last (tail) value in the deque
+     *
+     * @return the value of the tail of the deque
+     */
+    public T pollLast() {
+        // If the tail is null, return null
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (tail == null) {</span>
+<span class="nc" id="L148">            return null;</span>
+        }
+
+        // Let's get the value of the old tail
+<span class="nc" id="L152">        T oldTailVal = tail.val;</span>
+
+        // Now, remove the tail
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (head == tail) {</span>
+            // If there is only one node, remove it
+<span class="nc" id="L157">            head = null;</span>
+<span class="nc" id="L158">            tail = null;</span>
+        } else {
+            // If there is more than one node, fix the references
+<span class="nc" id="L161">            tail.prev.next = null;</span>
+<span class="nc" id="L162">            DequeNode&lt;T&gt; oldTail = tail;</span>
+<span class="nc" id="L163">            tail = tail.prev;</span>
+
+            // Similarly to above, can be considered unnecessary
+            // See `pollFirst()` for explanation
+<span class="nc" id="L167">            oldTail.prev = null;</span>
+        }
+
+<span class="nc" id="L170">        size--;</span>
+<span class="nc" id="L171">        return oldTailVal;</span>
+    }
+
+    /**
+     * Returns the first (head) value of the deque WITHOUT removing
+     *
+     * @return the value of the head of the deque
+     */
+    public T peekFirst() {
+<span class="nc" id="L180">        return head.val;</span>
+    }
+
+    /**
+     * Returns the last (tail) value of the deque WITHOUT removing
+     *
+     * @return the value of the tail of the deque
+     */
+    public T peekLast() {
+<span class="nc" id="L189">        return tail.val;</span>
+    }
+
+    /**
+     * Returns the size of the deque
+     *
+     * @return the size of the deque
+     */
+    public int size() {
+<span class="nc" id="L198">        return size;</span>
+    }
+
+    /**
+     * Returns whether or not the deque is empty
+     *
+     * @return whether or not the deque is empty
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        return head == null;</span>
+    }
+
+    /**
+     * Returns a stringified deque in a pretty form:
+     *
+     * &lt;p&gt;
+     * Head -&gt; 1 &lt;-&gt; 2 &lt;-&gt; 3 &lt;- Tail
+     *
+     * @return the stringified deque
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L220">        String dequeString = &quot;Head -&gt; &quot;;</span>
+<span class="nc" id="L221">        DequeNode&lt;T&gt; currNode = head;</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        while (currNode != null) {</span>
+<span class="nc" id="L223">            dequeString += currNode.val;</span>
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">            if (currNode.next != null) {</span>
+<span class="nc" id="L226">                dequeString += &quot; &lt;-&gt; &quot;;</span>
+            }
+
+<span class="nc" id="L229">            currNode = currNode.next;</span>
+        }
+
+<span class="nc" id="L232">        dequeString += &quot; &lt;- Tail&quot;;</span>
+
+<span class="nc" id="L234">        return dequeString;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L238">        Deques&lt;Integer&gt; myDeque = new Deques&lt;Integer&gt;();</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        for (int i = 0; i &lt; 42; i++) {</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            if (i / 42.0 &lt; 0.5) {</span>
+<span class="nc" id="L241">                myDeque.addFirst(i);</span>
+            } else {
+<span class="nc" id="L243">                myDeque.addLast(i);</span>
+            }
+        }
+
+<span class="nc" id="L247">        System.out.println(myDeque);</span>
+<span class="nc" id="L248">        System.out.println(&quot;Size: &quot; + myDeque.size());</span>
+<span class="nc" id="L249">        System.out.println();</span>
+
+<span class="nc" id="L251">        myDeque.pollFirst();</span>
+<span class="nc" id="L252">        myDeque.pollFirst();</span>
+<span class="nc" id="L253">        myDeque.pollLast();</span>
+<span class="nc" id="L254">        System.out.println(myDeque);</span>
+<span class="nc" id="L255">        System.out.println(&quot;Size: &quot; + myDeque.size());</span>
+<span class="nc" id="L256">        System.out.println();</span>
+
+<span class="nc" id="L258">        int dequeSize = myDeque.size();</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        for (int i = 0; i &lt; dequeSize; i++) {</span>
+<span class="nc" id="L260">            int removing = -1;</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">            if (i / 39.0 &lt; 0.5) {</span>
+<span class="nc" id="L262">                removing = myDeque.pollFirst();</span>
+            } else {
+<span class="nc" id="L264">                removing = myDeque.pollLast();</span>
+            }
+
+<span class="nc" id="L267">            System.out.println(&quot;Removing: &quot; + removing);</span>
+        }
+
+<span class="nc" id="L270">        System.out.println(myDeque);</span>
+<span class="nc" id="L271">        System.out.println(myDeque.size());</span>
+<span class="nc" id="L272">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

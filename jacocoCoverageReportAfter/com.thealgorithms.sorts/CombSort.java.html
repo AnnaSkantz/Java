@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CombSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">CombSort.java</span></div><h1>CombSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+/**
+ * Comb Sort algorithm implementation
+ *
+ * &lt;p&gt;
+ * Best-case performance O(n * log(n)) Worst-case performance O(n ^ 2)
+ * Worst-case space complexity O(1)
+ *
+ * &lt;p&gt;
+ * Comb sort improves on bubble sort.
+ *
+ * @author Sandeep Roy (https://github.com/sandeeproy99)
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see BubbleSort
+ * @see SortAlgorithm
+ */
+<span class="nc" id="L20">class CombSort implements SortAlgorithm {</span>
+
+    // To find gap between elements
+    private int nextGap(int gap) {
+        // Shrink gap by Shrink factor
+<span class="nc" id="L25">        gap = (gap * 10) / 13;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        return (gap &lt; 1) ? 1 : gap;</span>
+    }
+
+    /**
+     * Function to sort arr[] using Comb
+     *
+     * @param arr - an array should be sorted
+     * @return sorted array
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] arr) {
+<span class="nc" id="L37">        int size = arr.length;</span>
+
+        // initialize gap
+<span class="nc" id="L40">        int gap = size;</span>
+
+        // Initialize swapped as true to make sure that loop runs
+<span class="nc" id="L43">        boolean swapped = true;</span>
+
+        // Keep running while gap is more than 1 and last iteration caused a swap
+<span class="nc bnc" id="L46" title="All 4 branches missed.">        while (gap != 1 || swapped) {</span>
+            // Find next gap
+<span class="nc" id="L48">            gap = nextGap(gap);</span>
+
+            // Initialize swapped as false so that we can check if swap happened or not
+<span class="nc" id="L51">            swapped = false;</span>
+
+            // Compare all elements with current gap
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            for (int i = 0; i &lt; size - gap; i++) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (less(arr[i + gap], arr[i])) {</span>
+                    // Swap arr[i] and arr[i+gap]
+<span class="nc" id="L57">                    swapped = swap(arr, i, i + gap);</span>
+                }
+            }
+        }
+<span class="nc" id="L61">        return arr;</span>
+    }
+
+    // Driver method
+    public static void main(String[] args) {
+<span class="nc" id="L66">        CombSort ob = new CombSort();</span>
+<span class="nc" id="L67">        Integer[] arr = {8, 4, 1, 56, 3, -44, -1, 0, 36, 34, 8, 12, -66, -78, 23, -6, 28, 0};</span>
+<span class="nc" id="L68">        ob.sort(arr);</span>
+
+<span class="nc" id="L70">        System.out.println(&quot;sorted array&quot;);</span>
+<span class="nc" id="L71">        print(arr);</span>
+<span class="nc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

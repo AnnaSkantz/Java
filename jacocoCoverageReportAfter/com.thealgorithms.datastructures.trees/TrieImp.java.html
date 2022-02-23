@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TrieImp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">TrieImp.java</span></div><h1>TrieImp.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+/**
+ * Trie Data structure implementation without any libraries
+ *
+ * @author Dheeraj Kumar Barnwal (https://github.com/dheeraj92)
+ */
+import java.util.Scanner;
+
+public class TrieImp {
+
+    public class TrieNode {
+
+        TrieNode[] child;
+        boolean end;
+
+<span class="nc" id="L17">        public TrieNode() {</span>
+<span class="nc" id="L18">            child = new TrieNode[26];</span>
+<span class="nc" id="L19">            end = false;</span>
+<span class="nc" id="L20">        }</span>
+    }
+
+    private final TrieNode root;
+
+<span class="nc" id="L25">    public TrieImp() {</span>
+<span class="nc" id="L26">        root = new TrieNode();</span>
+<span class="nc" id="L27">    }</span>
+
+    public void insert(String word) {
+<span class="nc" id="L30">        TrieNode currentNode = root;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        for (int i = 0; i &lt; word.length(); i++) {</span>
+<span class="nc" id="L32">            TrieNode node = currentNode.child[word.charAt(i) - 'a'];</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (node == null) {</span>
+<span class="nc" id="L34">                node = new TrieNode();</span>
+<span class="nc" id="L35">                currentNode.child[word.charAt(i) - 'a'] = node;</span>
+            }
+<span class="nc" id="L37">            currentNode = node;</span>
+        }
+<span class="nc" id="L39">        currentNode.end = true;</span>
+<span class="nc" id="L40">    }</span>
+
+    public boolean search(String word) {
+<span class="nc" id="L43">        TrieNode currentNode = root;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; word.length(); i++) {</span>
+<span class="nc" id="L45">            char ch = word.charAt(i);</span>
+<span class="nc" id="L46">            TrieNode node = currentNode.child[ch - 'a'];</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (node == null) {</span>
+<span class="nc" id="L48">                return false;</span>
+            }
+<span class="nc" id="L50">            currentNode = node;</span>
+        }
+<span class="nc" id="L52">        return currentNode.end;</span>
+    }
+
+    public boolean delete(String word) {
+<span class="nc" id="L56">        TrieNode currentNode = root;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int i = 0; i &lt; word.length(); i++) {</span>
+<span class="nc" id="L58">            char ch = word.charAt(i);</span>
+<span class="nc" id="L59">            TrieNode node = currentNode.child[ch - 'a'];</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (node == null) {</span>
+<span class="nc" id="L61">                return false;</span>
+            }
+<span class="nc" id="L63">            currentNode = node;</span>
+        }
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (currentNode.end == true) {</span>
+<span class="nc" id="L66">            currentNode.end = false;</span>
+<span class="nc" id="L67">            return true;</span>
+        }
+<span class="nc" id="L69">        return false;</span>
+    }
+
+    public static void sop(String print) {
+<span class="nc" id="L73">        System.out.println(print);</span>
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * Regex to check if word contains only a-z character
+     */
+    public static boolean isValid(String word) {
+<span class="nc" id="L80">        return word.matches(&quot;^[a-z]+$&quot;);</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L84">        TrieImp obj = new TrieImp();</span>
+        String word;
+        @SuppressWarnings(&quot;resource&quot;)
+<span class="nc" id="L87">        Scanner scan = new Scanner(System.in);</span>
+<span class="nc" id="L88">        sop(&quot;string should contain only a-z character for all operation&quot;);</span>
+        while (true) {
+<span class="nc" id="L90">            sop(&quot;1. Insert\n2. Search\n3. Delete\n4. Quit&quot;);</span>
+            try {
+<span class="nc" id="L92">                int t = scan.nextInt();</span>
+<span class="nc bnc" id="L93" title="All 5 branches missed.">                switch (t) {</span>
+                    case 1:
+<span class="nc" id="L95">                        word = scan.next();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                        if (isValid(word)) {</span>
+<span class="nc" id="L97">                            obj.insert(word);</span>
+                        } else {
+<span class="nc" id="L99">                            sop(&quot;Invalid string: allowed only a-z&quot;);</span>
+                        }
+<span class="nc" id="L101">                        break;</span>
+                    case 2:
+<span class="nc" id="L103">                        word = scan.next();</span>
+<span class="nc" id="L104">                        boolean resS = false;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                        if (isValid(word)) {</span>
+<span class="nc" id="L106">                            resS = obj.search(word);</span>
+                        } else {
+<span class="nc" id="L108">                            sop(&quot;Invalid string: allowed only a-z&quot;);</span>
+                        }
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                        if (resS) {</span>
+<span class="nc" id="L111">                            sop(&quot;word found&quot;);</span>
+                        } else {
+<span class="nc" id="L113">                            sop(&quot;word not found&quot;);</span>
+                        }
+<span class="nc" id="L115">                        break;</span>
+                    case 3:
+<span class="nc" id="L117">                        word = scan.next();</span>
+<span class="nc" id="L118">                        boolean resD = false;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                        if (isValid(word)) {</span>
+<span class="nc" id="L120">                            resD = obj.delete(word);</span>
+                        } else {
+<span class="nc" id="L122">                            sop(&quot;Invalid string: allowed only a-z&quot;);</span>
+                        }
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                        if (resD) {</span>
+<span class="nc" id="L125">                            sop(&quot;word got deleted successfully&quot;);</span>
+                        } else {
+<span class="nc" id="L127">                            sop(&quot;word not found&quot;);</span>
+                        }
+<span class="nc" id="L129">                        break;</span>
+                    case 4:
+<span class="nc" id="L131">                        sop(&quot;Quit successfully&quot;);</span>
+<span class="nc" id="L132">                        System.exit(1);</span>
+<span class="nc" id="L133">                        break;</span>
+                    default:
+<span class="nc" id="L135">                        sop(&quot;Input int from 1-4&quot;);</span>
+                        break;
+                }
+<span class="nc" id="L138">            } catch (Exception e) {</span>
+<span class="nc" id="L139">                String badInput = scan.next();</span>
+<span class="nc" id="L140">                sop(&quot;This is bad input: &quot; + badInput);</span>
+<span class="nc" id="L141">            }</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

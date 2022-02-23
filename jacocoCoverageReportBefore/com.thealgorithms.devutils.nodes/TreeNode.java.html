@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TreeNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.devutils.nodes</a> &gt; <span class="el_source">TreeNode.java</span></div><h1>TreeNode.java</h1><pre class="source lang-java linenums">package com.thealgorithms.devutils.nodes;
+
+/**
+ * Base class for any tree node which holds a reference to the parent node.
+ *
+ * All known subclasses: {@link SimpleTreeNode}, {@link LargeTreeNode}.
+ *
+ * @param &lt;E&gt; The type of the data held in the Node.
+ *
+ * @author &lt;a href=&quot;https://github.com/aitorfi&quot;&gt;aitorfi&lt;/a&gt;
+ */
+public abstract class TreeNode&lt;E&gt; extends Node&lt;E&gt; {
+
+    /**
+     * Refernce to the parent Node.
+     */
+    private TreeNode&lt;E&gt; parentNode;
+    /**
+     * Indicates the depth at which this node is in the tree.
+     */
+    private int depth;
+
+    /**
+     * Empty contructor.
+     */
+    public TreeNode() {
+<span class="nc" id="L27">        super();</span>
+<span class="nc" id="L28">        depth = 0;</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * Initializes the Nodes' data.
+     *
+     * @param data Value to which data will be initialized.
+     * @see Node#Node(Object)
+     */
+    public TreeNode(E data) {
+<span class="nc" id="L38">        super(data);</span>
+<span class="nc" id="L39">        depth = 0;</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Initializes the Nodes' data and parent node reference.
+     *
+     * @param data Value to which data will be initialized.
+     * @param parentNode Value to which the nodes' parent reference will be set.
+     */
+    public TreeNode(E data, TreeNode&lt;E&gt; parentNode) {
+<span class="nc" id="L49">        super(data);</span>
+<span class="nc" id="L50">        this.parentNode = parentNode;</span>
+<span class="nc" id="L51">        depth = this.parentNode.getDepth() + 1;</span>
+<span class="nc" id="L52">    }</span>
+
+    /**
+     * @return True if the node is a leaf node, otherwise false.
+     */
+    public abstract boolean isLeafNode();
+
+    /**
+     * @return True if the node is the root node, otherwise false.
+     */
+    public boolean isRootNode() {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        return (parentNode == null);</span>
+    }
+
+    public TreeNode&lt;E&gt; getParent() {
+<span class="nc" id="L67">        return parentNode;</span>
+    }
+
+    public void setParent(TreeNode&lt;E&gt; parentNode) {
+<span class="nc" id="L71">        this.parentNode = parentNode;</span>
+<span class="nc" id="L72">        depth = this.parentNode.getDepth() + 1;</span>
+<span class="nc" id="L73">    }</span>
+
+    public int getDepth() {
+<span class="nc" id="L76">        return depth;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MergeSortedSinglyLinkedList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.lists</a> &gt; <span class="el_source">MergeSortedSinglyLinkedList.java</span></div><h1>MergeSortedSinglyLinkedList.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.lists;
+
+<span class="nc bnc" id="L3" title="All 2 branches missed.">public class MergeSortedSinglyLinkedList extends SinglyLinkedList {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L6">        SinglyLinkedList listA = new SinglyLinkedList();</span>
+<span class="nc" id="L7">        SinglyLinkedList listB = new SinglyLinkedList();</span>
+
+<span class="nc bnc" id="L9" title="All 2 branches missed.">        for (int i = 2; i &lt;= 10; i += 2) {</span>
+<span class="nc" id="L10">            listA.insert(i);</span>
+<span class="nc" id="L11">            listB.insert(i - 1);</span>
+        }
+<span class="nc bnc" id="L13" title="All 4 branches missed.">        assert listA.toString().equals(&quot;2-&gt;4-&gt;6-&gt;8-&gt;10&quot;);</span>
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        assert listB.toString().equals(&quot;1-&gt;3-&gt;5-&gt;7-&gt;9&quot;);</span>
+<span class="nc bnc" id="L15" title="All 4 branches missed.">        assert merge(listA, listB).toString().equals(&quot;1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;9-&gt;10&quot;);</span>
+<span class="nc" id="L16">    }</span>
+
+    /**
+     * Merge two sorted SingleLinkedList
+     *
+     * @param listA the first sorted list
+     * @param listB the second sored list
+     * @return merged sorted list
+     */
+    public static SinglyLinkedList merge(SinglyLinkedList listA, SinglyLinkedList listB) {
+<span class="nc" id="L26">        Node headA = listA.getHead();</span>
+<span class="nc" id="L27">        Node headB = listB.getHead();</span>
+
+<span class="nc" id="L29">        int size = listA.size() + listB.size();</span>
+
+<span class="nc" id="L31">        Node head = new Node();</span>
+<span class="nc" id="L32">        Node tail = head;</span>
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        while (headA != null &amp;&amp; headB != null) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (headA.value &lt;= headB.value) {</span>
+<span class="nc" id="L35">                tail.next = headA;</span>
+<span class="nc" id="L36">                headA = headA.next;</span>
+            } else {
+<span class="nc" id="L38">                tail.next = headB;</span>
+<span class="nc" id="L39">                headB = headB.next;</span>
+            }
+<span class="nc" id="L41">            tail = tail.next;</span>
+        }
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (headA == null) {</span>
+<span class="nc" id="L44">            tail.next = headB;</span>
+        }
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (headB == null) {</span>
+<span class="nc" id="L47">            tail.next = headA;</span>
+        }
+<span class="nc" id="L49">        return new SinglyLinkedList(head.next, size);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

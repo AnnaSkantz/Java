@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IterativeTernarySearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">IterativeTernarySearch.java</span></div><h1>IterativeTernarySearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import static java.lang.String.format;
+
+import java.util.Arrays;
+import java.util.Random;
+import java.util.stream.Stream;
+import com.thealgorithms.devutils.searches.SearchAlgorithm;
+
+/**
+ * A iterative version of a ternary search algorithm This is better way to
+ * implement the ternary search, because a recursive version adds some overhead
+ * to a stack. But in java the compile can transform the recursive version to
+ * iterative implicitly, so there are no much differences between these two
+ * algorithms
+ *
+ * &lt;p&gt;
+ * Worst-case performance Θ(log3(N)) Best-case performance O(1) Average
+ * performance Θ(log3(N)) Worst-case space complexity O(1)
+ *
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see SearchAlgorithm
+ * @see TernarySearch
+ * @since 2018-04-13
+ */
+<span class="nc" id="L26">public class IterativeTernarySearch implements SearchAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; int find(T[] array, T key) {
+<span class="nc" id="L30">        int left = 0;</span>
+<span class="nc" id="L31">        int right = array.length - 1;</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        while (right &gt; left) {</span>
+
+<span class="nc" id="L35">            int leftCmp = array[left].compareTo(key);</span>
+<span class="nc" id="L36">            int rightCmp = array[right].compareTo(key);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (leftCmp == 0) {</span>
+<span class="nc" id="L38">                return left;</span>
+            }
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (rightCmp == 0) {</span>
+<span class="nc" id="L41">                return right;</span>
+            }
+
+<span class="nc" id="L44">            int leftThird = left + (right - left) / 3 + 1;</span>
+<span class="nc" id="L45">            int rightThird = right - (right - left) / 3 - 1;</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (array[leftThird].compareTo(key) &lt;= 0) {</span>
+<span class="nc" id="L48">                left = leftThird;</span>
+            } else {
+<span class="nc" id="L50">                right = rightThird;</span>
+            }
+<span class="nc" id="L52">        }</span>
+
+<span class="nc" id="L54">        return -1;</span>
+    }
+
+    public static void main(String[] args) {
+        // just generate data
+<span class="nc" id="L59">        Random r = new Random();</span>
+<span class="nc" id="L60">        int size = 100;</span>
+<span class="nc" id="L61">        int maxElement = 100000;</span>
+<span class="nc" id="L62">        Integer[] integers</span>
+<span class="nc" id="L63">                = Stream.generate(() -&gt; r.nextInt(maxElement)).limit(size).sorted().toArray(Integer[]::new);</span>
+
+        // the element that should be found
+<span class="nc" id="L66">        Integer shouldBeFound = integers[r.nextInt(size - 1)];</span>
+
+<span class="nc" id="L68">        IterativeTernarySearch search = new IterativeTernarySearch();</span>
+<span class="nc" id="L69">        int atIndex = search.find(integers, shouldBeFound);</span>
+
+<span class="nc" id="L71">        System.out.println(</span>
+<span class="nc" id="L72">                format(</span>
+                        &quot;Should be found: %d. Found %d at index %d. An array length %d&quot;,
+<span class="nc" id="L74">                        shouldBeFound, integers[atIndex], atIndex, size));</span>
+
+<span class="nc" id="L76">        int toCheck = Arrays.binarySearch(integers, shouldBeFound);</span>
+<span class="nc" id="L77">        System.out.println(</span>
+<span class="nc" id="L78">                format(</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                        &quot;Found by system method at an index: %d. Is equal: %b&quot;, toCheck, toCheck == atIndex));</span>
+<span class="nc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

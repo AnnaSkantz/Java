@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HexToOct.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">HexToOct.java</span></div><h1>HexToOct.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+import java.util.Scanner;
+
+/**
+ * Converts any Hexadecimal Number to Octal
+ *
+ * @author Tanmay Joshi
+ */
+<span class="nc" id="L10">public class HexToOct {</span>
+
+    /**
+     * This method converts a Hexadecimal number to a decimal number
+     *
+     * @param s The Hexadecimal Number
+     * @return The Decimal number
+     */
+    public static int hex2decimal(String s) {
+<span class="nc" id="L19">        String str = &quot;0123456789ABCDEF&quot;;</span>
+<span class="nc" id="L20">        s = s.toUpperCase();</span>
+<span class="nc" id="L21">        int val = 0;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        for (int i = 0; i &lt; s.length(); i++) {</span>
+<span class="nc" id="L23">            char a = s.charAt(i);</span>
+<span class="nc" id="L24">            int n = str.indexOf(a);</span>
+<span class="nc" id="L25">            val = 16 * val + n;</span>
+        }
+<span class="nc" id="L27">        return val;</span>
+    }
+
+    /**
+     * This method converts a Decimal number to a octal number
+     *
+     * @param q The Decimal Number
+     * @return The Octal number
+     */
+    public static int decimal2octal(int q) {
+        int now;
+<span class="nc" id="L38">        int i = 1;</span>
+<span class="nc" id="L39">        int octnum = 0;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        while (q &gt; 0) {</span>
+<span class="nc" id="L41">            now = q % 8;</span>
+<span class="nc" id="L42">            octnum = (now * (int) (Math.pow(10, i))) + octnum;</span>
+<span class="nc" id="L43">            q /= 8;</span>
+<span class="nc" id="L44">            i++;</span>
+        }
+<span class="nc" id="L46">        octnum /= 10;</span>
+<span class="nc" id="L47">        return octnum;</span>
+    }
+
+    /**
+     * Main method that gets the hex input from user and converts it into octal.
+     *
+     * @param args arguments
+     */
+    public static void main(String args[]) {
+        String hexadecnum;
+        int decnum, octalnum;
+<span class="nc" id="L58">        Scanner scan = new Scanner(System.in);</span>
+
+<span class="nc" id="L60">        System.out.print(&quot;Enter Hexadecimal Number : &quot;);</span>
+<span class="nc" id="L61">        hexadecnum = scan.nextLine();</span>
+
+        // first convert hexadecimal to decimal
+<span class="nc" id="L64">        decnum</span>
+<span class="nc" id="L65">                = hex2decimal(</span>
+                        hexadecnum); // Pass the string to the hex2decimal function and get the decimal form in
+        // variable decnum
+
+        // convert decimal to octal
+<span class="nc" id="L70">        octalnum = decimal2octal(decnum);</span>
+<span class="nc" id="L71">        System.out.println(&quot;Number in octal: &quot; + octalnum);</span>
+<span class="nc" id="L72">        scan.close();</span>
+<span class="nc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
