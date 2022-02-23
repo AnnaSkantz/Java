@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaddlebackSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">SaddlebackSearch.java</span></div><h1>SaddlebackSearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.Scanner;
+
+/**
+ * Program to perform Saddleback Search Given a sorted 2D array(elements are
+ * sorted across every row and column, assuming ascending order) of size n*m we
+ * can search a given element in O(n+m)
+ *
+ * &lt;p&gt;
+ * we start from bottom left corner if the current element is greater than the
+ * given element then we move up else we move right Sample Input: 5 5
+ * -&gt;Dimensions -10 -5 -3 4 9 -6 -2 0 5 10 -4 -1 1 6 12 2 3 7 8 13 100 120 130
+ * 140 150 140 -&gt;element to be searched output: 4 3 // first value is row,
+ * second one is column
+ *
+ * @author Nishita Aggarwal
+ */
+<span class="nc" id="L19">public class SaddlebackSearch {</span>
+
+    /**
+     * This method performs Saddleback Search
+     *
+     * @param arr The **Sorted** array in which we will search the element.
+     * @param row the current row.
+     * @param col the current column.
+     * @param key the element that we want to search for.
+     * @return The index(row and column) of the element if found. Else returns
+     * -1 -1.
+     */
+    private static int[] find(int arr[][], int row, int col, int key) {
+
+        // array to store the answer row and column
+<span class="nc" id="L34">        int ans[] = {-1, -1};</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">        if (row &lt; 0 || col &gt;= arr[row].length) {</span>
+<span class="nc" id="L36">            return ans;</span>
+        }
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (arr[row][col] == key) {</span>
+<span class="nc" id="L39">            ans[0] = row;</span>
+<span class="nc" id="L40">            ans[1] = col;</span>
+<span class="nc" id="L41">            return ans;</span>
+        } // if the current element is greater than the given element then we move up
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        else if (arr[row][col] &gt; key) {</span>
+<span class="nc" id="L44">            return find(arr, row - 1, col, key);</span>
+        }
+        // else we move right
+<span class="nc" id="L47">        return find(arr, row, col + 1, key);</span>
+    }
+
+    /**
+     * Main method
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+<span class="nc" id="L57">        Scanner sc = new Scanner(System.in);</span>
+        int arr[][];
+<span class="nc" id="L59">        int i, j, rows = sc.nextInt(), col = sc.nextInt();</span>
+<span class="nc" id="L60">        arr = new int[rows][col];</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (i = 0; i &lt; rows; i++) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            for (j = 0; j &lt; col; j++) {</span>
+<span class="nc" id="L63">                arr[i][j] = sc.nextInt();</span>
+            }
+        }
+<span class="nc" id="L66">        int ele = sc.nextInt();</span>
+        // we start from bottom left corner
+<span class="nc" id="L68">        int ans[] = find(arr, rows - 1, 0, ele);</span>
+<span class="nc" id="L69">        System.out.println(ans[0] + &quot; &quot; + ans[1]);</span>
+<span class="nc" id="L70">        sc.close();</span>
+<span class="nc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ADTFraction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">ADTFraction.java</span></div><h1>ADTFraction.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+public class ADTFraction {
+
+    public static void main(String[] args) {
+        // TODO code application logic here
+
+<span class="nc" id="L8">        ADTFraction f1 = new ADTFraction(3, 5);</span>
+<span class="nc" id="L9">        f1.display();</span>
+<span class="nc" id="L10">        ADTFraction f2 = new ADTFraction(7, 8);</span>
+<span class="nc" id="L11">        f2.display();</span>
+<span class="nc" id="L12">        ADTFraction f3 = f1.plus(f2);</span>
+<span class="nc" id="L13">        f3.display();</span>
+<span class="nc" id="L14">        ADTFraction f4 = f1.times(f2);</span>
+<span class="nc" id="L15">        f4.display();</span>
+<span class="nc" id="L16">        ADTFraction f5 = f1.times(4);</span>
+<span class="nc" id="L17">        f5.display();</span>
+
+<span class="nc" id="L19">    }</span>
+
+    private int n; //numerator
+    private int d; //denomenator
+
+<span class="nc" id="L24">    public ADTFraction() {</span>
+<span class="nc" id="L25">        this.n = 0;</span>
+<span class="nc" id="L26">        this.d = 1;</span>
+<span class="nc" id="L27">    }</span>
+
+<span class="nc" id="L29">    public ADTFraction(int a, int b) {//parameter constructor</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (b != 0) {</span>
+<span class="nc" id="L32">            this.n = a;</span>
+<span class="nc" id="L33">            this.d = b;</span>
+        } else {
+<span class="nc" id="L35">            this.n = 0;</span>
+<span class="nc" id="L36">            this.d = 1;</span>
+<span class="nc" id="L37">            System.out.println(&quot;denomerator cannot be 0,default values assinged&quot;);</span>
+        }
+<span class="nc" id="L39">    }</span>
+
+    public void set(int a, int b) {//set numerator and denomenator
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (b != 0) {</span>
+<span class="nc" id="L44">            this.n = a;</span>
+<span class="nc" id="L45">            this.d = b;</span>
+        } else {
+<span class="nc" id="L47">            this.n = 0;</span>
+<span class="nc" id="L48">            this.d = 1;</span>
+<span class="nc" id="L49">            System.out.println(&quot;denomerator cannot be 0,default values assinged&quot;);</span>
+        }
+
+<span class="nc" id="L52">    }</span>
+
+    //add two fractions
+    public ADTFraction plus(ADTFraction x) {
+
+        int num, den;
+<span class="nc" id="L58">        num = this.d * x.n + this.n * x.d;</span>
+<span class="nc" id="L59">        den = this.d * x.d;</span>
+<span class="nc" id="L60">        ADTFraction f = new ADTFraction(num, den);</span>
+<span class="nc" id="L61">        return f;</span>
+
+    }
+
+    public ADTFraction times(int a) {//multiply fraction by a number
+
+        int num, den;
+<span class="nc" id="L68">        num = this.n * a;</span>
+<span class="nc" id="L69">        den = this.d;</span>
+<span class="nc" id="L70">        ADTFraction f1 = new ADTFraction(num, den);</span>
+<span class="nc" id="L71">        return f1;</span>
+
+    }
+
+    public ADTFraction times(ADTFraction x) {//multiply two fractions
+
+        int num, dem;
+<span class="nc" id="L78">        num = this.n * x.n;</span>
+<span class="nc" id="L79">        dem = this.d * x.d;</span>
+<span class="nc" id="L80">        ADTFraction f3 = new ADTFraction(num, dem);</span>
+<span class="nc" id="L81">        return f3;</span>
+
+    }
+
+    //reciprocal of a fraction
+    public ADTFraction reciprocal() {
+<span class="nc" id="L87">        ADTFraction f1 = new ADTFraction(this.d, this.n);</span>
+<span class="nc" id="L88">        return f1;</span>
+    }
+
+    //numerical value of a fraction
+    public float value() {
+<span class="nc" id="L93">        return (float) this.n / this.d;</span>
+    }
+
+    //display the fraction in the format n/d
+    public void display() {
+<span class="nc" id="L98">        System.out.println(this.n + &quot;/&quot; + this.d);</span>
+<span class="nc" id="L99">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

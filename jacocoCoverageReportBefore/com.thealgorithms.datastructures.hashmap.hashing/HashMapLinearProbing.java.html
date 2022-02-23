@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HashMapLinearProbing.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.hashmap.hashing</a> &gt; <span class="el_source">HashMapLinearProbing.java</span></div><h1>HashMapLinearProbing.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.hashmap.hashing;
+
+import java.util.*;
+
+/**
+ * This class is an implementation of a hash table using linear probing It uses
+ * a dynamic array to lengthen the size of the hash table when load factor &gt; .7
+ */
+public class HashMapLinearProbing {
+
+    private int hsize; // size of the hash table
+    private Integer[] buckets; // array representing the table
+    private Integer AVAILABLE;
+    private int size; // amount of elements in the hash table
+
+    /**
+     * Constructor initializes buckets array, hsize, and creates dummy object
+     * for AVAILABLE
+     *
+     * @param hsize the desired size of the hash map
+     */
+<span class="nc" id="L22">    public HashMapLinearProbing(int hsize) {</span>
+<span class="nc" id="L23">        this.buckets = new Integer[hsize];</span>
+<span class="nc" id="L24">        this.hsize = hsize;</span>
+<span class="nc" id="L25">        this.AVAILABLE = Integer.MIN_VALUE;</span>
+<span class="nc" id="L26">        this.size = 0;</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * The Hash Function takes a given key and finds an index based on its data
+     *
+     * @param key the desired key to be converted
+     * @return int an index corresponding to the key
+     */
+    public int hashing(int key) {
+<span class="nc" id="L36">        int hash = key % hsize;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (hash &lt; 0) {</span>
+<span class="nc" id="L38">            hash += hsize;</span>
+        }
+<span class="nc" id="L40">        return hash;</span>
+    }
+
+    /**
+     * inserts the key into the hash map by wrapping it as an Integer object
+     *
+     * @param key the desired key to be inserted in the hash map
+     */
+    public void insertHash(int key) {
+<span class="nc" id="L49">        Integer wrappedInt = key;</span>
+<span class="nc" id="L50">        int hash = hashing(key);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (isFull()) {</span>
+<span class="nc" id="L53">            System.out.println(&quot;Hash table is full&quot;);</span>
+<span class="nc" id="L54">            return;</span>
+        }
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">            if (buckets[hash] == null || buckets[hash] == AVAILABLE) {</span>
+<span class="nc" id="L59">                buckets[hash] = wrappedInt;</span>
+<span class="nc" id="L60">                size++;</span>
+<span class="nc" id="L61">                return;</span>
+            }
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (hash + 1 &lt; hsize) {</span>
+<span class="nc" id="L65">                hash++;</span>
+            } else {
+<span class="nc" id="L67">                hash = 0;</span>
+            }
+        }
+<span class="nc" id="L70">    }</span>
+
+    /**
+     * deletes a key from the hash map and adds an available placeholder
+     *
+     * @param key the desired key to be deleted
+     */
+    public void deleteHash(int key) {
+<span class="nc" id="L78">        Integer wrappedInt = key;</span>
+<span class="nc" id="L79">        int hash = hashing(key);</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L82">            System.out.println(&quot;Table is empty&quot;);</span>
+<span class="nc" id="L83">            return;</span>
+        }
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc bnc" id="L87" title="All 4 branches missed.">            if (buckets[hash] != null &amp;&amp; buckets[hash].equals(wrappedInt)) {</span>
+<span class="nc" id="L88">                buckets[hash] = AVAILABLE;</span>
+<span class="nc" id="L89">                size--;</span>
+<span class="nc" id="L90">                return;</span>
+            }
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (hash + 1 &lt; hsize) {</span>
+<span class="nc" id="L94">                hash++;</span>
+            } else {
+<span class="nc" id="L96">                hash = 0;</span>
+            }
+        }
+<span class="nc" id="L99">        System.out.println(&quot;Key &quot; + key + &quot; not found&quot;);</span>
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Displays the hash table line by line
+     */
+    public void displayHashtable() {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc bnc" id="L107" title="All 4 branches missed.">            if (buckets[i] == null || buckets[i] == AVAILABLE) {</span>
+<span class="nc" id="L108">                System.out.println(&quot;Bucket &quot; + i + &quot;: Empty&quot;);</span>
+            } else {
+<span class="nc" id="L110">                System.out.println(&quot;Bucket &quot; + i + &quot;: &quot; + buckets[i].toString());</span>
+            }
+        }
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * Finds the index of location based on an inputed key
+     *
+     * @param key the desired key to be found
+     * @return int the index where the key is located
+     */
+    public int findHash(int key) {
+<span class="nc" id="L122">        Integer wrappedInt = key;</span>
+<span class="nc" id="L123">        int hash = hashing(key);</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L126">            System.out.println(&quot;Table is empty&quot;);</span>
+<span class="nc" id="L127">            return -1;</span>
+        }
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+            try {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                if (buckets[hash].equals(wrappedInt)) {</span>
+<span class="nc" id="L133">                    buckets[hash] = AVAILABLE;</span>
+<span class="nc" id="L134">                    return hash;</span>
+                }
+<span class="nc" id="L136">            } catch (Exception E) {</span>
+<span class="nc" id="L137">            }</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">            if (hash + 1 &lt; hsize) {</span>
+<span class="nc" id="L140">                hash++;</span>
+            } else {
+<span class="nc" id="L142">                hash = 0;</span>
+            }
+        }
+<span class="nc" id="L145">        System.out.println(&quot;Key &quot; + key + &quot; not found&quot;);</span>
+<span class="nc" id="L146">        return -1;</span>
+    }
+
+    private void lengthenTable() {
+<span class="nc" id="L150">        buckets = Arrays.copyOf(buckets, hsize * 2);</span>
+<span class="nc" id="L151">        hsize *= 2;</span>
+<span class="nc" id="L152">        System.out.println(&quot;Table size is now: &quot; + hsize);</span>
+<span class="nc" id="L153">    }</span>
+
+    /**
+     * Checks the load factor of the hash table if greater than .7,
+     * automatically lengthens table to prevent further collisions
+     */
+    public void checkLoadFactor() {
+<span class="nc" id="L160">        double factor = (double) size / hsize;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (factor &gt; .7) {</span>
+<span class="nc" id="L162">            System.out.println(&quot;Load factor is &quot; + factor + &quot;,  lengthening table&quot;);</span>
+<span class="nc" id="L163">            lengthenTable();</span>
+        } else {
+<span class="nc" id="L165">            System.out.println(&quot;Load factor is &quot; + factor);</span>
+        }
+<span class="nc" id="L167">    }</span>
+
+    /**
+     * isFull returns true if the hash map is full and false if not full
+     *
+     * @return boolean is Empty
+     */
+    public boolean isFull() {
+<span class="nc" id="L175">        boolean response = true;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc bnc" id="L177" title="All 4 branches missed.">            if (buckets[i] == null || buckets[i] == AVAILABLE) {</span>
+<span class="nc" id="L178">                response = false;</span>
+<span class="nc" id="L179">                break;</span>
+            }
+        }
+<span class="nc" id="L182">        return response;</span>
+    }
+
+    /**
+     * isEmpty returns true if the hash map is empty and false if not empty
+     *
+     * @return boolean is Empty
+     */
+    public boolean isEmpty() {
+<span class="nc" id="L191">        boolean response = true;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (buckets[i] != null) {</span>
+<span class="nc" id="L194">                response = false;</span>
+<span class="nc" id="L195">                break;</span>
+            }
+        }
+<span class="nc" id="L198">        return response;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

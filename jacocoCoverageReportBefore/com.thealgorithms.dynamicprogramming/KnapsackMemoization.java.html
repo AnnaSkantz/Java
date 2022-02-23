@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KnapsackMemoization.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">KnapsackMemoization.java</span></div><h1>KnapsackMemoization.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+import java.util.Arrays;
+
+/**
+ * Recursive Solution for 0-1 knapsack with memoization
+ */
+<span class="nc" id="L8">public class KnapsackMemoization {</span>
+
+    private static int[][] t;
+
+    // Returns the maximum value that can
+    // be put in a knapsack of capacity W
+    public static int knapsack(int[] wt, int[] value, int W, int n) {
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        if (t[n][W] != -1) {</span>
+<span class="nc" id="L16">            return t[n][W];</span>
+        }
+<span class="nc bnc" id="L18" title="All 4 branches missed.">        if (n == 0 || W == 0) {</span>
+<span class="nc" id="L19">            return 0;</span>
+        }
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (wt[n - 1] &lt;= W) {</span>
+<span class="nc" id="L22">            t[n - 1][W - wt[n - 1]] = knapsack(wt, value, W - wt[n - 1], n - 1);</span>
+            // Include item in the bag. In that case add the value of the item and call for the remaining items
+<span class="nc" id="L24">            int tmp1 = value[n - 1] + t[n - 1][W - wt[n - 1]];</span>
+            // Don't include the nth item in the bag anl call for remaining item without reducing the weight
+<span class="nc" id="L26">            int tmp2 = knapsack(wt, value, W, n - 1);</span>
+<span class="nc" id="L27">            t[n - 1][W] = tmp2;</span>
+            // include the larger one
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            int tmp = tmp1 &gt; tmp2 ? tmp1 : tmp2;</span>
+<span class="nc" id="L30">            t[n][W] = tmp;</span>
+<span class="nc" id="L31">            return tmp;</span>
+            // If Weight for the item is more than the desired weight then don't include it
+            // Call for rest of the n-1 items
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        } else if (wt[n - 1] &gt; W) {</span>
+<span class="nc" id="L35">            t[n][W] = knapsack(wt, value, W, n - 1);</span>
+<span class="nc" id="L36">            return t[n][W];</span>
+        }
+<span class="nc" id="L38">        return -1;</span>
+    }
+
+    // Driver code
+    public static void main(String args[]) {
+<span class="nc" id="L43">        int[] wt = {1, 3, 4, 5};</span>
+<span class="nc" id="L44">        int[] value = {1, 4, 5, 7};</span>
+<span class="nc" id="L45">        int W = 10;</span>
+<span class="nc" id="L46">        t = new int[wt.length + 1][W + 1];</span>
+<span class="nc" id="L47">        Arrays.stream(t).forEach(a -&gt; Arrays.fill(a, -1));</span>
+<span class="nc" id="L48">        int res = knapsack(wt, value, W, wt.length);</span>
+<span class="nc" id="L49">        System.out.println(&quot;Maximum knapsack value &quot; + res);</span>
+<span class="nc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fibonacci.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.matrixexponentiation</a> &gt; <span class="el_source">Fibonacci.java</span></div><h1>Fibonacci.java</h1><pre class="source lang-java linenums">package com.thealgorithms.matrixexponentiation;
+
+import java.util.Scanner;
+
+/**
+ * @author Anirudh Buvanesh (https://github.com/anirudhb11) For more information
+ * see https://www.geeksforgeeks.org/matrix-exponentiation/
+ *
+ */
+<span class="nc bnc" id="L10" title="All 2 branches missed.">public class Fibonacci {</span>
+
+    // Exponentiation matrix for Fibonacci sequence
+<span class="nc" id="L13">    private static final int[][] fibMatrix = {{1, 1}, {1, 0}};</span>
+<span class="nc" id="L14">    private static final int[][] identityMatrix = {{1, 0}, {0, 1}};</span>
+    //First 2 fibonacci numbers
+<span class="nc" id="L16">    private static final int[][] baseFibNumbers = {{1}, {0}};</span>
+
+    /**
+     * Performs multiplication of 2 matrices
+     *
+     * @param matrix1
+     * @param matrix2
+     * @return The product of matrix1 and matrix2
+     */
+    private static int[][] matrixMultiplication(int[][] matrix1, int[][] matrix2) {
+        //Check if matrices passed can be multiplied
+<span class="nc" id="L27">        int rowsInMatrix1 = matrix1.length;</span>
+<span class="nc" id="L28">        int columnsInMatrix1 = matrix1[0].length;</span>
+
+<span class="nc" id="L30">        int rowsInMatrix2 = matrix2.length;</span>
+<span class="nc" id="L31">        int columnsInMatrix2 = matrix2[0].length;</span>
+
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        assert columnsInMatrix1 == rowsInMatrix2;</span>
+<span class="nc" id="L34">        int[][] product = new int[rowsInMatrix1][columnsInMatrix2];</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (int rowIndex = 0; rowIndex &lt; rowsInMatrix1; rowIndex++) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (int colIndex = 0; colIndex &lt; columnsInMatrix2; colIndex++) {</span>
+<span class="nc" id="L37">                int matrixEntry = 0;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                for (int intermediateIndex = 0; intermediateIndex &lt; columnsInMatrix1; intermediateIndex++) {</span>
+<span class="nc" id="L39">                    matrixEntry += matrix1[rowIndex][intermediateIndex] * matrix2[intermediateIndex][colIndex];</span>
+                }
+<span class="nc" id="L41">                product[rowIndex][colIndex] = matrixEntry;</span>
+            }
+        }
+<span class="nc" id="L44">        return product;</span>
+    }
+
+    /**
+     * Calculates the fibonacci number using matrix exponentiaition technique
+     *
+     * @param n The input n for which we have to determine the fibonacci number
+     * Outputs the nth * fibonacci number
+     * @return a 2 X 1 array as { {F_n+1}, {F_n} }
+     */
+    public static int[][] fib(int n) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (n == 0) {</span>
+<span class="nc" id="L56">            return Fibonacci.identityMatrix;</span>
+        } else {
+<span class="nc" id="L58">            int[][] cachedResult = fib(n / 2);</span>
+<span class="nc" id="L59">            int[][] matrixExpResult = matrixMultiplication(cachedResult, cachedResult);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (n % 2 == 0) {</span>
+<span class="nc" id="L61">                return matrixExpResult;</span>
+            } else {
+<span class="nc" id="L63">                return matrixMultiplication(Fibonacci.fibMatrix, matrixExpResult);</span>
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // Returns [0, 1, 1, 2, 3, 5 ..] for n = [0, 1, 2, 3, 4, 5.. ]
+<span class="nc" id="L70">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L71">        int n = sc.nextInt();</span>
+<span class="nc" id="L72">        int[][] result = matrixMultiplication(fib(n), baseFibNumbers);</span>
+<span class="nc" id="L73">        System.out.println(&quot;Fib(&quot; + n + &quot;) = &quot; + result[1][0]);</span>
+<span class="nc" id="L74">        sc.close();</span>
+<span class="nc" id="L75">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

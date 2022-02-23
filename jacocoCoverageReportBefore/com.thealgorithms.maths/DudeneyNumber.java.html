@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DudeneyNumber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">DudeneyNumber.java</span></div><h1>DudeneyNumber.java</h1><pre class="source lang-java linenums">/**
+ * A number is said to be Dudeney if the sum of the digits, is the cube root of the entered number.
+ * Example- Let the number be 512, its sum of digits is 5+1+2=8. The cube root of 512 is also 8.
+ *          Since, the sum of the digits is equal to the cube root of the entered number;
+ *          it is a Dudeney Number.
+ */
+package com.thealgorithms.maths;
+
+import java.io.*;
+
+<span class="nc" id="L11">public class DudeneyNumber {</span>
+
+    //returns True if the number is a Dudeney number and False if it is not a Dudeney number.
+    public static boolean isDudeney(int n) {
+        // Calculating Cube Root
+<span class="nc" id="L16">        int cube_root = (int) (Math.round((Math.pow(n, 1.0 / 3.0))));</span>
+        // If the number is not a perfect cube the method returns false.
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (cube_root * cube_root * cube_root != n) {</span>
+<span class="nc" id="L19">            return false;</span>
+        }
+<span class="nc" id="L21">        int sum_of_digits = 0;// Stores the sums of the digit of the entered number</span>
+<span class="nc" id="L22">        int temp = n;//A temporary variable to store the entered number</span>
+        // Loop to calculate sum of the digits.
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        while (temp &gt; 0) {</span>
+
+            // Extracting Last digit of the number
+<span class="nc" id="L27">            int rem = temp % 10;</span>
+
+            // Calculating sum of digits.
+<span class="nc" id="L30">            sum_of_digits += rem;</span>
+
+            // Removing the last digit
+<span class="nc" id="L33">            temp /= 10;</span>
+<span class="nc" id="L34">        }</span>
+
+        //If the cube root of the number is not equal to the sum of its digits we return false.  
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (cube_root != sum_of_digits) {</span>
+<span class="nc" id="L38">            return false;</span>
+        }
+
+<span class="nc" id="L41">        return true;</span>
+    }
+
+    /**
+     * Method to check if number is Dudeney Number or Not 1) Input - Enter a
+     * Number: 512 Output - It is a Dudeney Number. 2) Input - Enter a Number:
+     * 125 Output - It is not a Dudeney Number.
+     */
+    public static void main(String args[]) throws IOException {
+<span class="nc" id="L50">        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+<span class="nc" id="L51">        System.out.println(&quot;Enter a Number: &quot;);</span>
+<span class="nc" id="L52">        int n = Integer.parseInt(br.readLine());</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (isDudeney(n)) {</span>
+<span class="nc" id="L54">            System.out.println(&quot;It is a Dudeney Number.&quot;);</span>
+        } else {
+<span class="nc" id="L56">            System.out.println(&quot;It is not a Dudeney Number.&quot;);</span>
+        }
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

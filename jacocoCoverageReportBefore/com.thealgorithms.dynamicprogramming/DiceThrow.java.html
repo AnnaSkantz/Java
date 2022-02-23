@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DiceThrow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">DiceThrow.java</span></div><h1>DiceThrow.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+// Given N dice each with M faces, numbered from 1 to M, find the number of ways to get sum X.
+// X is the summation of values on each face when all the dice are thrown.
+
+/* The Naive approach is to find all the possible combinations of values from n dice and
+keep on counting the results that sum to X. This can be done using recursion. */
+// The above recursion solution exhibits overlapping subproblems.
+
+/* Hence, storing the results of the solved sub-problems saves time.
+And it can be done using Dynamic Programming(DP).
+Following is implementation of Dynamic Programming approach. */
+// Code ----&gt;
+// Java program to find number of ways to get sum 'x' with 'n' 
+// dice where every dice has 'm' faces 
+<span class="nc" id="L16">class DP {</span>
+
+    /* The main function that returns the number of ways to get sum 'x' with 'n' dice and 'm' with m faces. */
+    public static long findWays(int m, int n, int x) {
+
+        /* Create a table to store the results of subproblems. 
+    One extra row and column are used for simplicity 
+    (Number of dice is directly used as row index and sum is directly used as column index). 
+    The entries in 0th row and 0th column are never used. */
+<span class="nc" id="L25">        long[][] table = new long[n + 1][x + 1];</span>
+
+        /* Table entries for only one dice */
+<span class="nc bnc" id="L28" title="All 4 branches missed.">        for (int j = 1; j &lt;= m &amp;&amp; j &lt;= x; j++) {</span>
+<span class="nc" id="L29">            table[1][j] = 1;</span>
+        }
+
+        /* Fill rest of the entries in table using recursive relation 
+    i: number of dice, j: sum */
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (int i = 2; i &lt;= n; i++) {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            for (int j = 1; j &lt;= x; j++) {</span>
+<span class="nc bnc" id="L36" title="All 4 branches missed.">                for (int k = 1; k &lt; j &amp;&amp; k &lt;= m; k++) {</span>
+<span class="nc" id="L37">                    table[i][j] += table[i - 1][j - k];</span>
+                }
+            }
+        }
+
+<span class="nc" id="L42">        return table[n][x];</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L46">        System.out.println(findWays(4, 2, 1));</span>
+<span class="nc" id="L47">        System.out.println(findWays(2, 2, 3));</span>
+<span class="nc" id="L48">        System.out.println(findWays(6, 3, 8));</span>
+<span class="nc" id="L49">        System.out.println(findWays(4, 2, 5));</span>
+<span class="nc" id="L50">        System.out.println(findWays(4, 3, 5));</span>
+<span class="nc" id="L51">    }</span>
+}
+
+/*
+OUTPUT:
+0
+2
+21
+4
+6
+ */
+// Time Complexity: O(m * n * x) where m is number of faces, n is number of dice and x is given sum.
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpsonIntegration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">SimpsonIntegration.java</span></div><h1>SimpsonIntegration.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+import java.util.TreeMap;
+
+<span class="nc" id="L5">public class SimpsonIntegration {</span>
+
+    /*
+     * Calculate definite integrals by using Composite Simpson's rule.
+     * Wiki: https://en.wikipedia.org/wiki/Simpson%27s_rule#Composite_Simpson's_rule
+     * Given f a function and an even number N of intervals that divide the integration interval e.g. [a, b],
+     * we calculate the step h = (b-a)/N and create a table that contains all the x points of
+     * the real axis xi = x0 + i*h and the value f(xi) that corresponds to these xi.
+     *
+     * To evaluate the integral i use the formula below:
+     * I = h/3 * {f(x0) + 4*f(x1) + 2*f(x2) + 4*f(x3) + ... + 2*f(xN-2) + 4*f(xN-1) + f(xN)}
+     *
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L19">        SimpsonIntegration integration = new SimpsonIntegration();</span>
+
+        // Give random data for the example purposes
+<span class="nc" id="L22">        int N = 16;</span>
+<span class="nc" id="L23">        double a = 1;</span>
+<span class="nc" id="L24">        double b = 3;</span>
+
+        // Check so that N is even
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (N % 2 != 0) {</span>
+<span class="nc" id="L28">            System.out.println(&quot;N must be even number for Simpsons method. Aborted&quot;);</span>
+<span class="nc" id="L29">            System.exit(1);</span>
+        }
+
+        // Calculate step h and evaluate the integral
+<span class="nc" id="L33">        double h = (b - a) / (double) N;</span>
+<span class="nc" id="L34">        double integralEvaluation = integration.simpsonsMethod(N, h, a);</span>
+<span class="nc" id="L35">        System.out.println(&quot;The integral is equal to: &quot; + integralEvaluation);</span>
+<span class="nc" id="L36">    }</span>
+
+    /*
+     * @param N: Number of intervals (must be even number N=2*k)
+     * @param h: Step h = (b-a)/N
+     * @param a: Starting point of the interval
+     * @param b: Ending point of the interval
+     *
+     * The interpolation points xi = x0 + i*h are stored the treeMap data
+     *
+     * @return result of the integral evaluation
+     */
+    public double simpsonsMethod(int N, double h, double a) {
+<span class="nc" id="L49">        TreeMap&lt;Integer, Double&gt; data = new TreeMap&lt;&gt;(); // Key: i, Value: f(xi)</span>
+        double temp;
+<span class="nc" id="L51">        double xi = a; // Initialize the variable xi = x0 + 0*h</span>
+
+        // Create the table of xi and yi points
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int i = 0; i &lt;= N; i++) {</span>
+<span class="nc" id="L55">            temp = f(xi); // Get the value of the function at that point</span>
+<span class="nc" id="L56">            data.put(i, temp);</span>
+<span class="nc" id="L57">            xi += h; // Increase the xi to the next point</span>
+        }
+
+        // Apply the formula
+<span class="nc" id="L61">        double integralEvaluation = 0;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; data.size(); i++) {</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">            if (i == 0 || i == data.size() - 1) {</span>
+<span class="nc" id="L64">                integralEvaluation += data.get(i);</span>
+<span class="nc" id="L65">                System.out.println(&quot;Multiply f(x&quot; + i + &quot;) by 1&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            } else if (i % 2 == 1) {</span>
+<span class="nc" id="L67">                integralEvaluation += (double) 4 * data.get(i);</span>
+<span class="nc" id="L68">                System.out.println(&quot;Multiply f(x&quot; + i + &quot;) by 4&quot;);</span>
+            } else {
+<span class="nc" id="L70">                integralEvaluation += (double) 2 * data.get(i);</span>
+<span class="nc" id="L71">                System.out.println(&quot;Multiply f(x&quot; + i + &quot;) by 2&quot;);</span>
+            }
+        }
+
+        // Multiply by h/3
+<span class="nc" id="L76">        integralEvaluation = h / 3 * integralEvaluation;</span>
+
+        // Return the result
+<span class="nc" id="L79">        return integralEvaluation;</span>
+    }
+
+    // Sample function f
+    // Function f(x) = e^(-x) * (4 - x^2)
+    public double f(double x) {
+<span class="nc" id="L85">        return Math.exp(-x) * (4 - Math.pow(x, 2));</span>
+//        return Math.sqrt(x);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StrassenMatrixMultiplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.divideandconquer</a> &gt; <span class="el_source">StrassenMatrixMultiplication.java</span></div><h1>StrassenMatrixMultiplication.java</h1><pre class="source lang-java linenums">package com.thealgorithms.divideandconquer;
+
+// Java Program to Implement Strassen Algorithm
+// Class Strassen matrix multiplication
+<span class="nc" id="L5">public class StrassenMatrixMultiplication {</span>
+
+    // Method 1
+    // Function to multiply matrices
+    public int[][] multiply(int[][] A, int[][] B) {
+<span class="nc" id="L10">        int n = A.length;</span>
+
+<span class="nc" id="L12">        int[][] R = new int[n][n];</span>
+
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        if (n == 1) {</span>
+<span class="nc" id="L15">            R[0][0] = A[0][0] * B[0][0];</span>
+        } else {
+            // Dividing Matrix into parts
+            // by storing sub-parts to variables
+<span class="nc" id="L19">            int[][] A11 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L20">            int[][] A12 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L21">            int[][] A21 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L22">            int[][] A22 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L23">            int[][] B11 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L24">            int[][] B12 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L25">            int[][] B21 = new int[n / 2][n / 2];</span>
+<span class="nc" id="L26">            int[][] B22 = new int[n / 2][n / 2];</span>
+
+            // Dividing matrix A into 4 parts
+<span class="nc" id="L29">            split(A, A11, 0, 0);</span>
+<span class="nc" id="L30">            split(A, A12, 0, n / 2);</span>
+<span class="nc" id="L31">            split(A, A21, n / 2, 0);</span>
+<span class="nc" id="L32">            split(A, A22, n / 2, n / 2);</span>
+
+            // Dividing matrix B into 4 parts
+<span class="nc" id="L35">            split(B, B11, 0, 0);</span>
+<span class="nc" id="L36">            split(B, B12, 0, n / 2);</span>
+<span class="nc" id="L37">            split(B, B21, n / 2, 0);</span>
+<span class="nc" id="L38">            split(B, B22, n / 2, n / 2);</span>
+
+            // Using Formulas as described in algorithm
+            // M1:=(A1+A3)×(B1+B2)
+<span class="nc" id="L42">            int[][] M1</span>
+<span class="nc" id="L43">                    = multiply(add(A11, A22), add(B11, B22));</span>
+
+            // M2:=(A2+A4)×(B3+B4)
+<span class="nc" id="L46">            int[][] M2 = multiply(add(A21, A22), B11);</span>
+
+            // M3:=(A1−A4)×(B1+A4)
+<span class="nc" id="L49">            int[][] M3 = multiply(A11, sub(B12, B22));</span>
+
+            // M4:=A1×(B2−B4)
+<span class="nc" id="L52">            int[][] M4 = multiply(A22, sub(B21, B11));</span>
+
+            // M5:=(A3+A4)×(B1)
+<span class="nc" id="L55">            int[][] M5 = multiply(add(A11, A12), B22);</span>
+
+            // M6:=(A1+A2)×(B4)
+<span class="nc" id="L58">            int[][] M6</span>
+<span class="nc" id="L59">                    = multiply(sub(A21, A11), add(B11, B12));</span>
+
+            // M7:=A4×(B3−B1)
+<span class="nc" id="L62">            int[][] M7</span>
+<span class="nc" id="L63">                    = multiply(sub(A12, A22), add(B21, B22));</span>
+
+            // P:=M2+M3−M6−M7
+<span class="nc" id="L66">            int[][] C11 = add(sub(add(M1, M4), M5), M7);</span>
+
+            // Q:=M4+M6
+<span class="nc" id="L69">            int[][] C12 = add(M3, M5);</span>
+
+            // R:=M5+M7
+<span class="nc" id="L72">            int[][] C21 = add(M2, M4);</span>
+
+            // S:=M1−M3−M4−M5
+<span class="nc" id="L75">            int[][] C22 = add(sub(add(M1, M3), M2), M6);</span>
+
+<span class="nc" id="L77">            join(C11, R, 0, 0);</span>
+<span class="nc" id="L78">            join(C12, R, 0, n / 2);</span>
+<span class="nc" id="L79">            join(C21, R, n / 2, 0);</span>
+<span class="nc" id="L80">            join(C22, R, n / 2, n / 2);</span>
+        }
+
+<span class="nc" id="L83">        return R;</span>
+    }
+
+    // Method 2
+    // Function to subtract two matrices
+    public int[][] sub(int[][] A, int[][] B) {
+<span class="nc" id="L89">        int n = A.length;</span>
+
+<span class="nc" id="L91">        int[][] C = new int[n][n];</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="nc" id="L95">                C[i][j] = A[i][j] - B[i][j];</span>
+            }
+        }
+
+<span class="nc" id="L99">        return C;</span>
+    }
+
+    // Method 3
+    // Function to add two matrices
+    public int[][] add(int[][] A, int[][] B) {
+
+<span class="nc" id="L106">        int n = A.length;</span>
+
+<span class="nc" id="L108">        int[][] C = new int[n][n];</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="nc" id="L112">                C[i][j] = A[i][j] + B[i][j];</span>
+            }
+        }
+
+<span class="nc" id="L116">        return C;</span>
+    }
+
+    // Method 4
+    // Function to split parent matrix
+    // into child matrices
+    public void split(int[][] P, int[][] C, int iB, int jB) {
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        for (int i1 = 0, i2 = iB; i1 &lt; C.length; i1++, i2++) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            for (int j1 = 0, j2 = jB; j1 &lt; C.length; j1++, j2++) {</span>
+<span class="nc" id="L125">                C[i1][j1] = P[i2][j2];</span>
+            }
+        }
+<span class="nc" id="L128">    }</span>
+
+    // Method 5
+    // Function to join child matrices
+    // into (to) parent matrix
+    public void join(int[][] C, int[][] P, int iB, int jB) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (int i1 = 0, i2 = iB; i1 &lt; C.length; i1++, i2++) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            for (int j1 = 0, j2 = jB; j1 &lt; C.length; j1++, j2++) {</span>
+<span class="nc" id="L136">                P[i2][j2] = C[i1][j1];</span>
+            }
+        }
+<span class="nc" id="L139">    }</span>
+
+    // Method 5
+    // Main driver method
+    public static void main(String[] args) {
+<span class="nc" id="L144">        System.out.println(&quot;Strassen Multiplication Algorithm Implementation For Matrix Multiplication :\n&quot;);</span>
+
+<span class="nc" id="L146">        StrassenMatrixMultiplication s = new StrassenMatrixMultiplication();</span>
+
+        // Size of matrix
+        // Considering size as 4 in order to illustrate
+<span class="nc" id="L150">        int N = 4;</span>
+
+        // Matrix A
+        // Custom input to matrix
+<span class="nc" id="L154">        int[][] A = {{1, 2, 5, 4},</span>
+        {9, 3, 0, 6},
+        {4, 6, 3, 1},
+        {0, 2, 0, 6}};
+
+        // Matrix B
+        // Custom input to matrix
+<span class="nc" id="L161">        int[][] B = {{1, 0, 4, 1},</span>
+        {1, 2, 0, 2},
+        {0, 3, 1, 3},
+        {1, 8, 1, 2}};
+
+        // Matrix C computations
+        // Matrix C calling method to get Result
+<span class="nc" id="L168">        int[][] C = s.multiply(A, B);</span>
+
+<span class="nc" id="L170">        System.out.println(&quot;\nProduct of matrices A and  B : &quot;);</span>
+
+        // Print the output
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        for (int i = 0; i &lt; N; i++) {</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">            for (int j = 0; j &lt; N; j++) {</span>
+<span class="nc" id="L175">                System.out.print(C[i][j] + &quot; &quot;);</span>
+            }
+<span class="nc" id="L177">            System.out.println();</span>
+        }
+<span class="nc" id="L179">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KrishnamurthyNumber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">KrishnamurthyNumber.java</span></div><h1>KrishnamurthyNumber.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/* This is a program to check if a number is a Krishnamurthy number or not.
+A number is a Krishnamurthy number if the sum of the factorials of the digits of the number is equal to the number itself.
+For example, 1, 2 and 145 are Krishnamurthy numbers.
+Krishnamurthy number is also referred to as a Strong number.
+ */
+import java.io.*;
+
+<span class="nc" id="L10">public class KrishnamurthyNumber {</span>
+    //returns True if the number is a Krishnamurthy number and False if it is not.
+
+    public static boolean isKMurthy(int n) {
+        //initialising the variable s that will store the sum of the factorials of the digits to 0
+<span class="nc" id="L15">        int s = 0;</span>
+        //storing the number n in a temporary variable tmp
+<span class="nc" id="L17">        int tmp = n;</span>
+
+        //Krishnamurthy numbers are positive
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (n &lt;= 0) {</span>
+<span class="nc" id="L21">            return false;</span>
+        } //checking if the number is a Krishnamurthy number
+        else {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            while (n != 0) {</span>
+                //initialising the variable fact that will store the factorials of the digits
+<span class="nc" id="L26">                int fact = 1;</span>
+                //computing factorial of each digit
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                for (int i = 1; i &lt;= n % 10; i++) {</span>
+<span class="nc" id="L29">                    fact = fact * i;</span>
+                }
+                //computing the sum of the factorials
+<span class="nc" id="L32">                s = s + fact;</span>
+                //discarding the digit for which factorial has been calculated
+<span class="nc" id="L34">                n = n / 10;</span>
+<span class="nc" id="L35">            }</span>
+
+            //evaluating if sum of the factorials of the digits equals the number itself
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (tmp == s) {</span>
+<span class="nc" id="L39">                return true;</span>
+            } else {
+<span class="nc" id="L41">                return false;</span>
+            }
+        }
+    }
+
+    public static void main(String args[]) throws IOException {
+<span class="nc" id="L47">        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+<span class="nc" id="L48">        System.out.println(&quot;Enter a number to check if it is a Krishnamurthy number: &quot;);</span>
+<span class="nc" id="L49">        int n = Integer.parseInt(br.readLine());</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (isKMurthy(n)) {</span>
+<span class="nc" id="L51">            System.out.println(n + &quot; is a Krishnamurthy number.&quot;);</span>
+        } else {
+<span class="nc" id="L53">            System.out.println(n + &quot; is NOT a Krishnamurthy number.&quot;);</span>
+        }
+<span class="nc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

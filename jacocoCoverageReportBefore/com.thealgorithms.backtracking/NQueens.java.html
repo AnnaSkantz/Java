@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NQueens.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.backtracking</a> &gt; <span class="el_source">NQueens.java</span></div><h1>NQueens.java</h1><pre class="source lang-java linenums">package com.thealgorithms.backtracking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Problem statement: Given a N x N chess board. Return all arrangements in
+ * which N queens can be placed on the board such no two queens attack each
+ * other. Ex. N = 6 Solution= There are 4 possible ways Arrangement: 1 &quot;.Q....&quot;,
+ * &quot;...Q..&quot;, &quot;.....Q&quot;, &quot;Q.....&quot;, &quot;..Q...&quot;, &quot;....Q.&quot;
+ * &lt;p&gt;
+ * Arrangement: 2 &quot;..Q...&quot;, &quot;.....Q&quot;, &quot;.Q....&quot;, &quot;....Q.&quot;, &quot;Q.....&quot;, &quot;...Q..&quot;
+ * &lt;p&gt;
+ * Arrangement: 3 &quot;...Q..&quot;, &quot;Q.....&quot;, &quot;....Q.&quot;, &quot;.Q....&quot;, &quot;.....Q&quot;, &quot;..Q...&quot;
+ * &lt;p&gt;
+ * Arrangement: 4 &quot;....Q.&quot;, &quot;..Q...&quot;, &quot;Q.....&quot;, &quot;.....Q&quot;, &quot;...Q..&quot;, &quot;.Q....&quot;
+ *
+ * Solution: Brute Force approach:
+ *
+ * Generate all possible arrangement to place N queens on N*N board. Check each
+ * board if queens are placed safely. If it is safe, include arrangement in
+ * solution set. Otherwise ignore it
+ *
+ * Optimized solution: This can be solved using backtracking in below steps
+ *
+ * Start with first column and place queen on first row Try placing queen in a
+ * row on second column If placing second queen in second column attacks any of
+ * the previous queens, change the row in second column otherwise move to next
+ * column and try to place next queen In case if there is no rows where a queen
+ * can be placed such that it doesn't attack previous queens, then go back to
+ * previous column and change row of previous queen. Keep doing this until last
+ * queen is not placed safely. If there is no such way then return an empty list
+ * as solution
+ */
+<span class="nc" id="L35">public class NQueens {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L38">        placeQueens(1);</span>
+<span class="nc" id="L39">        placeQueens(2);</span>
+<span class="nc" id="L40">        placeQueens(3);</span>
+<span class="nc" id="L41">        placeQueens(4);</span>
+<span class="nc" id="L42">        placeQueens(5);</span>
+<span class="nc" id="L43">        placeQueens(6);</span>
+<span class="nc" id="L44">    }</span>
+
+    public static void placeQueens(final int queens) {
+<span class="nc" id="L47">        List&lt;List&lt;String&gt;&gt; arrangements = new ArrayList&lt;List&lt;String&gt;&gt;();</span>
+<span class="nc" id="L48">        getSolution(queens, arrangements, new int[queens], 0);</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (arrangements.isEmpty()) {</span>
+<span class="nc" id="L50">            System.out.println(&quot;There is no way to place &quot; + queens + &quot; queens on board of size &quot; + queens + &quot;x&quot; + queens);</span>
+        } else {
+<span class="nc" id="L52">            System.out.println(&quot;Arrangement for placing &quot; + queens + &quot; queens&quot;);</span>
+        }
+<span class="nc" id="L54">        arrangements.forEach(arrangement -&gt; {</span>
+<span class="nc" id="L55">            arrangement.forEach(row -&gt; System.out.println(row));</span>
+<span class="nc" id="L56">            System.out.println();</span>
+<span class="nc" id="L57">        });</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * This is backtracking function which tries to place queen recursively
+     *
+     * @param boardSize: size of chess board
+     * @param solutions: this holds all possible arrangements
+     * @param columns: columns[i] = rowId where queen is placed in ith column.
+     * @param columnIndex: This is the column in which queen is being placed
+     */
+    private static void getSolution(int boardSize, List&lt;List&lt;String&gt;&gt; solutions, int[] columns, int columnIndex) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (columnIndex == boardSize) {</span>
+            // this means that all queens have been placed
+<span class="nc" id="L71">            List&lt;String&gt; sol = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (int i = 0; i &lt; boardSize; i++) {</span>
+<span class="nc" id="L73">                StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                for (int j = 0; j &lt; boardSize; j++) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    sb.append(j == columns[i] ? &quot;Q&quot; : &quot;.&quot;);</span>
+                }
+<span class="nc" id="L77">                sol.add(sb.toString());</span>
+            }
+<span class="nc" id="L79">            solutions.add(sol);</span>
+<span class="nc" id="L80">            return;</span>
+        }
+
+        // This loop tries to place queen in a row one by one
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (int rowIndex = 0; rowIndex &lt; boardSize; rowIndex++) {</span>
+<span class="nc" id="L85">            columns[columnIndex] = rowIndex;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (isPlacedCorrectly(columns, rowIndex, columnIndex)) {</span>
+                // If queen is placed successfully at rowIndex in column=columnIndex then try placing queen in next column
+<span class="nc" id="L88">                getSolution(boardSize, solutions, columns, columnIndex + 1);</span>
+            }
+        }
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * This function checks if queen can be placed at row = rowIndex in column =
+     * columnIndex safely
+     *
+     * @param columns: columns[i] = rowId where queen is placed in ith column.
+     * @param rowIndex: row in which queen has to be placed
+     * @param columnIndex: column in which queen is being placed
+     * @return true: if queen can be placed safely false: otherwise
+     */
+    private static boolean isPlacedCorrectly(int[] columns, int rowIndex, int columnIndex) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (int i = 0; i &lt; columnIndex; i++) {</span>
+<span class="nc" id="L104">            int diff = Math.abs(columns[i] - rowIndex);</span>
+<span class="nc bnc" id="L105" title="All 4 branches missed.">            if (diff == 0 || columnIndex - i == diff) {</span>
+<span class="nc" id="L106">                return false;</span>
+            }
+        }
+<span class="nc" id="L109">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

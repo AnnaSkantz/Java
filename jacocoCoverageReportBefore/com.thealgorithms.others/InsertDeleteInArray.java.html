@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InsertDeleteInArray.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">InsertDeleteInArray.java</span></div><h1>InsertDeleteInArray.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.*;
+
+<span class="nc" id="L5">public class InsertDeleteInArray {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L8">        Scanner s = new Scanner(System.in); // Input statement</span>
+<span class="nc" id="L9">        System.out.println(&quot;Enter the size of the array&quot;);</span>
+<span class="nc" id="L10">        int size = s.nextInt();</span>
+<span class="nc" id="L11">        int a[] = new int[size];</span>
+        int i;
+
+        // To enter the initial elements
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        for (i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L16">            System.out.println(&quot;Enter the element&quot;);</span>
+<span class="nc" id="L17">            a[i] = s.nextInt();</span>
+        }
+
+        // To insert a new element(we are creating a new array)
+<span class="nc" id="L21">        System.out.println(&quot;Enter the index at which the element should be inserted&quot;);</span>
+<span class="nc" id="L22">        int insert_pos = s.nextInt();</span>
+<span class="nc" id="L23">        System.out.println(&quot;Enter the element to be inserted&quot;);</span>
+<span class="nc" id="L24">        int ins = s.nextInt();</span>
+<span class="nc" id="L25">        int size2 = size + 1;</span>
+<span class="nc" id="L26">        int b[] = new int[size2];</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (i = 0; i &lt; size2; i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            if (i &lt;= insert_pos) {</span>
+<span class="nc" id="L29">                b[i] = a[i];</span>
+            } else {
+<span class="nc" id="L31">                b[i] = a[i - 1];</span>
+            }
+        }
+<span class="nc" id="L34">        b[insert_pos] = ins;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (i = 0; i &lt; size2; i++) {</span>
+<span class="nc" id="L36">            System.out.println(b[i]);</span>
+        }
+
+        // To delete an element given the index
+<span class="nc" id="L40">        System.out.println(&quot;Enter the index at which element is to be deleted&quot;);</span>
+<span class="nc" id="L41">        int del_pos = s.nextInt();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        for (i = del_pos; i &lt; size2 - 1; i++) {</span>
+<span class="nc" id="L43">            b[i] = b[i + 1];</span>
+        }
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (i = 0; i &lt; size2 - 1; i++) {</span>
+<span class="nc" id="L46">            System.out.println(b[i]);</span>
+        }
+<span class="nc" id="L48">        s.close();</span>
+<span class="nc" id="L49">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

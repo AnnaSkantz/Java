@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Implementing_auto_completing_features_using_trie.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">Implementing_auto_completing_features_using_trie.java</span></div><h1>Implementing_auto_completing_features_using_trie.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+// Java Program to implement Auto-Complete 
+// Feature using Trie
+<span class="nc" id="L5">class Trieac {</span>
+
+    // Alphabet size (# of symbols) 
+    public static final int ALPHABET_SIZE = 26;
+
+    // Trie node 
+<span class="nc" id="L11">    static class TrieNode {</span>
+
+<span class="nc" id="L13">        TrieNode children[] = new TrieNode[ALPHABET_SIZE];</span>
+
+        // isWordEnd is true if the node represents 
+        // end of a word 
+        boolean isWordEnd;
+    };
+
+    // Returns new trie node (initialized to NULLs) 
+    static TrieNode getNode() {
+<span class="nc" id="L22">        TrieNode pNode = new TrieNode();</span>
+<span class="nc" id="L23">        pNode.isWordEnd = false;</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (int i = 0; i &lt; ALPHABET_SIZE; i++) {</span>
+<span class="nc" id="L26">            pNode.children[i] = null;</span>
+        }
+
+<span class="nc" id="L29">        return pNode;</span>
+    }
+
+    // If not present, inserts key into trie. If the 
+    // key is prefix of trie node, just marks leaf node 
+    static void insert(TrieNode root, final String key) {
+<span class="nc" id="L35">        TrieNode pCrawl = root;</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (int level = 0; level &lt; key.length(); level++) {</span>
+<span class="nc" id="L38">            int index = (key.charAt(level) - 'a');</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (pCrawl.children[index] == null) {</span>
+<span class="nc" id="L40">                pCrawl.children[index] = getNode();</span>
+            }
+<span class="nc" id="L42">            pCrawl = pCrawl.children[index];</span>
+        }
+
+        // mark last node as leaf 
+<span class="nc" id="L46">        pCrawl.isWordEnd = true;</span>
+<span class="nc" id="L47">    }</span>
+
+    // Returns true if key presents in trie, else false 
+    boolean search(TrieNode root, final String key) {
+<span class="nc" id="L51">        int length = key.length();</span>
+<span class="nc" id="L52">        TrieNode pCrawl = root;</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int level = 0; level &lt; length; level++) {</span>
+<span class="nc" id="L55">            int index = (key.charAt(level) - 'a');</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (pCrawl.children[index] == null) {</span>
+<span class="nc" id="L58">                pCrawl = pCrawl.children[index];</span>
+            }
+        }
+
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        return (pCrawl != null &amp;&amp; pCrawl.isWordEnd);</span>
+    }
+
+    // Returns 0 if current node has a child 
+    // If all children are NULL, return 1. 
+    static boolean isLastNode(TrieNode root) {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (int i = 0; i &lt; ALPHABET_SIZE; i++) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (root.children[i] != null) {</span>
+<span class="nc" id="L70">                return false;</span>
+            }
+        }
+<span class="nc" id="L73">        return true;</span>
+    }
+
+    // Recursive function to print auto-suggestions 
+    // for given node. 
+    static void suggestionsRec(TrieNode root, String currPrefix) {
+        // found a string in Trie with the given prefix 
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (root.isWordEnd) {</span>
+<span class="nc" id="L81">            System.out.println(currPrefix);</span>
+        }
+
+        // All children struct node pointers are NULL 
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (isLastNode(root)) {</span>
+<span class="nc" id="L86">            return;</span>
+        }
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        for (int i = 0; i &lt; ALPHABET_SIZE; i++) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (root.children[i] != null) {</span>
+                // append current character to currPrefix string 
+<span class="nc" id="L92">                currPrefix += (char) (97 + i);</span>
+
+                // recur over the rest 
+<span class="nc" id="L95">                suggestionsRec(root.children[i], currPrefix);</span>
+            }
+        }
+<span class="nc" id="L98">    }</span>
+
+    // Fucntion  to print suggestions for
+    // given query prefix.
+    static int printAutoSuggestions(TrieNode root,
+            final String query) {
+<span class="nc" id="L104">        TrieNode pCrawl = root;</span>
+
+        // Check if prefix is present and find the 
+        // the node (of last level) with last character 
+        // of given string. 
+        int level;
+<span class="nc" id="L110">        int n = query.length();</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (level = 0; level &lt; n; level++) {</span>
+<span class="nc" id="L113">            int index = (query.charAt(level) - 'a');</span>
+
+            // no string in the Trie has this prefix 
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (pCrawl.children[index] == null) {</span>
+<span class="nc" id="L117">                return 0;</span>
+            }
+
+<span class="nc" id="L120">            pCrawl = pCrawl.children[index];</span>
+        }
+
+        // If prefix is present as a word. 
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        boolean isWord = (pCrawl.isWordEnd == true);</span>
+
+        // If prefix is last node of tree (has no 
+        // children) 
+<span class="nc" id="L128">        boolean isLast = isLastNode(pCrawl);</span>
+
+        // If prefix is present as a word, but 
+        // there is no subtree below the last 
+        // matching node. 
+<span class="nc bnc" id="L133" title="All 4 branches missed.">        if (isWord &amp;&amp; isLast) {</span>
+<span class="nc" id="L134">            System.out.println(query);</span>
+<span class="nc" id="L135">            return -1;</span>
+        }
+
+        // If there are are nodes below last 
+        // matching character. 
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (!isLast) {</span>
+<span class="nc" id="L141">            String prefix = query;</span>
+<span class="nc" id="L142">            suggestionsRec(pCrawl, prefix);</span>
+<span class="nc" id="L143">            return 1;</span>
+        }
+
+<span class="nc" id="L146">        return 0;</span>
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+<span class="nc" id="L151">        TrieNode root = getNode();</span>
+<span class="nc" id="L152">        insert(root, &quot;hello&quot;);</span>
+<span class="nc" id="L153">        insert(root, &quot;dog&quot;);</span>
+<span class="nc" id="L154">        insert(root, &quot;hell&quot;);</span>
+<span class="nc" id="L155">        insert(root, &quot;cat&quot;);</span>
+<span class="nc" id="L156">        insert(root, &quot;a&quot;);</span>
+<span class="nc" id="L157">        insert(root, &quot;hel&quot;);</span>
+<span class="nc" id="L158">        insert(root, &quot;help&quot;);</span>
+<span class="nc" id="L159">        insert(root, &quot;helps&quot;);</span>
+<span class="nc" id="L160">        insert(root, &quot;helping&quot;);</span>
+<span class="nc" id="L161">        int comp = printAutoSuggestions(root, &quot;hel&quot;);</span>
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (comp == -1) {</span>
+<span class="nc" id="L164">            System.out.println(&quot;No other strings found &quot;</span>
+                    + &quot;with this prefix\n&quot;);
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        } else if (comp == 0) {</span>
+<span class="nc" id="L167">            System.out.println(&quot;No string found with&quot;</span>
+                    + &quot; this prefix\n&quot;);
+        }
+<span class="nc" id="L170">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

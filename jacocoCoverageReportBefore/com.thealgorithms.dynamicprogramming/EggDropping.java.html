@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EggDropping.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">EggDropping.java</span></div><h1>EggDropping.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/**
+ * DynamicProgramming solution for the Egg Dropping Puzzle
+ */
+<span class="nc" id="L6">public class EggDropping {</span>
+
+    // min trials with n eggs and m floors
+    private static int minTrials(int n, int m) {
+
+<span class="nc" id="L11">        int[][] eggFloor = new int[n + 1][m + 1];</span>
+        int result, x;
+
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="nc" id="L15">            eggFloor[i][0] = 0; // Zero trial for zero floor.</span>
+<span class="nc" id="L16">            eggFloor[i][1] = 1; // One trial for one floor</span>
+        }
+
+        // j trials for only 1 egg
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        for (int j = 1; j &lt;= m; j++) {</span>
+<span class="nc" id="L21">            eggFloor[1][j] = j;</span>
+        }
+
+        // Using bottom-up approach in DP
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (int i = 2; i &lt;= n; i++) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            for (int j = 2; j &lt;= m; j++) {</span>
+<span class="nc" id="L27">                eggFloor[i][j] = Integer.MAX_VALUE;</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                for (x = 1; x &lt;= j; x++) {</span>
+<span class="nc" id="L29">                    result = 1 + Math.max(eggFloor[i - 1][x - 1], eggFloor[i][j - x]);</span>
+
+                    // choose min of all values for particular x
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                    if (result &lt; eggFloor[i][j]) {</span>
+<span class="nc" id="L33">                        eggFloor[i][j] = result;</span>
+                    }
+                }
+            }
+        }
+
+<span class="nc" id="L39">        return eggFloor[n][m];</span>
+    }
+
+    public static void main(String args[]) {
+<span class="nc" id="L43">        int n = 2, m = 4;</span>
+        // result outputs min no. of trials in worst case for n eggs and m floors
+<span class="nc" id="L45">        int result = minTrials(n, m);</span>
+<span class="nc" id="L46">        System.out.println(result);</span>
+<span class="nc" id="L47">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuickSelect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">QuickSelect.java</span></div><h1>QuickSelect.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.*;
+
+/**
+ * An implementation of the Quickselect algorithm as described
+ * &lt;a href=&quot;https://en.wikipedia.org/wiki/Median_of_medians&quot;&gt;here&lt;/a&gt;.
+ */
+<span class="nc" id="L9">public final class QuickSelect {</span>
+
+    /**
+     * Selects the {@code n}-th largest element of {@code list}, i.e. the element that would
+     * be at index n if the list was sorted.
+     * &lt;p&gt;
+     * Calling this function might change the order of elements in {@code list}.
+     *
+     * @param list the list of elements
+     * @param n    the index
+     * @param &lt;T&gt;  the type of list elements
+     * @return the n-th largest element in the list
+     * @throws IndexOutOfBoundsException if n is less than 0 or greater or equal to
+     *                                   the number of elements in the list
+     * @throws IllegalArgumentException  if the list is empty
+     * @throws NullPointerException      if {@code list} is null
+     */
+    public static &lt;T extends Comparable&lt;T&gt;&gt; T select(List&lt;T&gt; list, int n) {
+<span class="fc" id="L27">        Objects.requireNonNull(list, &quot;The list of elements must not be null.&quot;);</span>
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (list.size() == 0) {</span>
+<span class="fc" id="L30">            String msg = &quot;The list of elements must not be empty.&quot;;</span>
+<span class="fc" id="L31">            throw new IllegalArgumentException(msg);</span>
+        }
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (n &lt; 0) {</span>
+<span class="fc" id="L35">            String msg = &quot;The index must not be negative.&quot;;</span>
+<span class="fc" id="L36">            throw new IndexOutOfBoundsException(msg);</span>
+        }
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (n &gt;= list.size()) {</span>
+<span class="fc" id="L40">            String msg = &quot;The index must be less than the number of elements.&quot;;</span>
+<span class="fc" id="L41">            throw new IndexOutOfBoundsException(msg);</span>
+        }
+
+<span class="fc" id="L44">        int index = selectIndex(list, n);</span>
+<span class="fc" id="L45">        return list.get(index);</span>
+    }
+
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int selectIndex(List&lt;T&gt; list, int n) {
+<span class="fc" id="L49">        return selectIndex(list, 0, list.size() - 1, n);</span>
+    }
+
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int selectIndex(
+            List&lt;T&gt; list,
+            int left,
+            int right,
+            int n
+    ) {
+        while (true) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            if (left == right)</span>
+<span class="fc" id="L60">                return left;</span>
+<span class="fc" id="L61">            int pivotIndex = pivot(list, left, right);</span>
+<span class="fc" id="L62">            pivotIndex = partition(list, left, right, pivotIndex, n);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (n == pivotIndex) {</span>
+<span class="fc" id="L64">                return n;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            } else if (n &lt; pivotIndex) {</span>
+<span class="fc" id="L66">                right = pivotIndex - 1;</span>
+            } else {
+<span class="fc" id="L68">                left = pivotIndex + 1;</span>
+            }
+<span class="fc" id="L70">        }</span>
+    }
+
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int partition(
+            List&lt;T&gt; list,
+            int left,
+            int right,
+            int pivotIndex,
+            int n
+    ) {
+<span class="fc" id="L80">        T pivotValue = list.get(pivotIndex);</span>
+<span class="fc" id="L81">        Collections.swap(list, pivotIndex, right);</span>
+<span class="fc" id="L82">        int storeIndex = left;</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (int i = left; i &lt; right; i++) {</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (list.get(i).compareTo(pivotValue) &lt; 0) {</span>
+<span class="fc" id="L86">                Collections.swap(list, storeIndex, i);</span>
+<span class="fc" id="L87">                storeIndex++;</span>
+            }
+        }
+
+<span class="fc" id="L91">        int storeIndexEq = storeIndex;</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        for (int i = storeIndex; i &lt; right; i++) {</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            if (list.get(i).compareTo(pivotValue) == 0) {</span>
+<span class="fc" id="L95">                Collections.swap(list, storeIndexEq, i);</span>
+<span class="fc" id="L96">                storeIndexEq++;</span>
+            }
+        }
+
+<span class="fc" id="L100">        Collections.swap(list, right, storeIndexEq);</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        return (n &lt; storeIndex)</span>
+<span class="fc" id="L103">                ? storeIndex</span>
+<span class="fc" id="L104">                : Math.min(n, storeIndexEq);</span>
+    }
+
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int pivot(
+            List&lt;T&gt; list,
+            int left,
+            int right
+    ) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (right - left &lt; 5) {</span>
+<span class="fc" id="L113">            return partition5(list, left, right);</span>
+        }
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for (int i = left; i &lt; right; i += 5) {</span>
+<span class="fc" id="L117">            int subRight = i + 4;</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (subRight &gt; right) {</span>
+<span class="fc" id="L119">                subRight = right;</span>
+            }
+<span class="fc" id="L121">            int median5 = partition5(list, i, subRight);</span>
+<span class="fc" id="L122">            int rightIndex = left + (i - left) / 5;</span>
+<span class="fc" id="L123">            Collections.swap(list, median5, rightIndex);</span>
+        }
+
+<span class="fc" id="L126">        int mid = (right - left) / 10 + left + 1;</span>
+<span class="fc" id="L127">        int rightIndex = left + (right - left) / 5;</span>
+<span class="fc" id="L128">        return selectIndex(list, left, rightIndex, mid);</span>
+    }
+
+    private static &lt;T extends Comparable&lt;T&gt;&gt; int partition5(
+            List&lt;T&gt; list,
+            int left,
+            int right
+    ) {
+<span class="fc" id="L136">        List&lt;T&gt; ts = list.subList(left, right);</span>
+<span class="fc" id="L137">        ts.sort(Comparator.naturalOrder());</span>
+<span class="fc" id="L138">        return (left + right) &gt;&gt;&gt; 1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

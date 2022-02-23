@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SkylineAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.divideandconquer</a> &gt; <span class="el_source">SkylineAlgorithm.java</span></div><h1>SkylineAlgorithm.java</h1><pre class="source lang-java linenums">package com.thealgorithms.divideandconquer;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+
+/**
+ * @author dimgrichr
+ * &lt;p&gt;
+ * Space complexity: O(n) Time complexity: O(nlogn), because it is a divide and
+ * conquer algorithm
+ */
+public class SkylineAlgorithm {
+
+    private ArrayList&lt;Point&gt; points;
+
+    /**
+     * Main constructor of the application. ArrayList points gets created, which
+     * represents the sum of all edges.
+     */
+<span class="nc" id="L20">    public SkylineAlgorithm() {</span>
+<span class="nc" id="L21">        points = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * @return points, the ArrayList that includes all points.
+     */
+    public ArrayList&lt;Point&gt; getPoints() {
+<span class="nc" id="L28">        return points;</span>
+    }
+
+    /**
+     * The main divide and conquer, and also recursive algorithm. It gets an
+     * ArrayList full of points as an argument. If the size of that ArrayList is
+     * 1 or 2, the ArrayList is returned as it is, or with one less point (if
+     * the initial size is 2 and one of it's points, is dominated by the other
+     * one). On the other hand, if the ArrayList's size is bigger than 2, the
+     * function is called again, twice, with arguments the corresponding half of
+     * the initial ArrayList each time. Once the flashback has ended, the
+     * function produceFinalSkyLine gets called, in order to produce the final
+     * skyline, and return it.
+     *
+     * @param list, the initial list of points
+     * @return leftSkyLine, the combination of first half's and second half's
+     * skyline
+     * @see Point
+     */
+    public ArrayList&lt;Point&gt; produceSubSkyLines(ArrayList&lt;Point&gt; list) {
+
+        // part where function exits flashback
+<span class="nc" id="L50">        int size = list.size();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (size == 1) {</span>
+<span class="nc" id="L52">            return list;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        } else if (size == 2) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (list.get(0).dominates(list.get(1))) {</span>
+<span class="nc" id="L55">                list.remove(1);</span>
+            } else {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                if (list.get(1).dominates(list.get(0))) {</span>
+<span class="nc" id="L58">                    list.remove(0);</span>
+                }
+            }
+<span class="nc" id="L61">            return list;</span>
+        }
+
+        // recursive part of the function
+<span class="nc" id="L65">        ArrayList&lt;Point&gt; leftHalf = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L66">        ArrayList&lt;Point&gt; rightHalf = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (int i = 0; i &lt; list.size(); i++) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (i &lt; list.size() / 2) {</span>
+<span class="nc" id="L69">                leftHalf.add(list.get(i));</span>
+            } else {
+<span class="nc" id="L71">                rightHalf.add(list.get(i));</span>
+            }
+        }
+<span class="nc" id="L74">        ArrayList&lt;Point&gt; leftSubSkyLine = produceSubSkyLines(leftHalf);</span>
+<span class="nc" id="L75">        ArrayList&lt;Point&gt; rightSubSkyLine = produceSubSkyLines(rightHalf);</span>
+
+        // skyline is produced
+<span class="nc" id="L78">        return produceFinalSkyLine(leftSubSkyLine, rightSubSkyLine);</span>
+    }
+
+    /**
+     * The first half's skyline gets cleared from some points that are not part
+     * of the final skyline (Points with same x-value and different y=values.
+     * The point with the smallest y-value is kept). Then, the minimum y-value
+     * of the points of first half's skyline is found. That helps us to clear
+     * the second half's skyline, because, the points of second half's skyline
+     * that have greater y-value of the minimum y-value that we found before,
+     * are dominated, so they are not part of the final skyline. Finally, the
+     * &quot;cleaned&quot; first half's and second half's skylines, are combined,
+     * producing the final skyline, which is returned.
+     *
+     * @param left the skyline of the left part of points
+     * @param right the skyline of the right part of points
+     * @return left the final skyline
+     */
+    public ArrayList&lt;Point&gt; produceFinalSkyLine(ArrayList&lt;Point&gt; left, ArrayList&lt;Point&gt; right) {
+
+        // dominated points of ArrayList left are removed
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i = 0; i &lt; left.size() - 1; i++) {</span>
+<span class="nc bnc" id="L100" title="All 4 branches missed.">            if (left.get(i).x == left.get(i + 1).x &amp;&amp; left.get(i).y &gt; left.get(i + 1).y) {</span>
+<span class="nc" id="L101">                left.remove(i);</span>
+<span class="nc" id="L102">                i--;</span>
+            }
+        }
+
+        // minimum y-value is found
+<span class="nc" id="L107">        int min = left.get(0).y;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (int i = 1; i &lt; left.size(); i++) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (min &gt; left.get(i).y) {</span>
+<span class="nc" id="L110">                min = left.get(i).y;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (min == 1) {</span>
+<span class="nc" id="L112">                    i = left.size();</span>
+                }
+            }
+        }
+
+        // dominated points of ArrayList right are removed
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (int i = 0; i &lt; right.size(); i++) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (right.get(i).y &gt;= min) {</span>
+<span class="nc" id="L120">                right.remove(i);</span>
+<span class="nc" id="L121">                i--;</span>
+            }
+        }
+
+        // final skyline found and returned
+<span class="nc" id="L126">        left.addAll(right);</span>
+<span class="nc" id="L127">        return left;</span>
+    }
+
+    public static class Point {
+
+        private int x;
+        private int y;
+
+        /**
+         * The main constructor of Point Class, used to represent the 2
+         * Dimension points.
+         *
+         * @param x the point's x-value.
+         * @param y the point's y-value.
+         */
+<span class="nc" id="L142">        public Point(int x, int y) {</span>
+<span class="nc" id="L143">            this.x = x;</span>
+<span class="nc" id="L144">            this.y = y;</span>
+<span class="nc" id="L145">        }</span>
+
+        /**
+         * @return x, the x-value
+         */
+        public int getX() {
+<span class="nc" id="L151">            return x;</span>
+        }
+
+        /**
+         * @return y, the y-value
+         */
+        public int getY() {
+<span class="nc" id="L158">            return y;</span>
+        }
+
+        /**
+         * Based on the skyline theory, it checks if the point that calls the
+         * function dominates the argument point.
+         *
+         * @param p1 the point that is compared
+         * @return true if the point wich calls the function dominates p1 false
+         * otherwise.
+         */
+        public boolean dominates(Point p1) {
+            // checks if p1 is dominated
+<span class="nc bnc" id="L171" title="All 8 branches missed.">            return (this.x &lt; p1.x &amp;&amp; this.y &lt;= p1.y) || (this.x &lt;= p1.x &amp;&amp; this.y &lt; p1.y);</span>
+        }
+    }
+
+    /**
+     * It is used to compare the 2 Dimension points, based on their x-values, in
+     * order get sorted later.
+     */
+<span class="nc" id="L179">    class XComparator implements Comparator&lt;Point&gt; {</span>
+
+        @Override
+        public int compare(Point a, Point b) {
+<span class="nc" id="L183">            return Integer.compare(a.x, b.x);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

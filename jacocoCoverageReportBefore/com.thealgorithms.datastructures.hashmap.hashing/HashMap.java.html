@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HashMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.hashmap.hashing</a> &gt; <span class="el_source">HashMap.java</span></div><h1>HashMap.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.hashmap.hashing;
+
+public class HashMap {
+
+    private int hsize;
+    private LinkedList[] buckets;
+
+<span class="nc" id="L8">    public HashMap(int hsize) {</span>
+<span class="nc" id="L9">        buckets = new LinkedList[hsize];</span>
+<span class="nc bnc" id="L10" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc" id="L11">            buckets[i] = new LinkedList();</span>
+            // Java requires explicit initialisaton of each object
+        }
+<span class="nc" id="L14">        this.hsize = hsize;</span>
+<span class="nc" id="L15">    }</span>
+
+    public int hashing(int key) {
+<span class="nc" id="L18">        int hash = key % hsize;</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (hash &lt; 0) {</span>
+<span class="nc" id="L20">            hash += hsize;</span>
+        }
+<span class="nc" id="L22">        return hash;</span>
+    }
+
+    public void insertHash(int key) {
+<span class="nc" id="L26">        int hash = hashing(key);</span>
+<span class="nc" id="L27">        buckets[hash].insert(key);</span>
+<span class="nc" id="L28">    }</span>
+
+    public void deleteHash(int key) {
+<span class="nc" id="L31">        int hash = hashing(key);</span>
+
+<span class="nc" id="L33">        buckets[hash].delete(key);</span>
+<span class="nc" id="L34">    }</span>
+
+    public void displayHashtable() {
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (int i = 0; i &lt; hsize; i++) {</span>
+<span class="nc" id="L38">            System.out.printf(&quot;Bucket %d :&quot;, i);</span>
+<span class="nc" id="L39">            System.out.println(buckets[i].display());</span>
+        }
+<span class="nc" id="L41">    }</span>
+
+    public static class LinkedList {
+
+        private Node first;
+
+<span class="nc" id="L47">        public LinkedList() {</span>
+<span class="nc" id="L48">            first = null;</span>
+<span class="nc" id="L49">        }</span>
+
+        public void insert(int key) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (isEmpty()) {</span>
+<span class="nc" id="L53">                first = new Node(key);</span>
+<span class="nc" id="L54">                return;</span>
+            }
+
+<span class="nc" id="L57">            Node temp = findEnd(first);</span>
+<span class="nc" id="L58">            temp.setNext(new Node(key));</span>
+<span class="nc" id="L59">        }</span>
+
+        private Node findEnd(Node n) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (n.getNext() == null) {</span>
+<span class="nc" id="L63">                return n;</span>
+            } else {
+<span class="nc" id="L65">                return findEnd(n.getNext());</span>
+            }
+        }
+
+        public Node findKey(int key) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (!isEmpty()) {</span>
+<span class="nc" id="L71">                return findKey(first, key);</span>
+            } else {
+<span class="nc" id="L73">                System.out.println(&quot;List is empty&quot;);</span>
+<span class="nc" id="L74">                return null;</span>
+            }
+        }
+
+        private Node findKey(Node n, int key) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (n.getKey() == key) {</span>
+<span class="nc" id="L80">                return n;</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            } else if (n.getNext() == null) {</span>
+<span class="nc" id="L82">                System.out.println(&quot;Key not found&quot;);</span>
+<span class="nc" id="L83">                return null;</span>
+            } else {
+<span class="nc" id="L85">                return findKey(n.getNext(), key);</span>
+            }
+        }
+
+        public void delete(int key) {
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (!isEmpty()) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if (first.getKey() == key) {</span>
+<span class="nc" id="L92">                    first = null;</span>
+                } else {
+<span class="nc" id="L94">                    delete(first, key);</span>
+                }
+            } else {
+<span class="nc" id="L97">                System.out.println(&quot;List is empty&quot;);</span>
+            }
+<span class="nc" id="L99">        }</span>
+
+        private void delete(Node n, int key) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (n.getNext().getKey() == key) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                if (n.getNext().getNext() == null) {</span>
+<span class="nc" id="L104">                    n.setNext(null);</span>
+                } else {
+<span class="nc" id="L106">                    n.setNext(n.getNext().getNext());</span>
+                }
+            }
+<span class="nc" id="L109">        }</span>
+
+        public String display() {
+<span class="nc" id="L112">            return display(first);</span>
+        }
+
+        private String display(Node n) {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (n == null) {</span>
+<span class="nc" id="L117">                return &quot;null&quot;;</span>
+            } else {
+<span class="nc" id="L119">                return n.getKey() + &quot;-&gt;&quot; + display(n.getNext());</span>
+            }
+        }
+
+        public boolean isEmpty() {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            return first == null;</span>
+        }
+    }
+
+    public static class Node {
+
+        private Node next;
+        private int key;
+
+<span class="nc" id="L133">        public Node(int key) {</span>
+<span class="nc" id="L134">            next = null;</span>
+<span class="nc" id="L135">            this.key = key;</span>
+<span class="nc" id="L136">        }</span>
+
+        public Node getNext() {
+<span class="nc" id="L139">            return next;</span>
+        }
+
+        public int getKey() {
+<span class="nc" id="L143">            return key;</span>
+        }
+
+        public void setNext(Node next) {
+<span class="nc" id="L147">            this.next = next;</span>
+<span class="nc" id="L148">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

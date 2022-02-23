@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckIfBinaryTreeBalanced.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">CheckIfBinaryTreeBalanced.java</span></div><h1>CheckIfBinaryTreeBalanced.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+import java.util.Stack;
+import java.util.HashMap;
+
+/**
+ * This class will check if a BinaryTree is balanced. A balanced binary tree is
+ * defined as a binary tree where the differenced in height between the left and
+ * right subtree of each node differs by at most one.
+ *
+ * This can be done in both an iterative and recursive fashion. Below,
+ * `isBalancedRecursive()` is implemented in a recursive fashion, and
+ * `isBalancedIterative()` is implemented in an iterative fashion.
+ *
+ * @author [Ian Cowan](https://github.com/iccowan)
+ */
+<span class="nc" id="L17">public class CheckIfBinaryTreeBalanced {</span>
+
+    /**
+     * This class implements the BinaryTree for these algorithms
+     */
+<span class="nc" id="L22">    class BinaryTree {</span>
+
+        /**
+         * The root node of the binary tree
+         */
+<span class="nc" id="L27">        BTNode root = null;</span>
+    }
+
+    /**
+     * This class implements the nodes for the binary tree
+     */
+    class BTNode {
+
+        /**
+         * The value of the node
+         */
+        int value;
+
+        /**
+         * The left child of the node
+         */
+<span class="nc" id="L43">        BTNode left = null;</span>
+
+        /**
+         * The right child of the node
+         */
+<span class="nc" id="L48">        BTNode right = null;</span>
+
+        /**
+         * Constructor
+         */
+<span class="nc" id="L53">        BTNode(int value) {</span>
+<span class="nc" id="L54">            this.value = value;</span>
+<span class="nc" id="L55">        }</span>
+    }
+
+    /**
+     * Recursive is BT balanced implementation
+     *
+     * @param binaryTree The binary tree to check if balanced
+     */
+    public boolean isBalancedRecursive(BinaryTree binaryTree) {
+        // Create an array of length 1 to keep track of our balance
+        // Default to true. We use an array so we have an efficient mutable object
+<span class="nc" id="L66">        boolean[] isBalanced = new boolean[1];</span>
+<span class="nc" id="L67">        isBalanced[0] = true;</span>
+
+        // Check for balance and return whether or not we are balanced
+<span class="nc" id="L70">        isBalancedRecursive(binaryTree.root, 0, isBalanced);</span>
+<span class="nc" id="L71">        return isBalanced[0];</span>
+    }
+
+    /**
+     * Private helper method to keep track of the depth and balance during
+     * recursion. We effectively perform a modified post-order traversal where
+     * we are looking at the heights of both children of each node in the tree
+     *
+     * @param node The current node to explore
+     * @param depth The current depth of the node
+     * @param isBalanced The array of length 1 keeping track of our balance
+     */
+    private int isBalancedRecursive(BTNode node, int depth, boolean[] isBalanced) {
+        // If the node is null, we should not explore it and the height is 0
+        // If the tree is already not balanced, might as well stop because we
+        // can't make it balanced now!
+<span class="nc bnc" id="L87" title="All 4 branches missed.">        if (node == null || !isBalanced[0]) {</span>
+<span class="nc" id="L88">            return 0;</span>
+        }
+
+        // Visit the left and right children, incrementing their depths by 1
+<span class="nc" id="L92">        int leftHeight = isBalancedRecursive(node.left, depth + 1, isBalanced);</span>
+<span class="nc" id="L93">        int rightHeight = isBalancedRecursive(node.right, depth + 1, isBalanced);</span>
+
+        // If the height of either of the left or right subtrees differ by more
+        // than 1, we cannot be balanced
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (Math.abs(leftHeight - rightHeight) &gt; 1) {</span>
+<span class="nc" id="L98">            isBalanced[0] = false;</span>
+        }
+
+        // The height of our tree is the maximum of the heights of the left
+        // and right subtrees plus one
+<span class="nc" id="L103">        return Math.max(leftHeight, rightHeight) + 1;</span>
+    }
+
+    /**
+     * Iterative is BT balanced implementation
+     */
+    public boolean isBalancedIterative(BinaryTree binaryTree) {
+        // Default that we are balanced and our algo will prove it wrong
+<span class="nc" id="L111">        boolean isBalanced = true;</span>
+
+        // Create a stack for our post order traversal
+<span class="nc" id="L114">        Stack&lt;BTNode&gt; nodeStack = new Stack&lt;BTNode&gt;();</span>
+
+        // For post order traversal, we'll have to keep track of where we
+        // visited last
+<span class="nc" id="L118">        BTNode lastVisited = null;</span>
+
+        // Create a HashMap to keep track of the subtree heights for each node
+<span class="nc" id="L121">        HashMap&lt;BTNode, Integer&gt; subtreeHeights = new HashMap&lt;BTNode, Integer&gt;();</span>
+
+        // We begin at the root of the tree
+<span class="nc" id="L124">        BTNode node = binaryTree.root;</span>
+
+        // We loop while:
+        // - the node stack is empty and the node we explore is null
+        // AND
+        // - the tree is still balanced
+<span class="nc bnc" id="L130" title="All 6 branches missed.">        while (!(nodeStack.isEmpty() &amp;&amp; node == null) &amp;&amp; isBalanced) {</span>
+            // If the node is not null, we push it to the stack and continue
+            // to the left
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            if (node != null) {</span>
+<span class="nc" id="L134">                nodeStack.push(node);</span>
+<span class="nc" id="L135">                node = node.left;</span>
+                // Once we hit a node that is null, we are as deep as we can go
+                // to the left
+            } else {
+                // Find the last node we put on the stack
+<span class="nc" id="L140">                node = nodeStack.peek();</span>
+
+                // If the right child of the node has either been visited or
+                // is null, we visit this node
+<span class="nc bnc" id="L144" title="All 4 branches missed.">                if (node.right == null || node.right == lastVisited) {</span>
+                    // We assume the left and right heights are 0
+<span class="nc" id="L146">                    int leftHeight = 0;</span>
+<span class="nc" id="L147">                    int rightHeight = 0;</span>
+
+                    // If the right and left children are not null, we must
+                    // have already explored them and have a height
+                    // for them so let's get that
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                    if (node.left != null) {</span>
+<span class="nc" id="L153">                        leftHeight = subtreeHeights.get(node.left);</span>
+                    }
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                    if (node.right != null) {</span>
+<span class="nc" id="L157">                        rightHeight = subtreeHeights.get(node.right);</span>
+                    }
+
+                    // If the difference in the height of the right subtree
+                    // and left subtree differs by more than 1, we cannot be
+                    // balanced
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                    if (Math.abs(rightHeight - leftHeight) &gt; 1) {</span>
+<span class="nc" id="L164">                        isBalanced = false;</span>
+                    }
+
+                    // The height of the subtree containing this node is the
+                    // max of the left and right subtree heighs plus 1
+<span class="nc" id="L169">                    subtreeHeights.put(node, Math.max(rightHeight, leftHeight) + 1);</span>
+
+                    // We've now visited this node, so we pop it from the stack
+<span class="nc" id="L172">                    nodeStack.pop();</span>
+<span class="nc" id="L173">                    lastVisited = node;</span>
+
+                    // Current visiting node is now null
+<span class="nc" id="L176">                    node = null;</span>
+                    // If the right child node of this node has not been visited
+                    // and is not null, we need to get that child node on the stack
+<span class="nc" id="L179">                } else {</span>
+<span class="nc" id="L180">                    node = node.right;</span>
+                }
+            }
+        }
+
+        // Return whether or not the tree is balanced
+<span class="nc" id="L186">        return isBalanced;</span>
+    }
+
+    /**
+     * Generates the following unbalanced binary tree for testing 0 / \ / \ 0 0
+     * / / \ / / \ 0 0 0 / \ / \ 0 0 / / 0
+     */
+    private BinaryTree buildUnbalancedTree() {
+<span class="nc" id="L194">        BinaryTree tree = new BinaryTree();</span>
+<span class="nc" id="L195">        tree.root = new BTNode(0);</span>
+
+<span class="nc" id="L197">        BTNode root = tree.root;</span>
+<span class="nc" id="L198">        root.left = new BTNode(0);</span>
+<span class="nc" id="L199">        root.right = new BTNode(0);</span>
+
+<span class="nc" id="L201">        BTNode left = root.left;</span>
+<span class="nc" id="L202">        BTNode right = root.right;</span>
+
+<span class="nc" id="L204">        left.left = new BTNode(0);</span>
+<span class="nc" id="L205">        right.left = new BTNode(0);</span>
+<span class="nc" id="L206">        right.right = new BTNode(0);</span>
+<span class="nc" id="L207">        right.left.right = new BTNode(0);</span>
+
+<span class="nc" id="L209">        left = left.left;</span>
+<span class="nc" id="L210">        left.left = new BTNode(0);</span>
+<span class="nc" id="L211">        left.left.left = new BTNode(0);</span>
+<span class="nc" id="L212">        left.left.left.left = new BTNode(0);</span>
+
+<span class="nc" id="L214">        return tree;</span>
+    }
+
+    /**
+     * Generates the following balanced binary tree for testing 0 / \ / \ 0 0 /
+     * \ / \ / 0 / \ 0 0 0 / / / / 0 0
+     */
+    private BinaryTree buildBalancedTree() {
+<span class="nc" id="L222">        BinaryTree tree = new BinaryTree();</span>
+<span class="nc" id="L223">        tree.root = new BTNode(0);</span>
+
+<span class="nc" id="L225">        BTNode root = tree.root;</span>
+<span class="nc" id="L226">        root.left = new BTNode(0);</span>
+<span class="nc" id="L227">        root.right = new BTNode(0);</span>
+
+<span class="nc" id="L229">        BTNode left = root.left;</span>
+<span class="nc" id="L230">        BTNode right = root.right;</span>
+
+<span class="nc" id="L232">        left.left = new BTNode(0);</span>
+<span class="nc" id="L233">        left.right = new BTNode(0);</span>
+<span class="nc" id="L234">        right.left = new BTNode(0);</span>
+<span class="nc" id="L235">        right.right = new BTNode(0);</span>
+
+<span class="nc" id="L237">        right.right.left = new BTNode(0);</span>
+
+<span class="nc" id="L239">        left.left.left = new BTNode(0);</span>
+
+<span class="nc" id="L241">        return tree;</span>
+    }
+
+    /**
+     * Main
+     */
+    public static void main(String[] args) {
+        // We create a new object to check the binary trees for balance
+<span class="nc" id="L249">        CheckIfBinaryTreeBalanced balanceCheck = new CheckIfBinaryTreeBalanced();</span>
+
+        // Build a balanced and unbalanced binary tree
+<span class="nc" id="L252">        BinaryTree balancedTree = balanceCheck.buildBalancedTree();</span>
+<span class="nc" id="L253">        BinaryTree unbalancedTree = balanceCheck.buildUnbalancedTree();</span>
+
+        // Run basic tests on the algorithms to check for balance
+<span class="nc" id="L256">        boolean isBalancedRB = balanceCheck.isBalancedRecursive(balancedTree); // true</span>
+<span class="nc" id="L257">        boolean isBalancedRU = balanceCheck.isBalancedRecursive(unbalancedTree); // false</span>
+<span class="nc" id="L258">        boolean isBalancedIB = balanceCheck.isBalancedIterative(balancedTree); // true</span>
+<span class="nc" id="L259">        boolean isBalancedIU = balanceCheck.isBalancedIterative(unbalancedTree); // false</span>
+
+        // Print the results
+<span class="nc" id="L262">        System.out.println(&quot;isBalancedRB: &quot; + isBalancedRB);</span>
+<span class="nc" id="L263">        System.out.println(&quot;isBalancedRU: &quot; + isBalancedRU);</span>
+<span class="nc" id="L264">        System.out.println(&quot;isBalancedIB: &quot; + isBalancedIB);</span>
+<span class="nc" id="L265">        System.out.println(&quot;isBalancedIU: &quot; + isBalancedIU);</span>
+<span class="nc" id="L266">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

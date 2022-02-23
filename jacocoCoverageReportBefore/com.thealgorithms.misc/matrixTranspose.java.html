@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>matrixTranspose.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">matrixTranspose.java</span></div><h1>matrixTranspose.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.Scanner;
+
+/**
+ *
+ *
+ * &lt;h1&gt;Find the Transpose of Matrix!&lt;/h1&gt;
+ *
+ * Simply take input from the user and print the matrix before the transpose and
+ * after the transpose.
+ *
+ * &lt;p&gt;
+ * &lt;b&gt;Note:&lt;/b&gt; Giving proper comments in your program makes it more user
+ * friendly and it is assumed as a high quality code.
+ *
+ * @author Rajat-Jain29
+ * @version 11.0.9
+ * @since 2014-03-31
+ */
+<span class="nc" id="L21">public class matrixTranspose {</span>
+
+    public static void main(String[] args) {
+        /*
+     * This is the main method
+     *
+     * @param args Unused.
+     *
+     * @return Nothing.
+         */
+<span class="nc" id="L31">        Scanner sc = new Scanner(System.in);</span>
+        int i, j, row, column;
+<span class="nc" id="L33">        System.out.println(&quot;Enter the number of rows in the 2D matrix:&quot;);</span>
+
+        /*
+     * Take input from user for how many rows to be print
+         */
+<span class="nc" id="L38">        row = sc.nextInt();</span>
+
+<span class="nc" id="L40">        System.out.println(&quot;Enter the number of columns in the 2D matrix:&quot;);</span>
+
+        /*
+     * Take input from user for how many coloumn to be print
+         */
+<span class="nc" id="L45">        column = sc.nextInt();</span>
+<span class="nc" id="L46">        int[][] arr = new int[row][column];</span>
+<span class="nc" id="L47">        System.out.println(&quot;Enter the elements&quot;);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (i = 0; i &lt; row; i++) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            for (j = 0; j &lt; column; j++) {</span>
+<span class="nc" id="L50">                arr[i][j] = sc.nextInt();</span>
+            }
+        }
+
+        /*
+     * Print matrix before the Transpose in proper way
+         */
+<span class="nc" id="L57">        System.out.println(&quot;The matrix is:&quot;);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (i = 0; i &lt; row; i++) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            for (j = 0; j &lt; column; j++) {</span>
+<span class="nc" id="L60">                System.out.print(arr[i][j] + &quot;\t&quot;);</span>
+            }
+<span class="nc" id="L62">            System.out.print(&quot;\n&quot;);</span>
+        }
+
+        /*
+     * Print matrix after the tranpose in proper way Transpose means Interchanging
+     * of rows wth column so we interchange the rows in next loop Thus at last
+     * matrix of transpose is obtained through user input...
+         */
+<span class="nc" id="L70">        System.out.println(&quot;The Transpose of the given matrix is:&quot;);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (i = 0; i &lt; column; i++) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (j = 0; j &lt; row; j++) {</span>
+<span class="nc" id="L73">                System.out.print(arr[j][i] + &quot;\t&quot;);</span>
+            }
+<span class="nc" id="L75">            System.out.print(&quot;\n&quot;);</span>
+        }
+<span class="nc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FibonacciJavaStreams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">FibonacciJavaStreams.java</span></div><h1>FibonacciJavaStreams.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+/**
+ * @author: caos321
+ * @date: 14 October 2021 (Thursday)
+ */
+<span class="nc" id="L13">public class FibonacciJavaStreams {</span>
+
+    public static Optional&lt;BigDecimal&gt; calculate(final BigDecimal index) {
+<span class="nc bnc" id="L16" title="All 4 branches missed.">        if (index == null || index.compareTo(BigDecimal.ZERO) &lt; 0) {</span>
+<span class="nc" id="L17">            return Optional.empty();</span>
+        }
+
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (index.compareTo(BigDecimal.ONE) &lt; 0) {</span>
+<span class="nc" id="L21">            return Optional.of(BigDecimal.ZERO);</span>
+        }
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (index.compareTo(new BigDecimal(2)) &lt; 0) {</span>
+<span class="nc" id="L25">            return Optional.of(BigDecimal.ONE);</span>
+        }
+
+<span class="nc" id="L28">        final List&lt;BigDecimal&gt; results = Stream.iterate(</span>
+                index,
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                x -&gt; x.compareTo(BigDecimal.ZERO) &gt; 0,</span>
+<span class="nc" id="L31">                x -&gt; x.subtract(BigDecimal.ONE)</span>
+        )
+<span class="nc" id="L33">                .reduce(</span>
+<span class="nc" id="L34">                        List.of(),</span>
+                        (list, current)
+<span class="nc bnc" id="L36" title="All 4 branches missed.">                        -&gt; list.isEmpty() || list.size() &lt; 2</span>
+<span class="nc" id="L37">                        ? List.of(BigDecimal.ZERO, BigDecimal.ONE)</span>
+<span class="nc" id="L38">                        : List.of(list.get(1), list.get(0).add(list.get(1))),</span>
+<span class="nc" id="L39">                        (list1, list2) -&gt; list1</span>
+                );
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        return results.isEmpty()</span>
+<span class="nc" id="L43">                ? Optional.empty()</span>
+<span class="nc" id="L44">                : Optional.of(results.get(results.size() - 1));</span>
+    }
+
+    public static void assertThat(final Object actual, final Object expected) {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (!Objects.equals(actual, expected)) {</span>
+<span class="nc" id="L49">            throw new AssertionError(String.format(&quot;expected=%s but was actual=%s&quot;, expected, actual));</span>
+        }
+<span class="nc" id="L51">    }</span>
+
+    public static void main(final String[] args) {
+        {
+<span class="nc" id="L55">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(-1));</span>
+<span class="nc" id="L56">            assertThat(result.isEmpty(), true);</span>
+        }
+        {
+<span class="nc" id="L59">            final Optional&lt;BigDecimal&gt; result = calculate(BigDecimal.ZERO);</span>
+<span class="nc" id="L60">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L61">            result.ifPresent(value -&gt; assertThat(value, BigDecimal.ZERO));</span>
+        }
+        {
+<span class="nc" id="L64">            final Optional&lt;BigDecimal&gt; result = calculate(BigDecimal.ONE);</span>
+<span class="nc" id="L65">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L66">            result.ifPresent(value -&gt; assertThat(value, BigDecimal.ONE));</span>
+        }
+        {
+<span class="nc" id="L69">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(2));</span>
+<span class="nc" id="L70">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L71">            result.ifPresent(value -&gt; assertThat(value, BigDecimal.ONE));</span>
+        }
+        {
+<span class="nc" id="L74">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(3));</span>
+<span class="nc" id="L75">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L76">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(2)));</span>
+        }
+        {
+<span class="nc" id="L79">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(10));</span>
+<span class="nc" id="L80">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L81">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(55)));</span>
+        }
+        {
+<span class="nc" id="L84">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(20));</span>
+<span class="nc" id="L85">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L86">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(6765)));</span>
+        }
+        {
+<span class="nc" id="L89">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(30));</span>
+<span class="nc" id="L90">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L91">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(832040)));</span>
+        }
+        {
+<span class="nc" id="L94">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(40));</span>
+<span class="nc" id="L95">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L96">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(102334155)));</span>
+        }
+        {
+<span class="nc" id="L99">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(50));</span>
+<span class="nc" id="L100">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L101">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(12586269025L)));</span>
+        }
+        {
+<span class="nc" id="L104">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(100));</span>
+<span class="nc" id="L105">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L106">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(&quot;354224848179261915075&quot;)));</span>
+        }
+        {
+<span class="nc" id="L109">            final Optional&lt;BigDecimal&gt; result = calculate(new BigDecimal(200));</span>
+<span class="nc" id="L110">            assertThat(result.isPresent(), true);</span>
+<span class="nc" id="L111">            result.ifPresent(value -&gt; assertThat(value, new BigDecimal(&quot;280571172992510140037611932413038677189525&quot;)));</span>
+        }
+<span class="nc" id="L113">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

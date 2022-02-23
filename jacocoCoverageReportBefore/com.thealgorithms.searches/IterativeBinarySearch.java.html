@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IterativeBinarySearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">IterativeBinarySearch.java</span></div><h1>IterativeBinarySearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import static java.lang.String.format;
+
+import java.util.Arrays;
+import java.util.Random;
+import java.util.stream.Stream;
+import com.thealgorithms.devutils.searches.SearchAlgorithm;
+
+/**
+ * Binary search is one of the most popular algorithms This class represents
+ * iterative version {@link BinarySearch} Iterative binary search is likely to
+ * have lower constant factors because it doesn't involve the overhead of
+ * manipulating the call stack. But in java the recursive version can be
+ * optimized by the compiler to this version.
+ *
+ * &lt;p&gt;
+ * Worst-case performance O(log n) Best-case performance O(1) Average
+ * performance O(log n) Worst-case space complexity O(1)
+ *
+ * @author Gabriele La Greca : https://github.com/thegabriele97
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see SearchAlgorithm
+ * @see BinarySearch
+ */
+<span class="nc" id="L26">public final class IterativeBinarySearch implements SearchAlgorithm {</span>
+
+    /**
+     * This method implements an iterative version of binary search algorithm
+     *
+     * @param array a sorted array
+     * @param key the key to search in array
+     * @return the index of key in the array or -1 if not found
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; int find(T[] array, T key) {
+        int l, r, k, cmp;
+
+<span class="nc" id="L39">        l = 0;</span>
+<span class="nc" id="L40">        r = array.length - 1;</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        while (l &lt;= r) {</span>
+<span class="nc" id="L43">            k = (l + r) &gt;&gt;&gt; 1;</span>
+<span class="nc" id="L44">            cmp = key.compareTo(array[k]);</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (cmp == 0) {</span>
+<span class="nc" id="L47">                return k;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            } else if (cmp &lt; 0) {</span>
+<span class="nc" id="L49">                r = --k;</span>
+            } else {
+<span class="nc" id="L51">                l = ++k;</span>
+            }
+        }
+
+<span class="nc" id="L55">        return -1;</span>
+    }
+
+    // Only a main method for test purpose
+    public static void main(String[] args) {
+<span class="nc" id="L60">        Random r = new Random();</span>
+<span class="nc" id="L61">        int size = 100;</span>
+<span class="nc" id="L62">        int maxElement = 100000;</span>
+<span class="nc" id="L63">        Integer[] integers</span>
+<span class="nc" id="L64">                = Stream.generate(() -&gt; r.nextInt(maxElement)).limit(size).sorted().toArray(Integer[]::new);</span>
+
+        // the element that should be found
+<span class="nc" id="L67">        Integer shouldBeFound = integers[r.nextInt(size - 1)];</span>
+
+<span class="nc" id="L69">        IterativeBinarySearch search = new IterativeBinarySearch();</span>
+<span class="nc" id="L70">        int atIndex = search.find(integers, shouldBeFound);</span>
+
+<span class="nc" id="L72">        System.out.println(</span>
+<span class="nc" id="L73">                String.format(</span>
+                        &quot;Should be found: %d. Found %d at index %d. An array length %d&quot;,
+<span class="nc" id="L75">                        shouldBeFound, integers[atIndex], atIndex, size));</span>
+
+<span class="nc" id="L77">        int toCheck = Arrays.binarySearch(integers, shouldBeFound);</span>
+<span class="nc" id="L78">        System.out.println(</span>
+<span class="nc" id="L79">                format(</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                        &quot;Found by system method at an index: %d. Is equal: %b&quot;, toCheck, toCheck == atIndex));</span>
+<span class="nc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
