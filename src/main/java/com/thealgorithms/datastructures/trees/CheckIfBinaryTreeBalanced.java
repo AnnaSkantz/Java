@@ -107,10 +107,14 @@ public class CheckIfBinaryTreeBalanced {
      * Iterative is BT balanced implementation
      */
     public boolean isBalancedIterative(BinaryTree binaryTree) {
+        // Default that we are balanced and our algo will prove it wrong
+        boolean isBalanced = true;
+
         // Create a stack for our post order traversal
         Stack<BTNode> nodeStack = new Stack<BTNode>();
 
-        // For post order traversal, we'll have to keep track of where we visited last
+        // For post order traversal, we'll have to keep track of where we
+        // visited last
         BTNode lastVisited = null;
 
         // Create a HashMap to keep track of the subtree heights for each node
@@ -119,7 +123,11 @@ public class CheckIfBinaryTreeBalanced {
         // We begin at the root of the tree
         BTNode node = binaryTree.root;
 
-        while (!(nodeStack.isEmpty() && node == null)) {
+        // We loop while:
+        // - the node stack is empty and the node we explore is null
+        // AND
+        // - the tree is still balanced
+        while (!(nodeStack.isEmpty() && node == null) && isBalanced) {
             // If the node is not null, we push it to the stack and continue
             // to the left
             if (node != null) {
@@ -141,11 +149,19 @@ public class CheckIfBinaryTreeBalanced {
                     // If the right and left children are not null, we must
                     // have already explored them and have a height
                     // for them so let's get that
-                    leftHeight = getLeftHeight(subtreeHeights, node, leftHeight);
-                    rightHeight = getRightHeight(subtreeHeights, node, rightHeight);
+                    if (node.left != null) {
+                        leftHeight = subtreeHeights.get(node.left);
+                    }
 
-                    if (treeIsNotBalanced(leftHeight, rightHeight)) {
-                        return false;
+                    if (node.right != null) {
+                        rightHeight = subtreeHeights.get(node.right);
+                    }
+
+                    // If the difference in the height of the right subtree
+                    // and left subtree differs by more than 1, we cannot be
+                    // balanced
+                    if (Math.abs(rightHeight - leftHeight) > 1) {
+                        isBalanced = false;
                     }
 
                     // The height of the subtree containing this node is the
@@ -165,7 +181,9 @@ public class CheckIfBinaryTreeBalanced {
                 }
             }
         }
-        return true;
+
+        // Return whether or not the tree is balanced
+        return isBalanced;
     }
 
     /**
