@@ -12,7 +12,7 @@ public class LinkList_Sort {
         }
         int a[] = p;
         // Array is taken as input from test class
-        int b[] = p;
+        int b[] = Arrays.copyOf(p, p.length);
         // array similar to a
         int ch = option;
         // Choice is choosed as any number from 1 to 3 (So the linked list will be sorted by Merge sort technique/Insertion sort technique/Heap sort technique)
