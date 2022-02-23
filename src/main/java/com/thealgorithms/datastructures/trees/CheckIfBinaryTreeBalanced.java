@@ -16,6 +16,8 @@ import java.util.HashMap;
  */
 public class CheckIfBinaryTreeBalanced {
 
+    private static int[] branchesReached = new int[6];
+
     /**
      * This class implements the BinaryTree for these algorithms
      */
@@ -128,9 +130,11 @@ public class CheckIfBinaryTreeBalanced {
         // AND
         // - the tree is still balanced
         while (!(nodeStack.isEmpty() && node == null) && isBalanced) {
+            branchesReached[0] = 1;
             // If the node is not null, we push it to the stack and continue
             // to the left
             if (node != null) {
+                branchesReached[1] = 2;
                 nodeStack.push(node);
                 node = node.left;
                 // Once we hit a node that is null, we are as deep as we can go
@@ -142,6 +146,7 @@ public class CheckIfBinaryTreeBalanced {
                 // If the right child of the node has either been visited or
                 // is null, we visit this node
                 if (node.right == null || node.right == lastVisited) {
+                    branchesReached[2] = 3;
                     // We assume the left and right heights are 0
                     int leftHeight = 0;
                     int rightHeight = 0;
@@ -150,10 +155,12 @@ public class CheckIfBinaryTreeBalanced {
                     // have already explored them and have a height
                     // for them so let's get that
                     if (node.left != null) {
+                        branchesReached[3] = 4;
                         leftHeight = subtreeHeights.get(node.left);
                     }
 
                     if (node.right != null) {
+                        branchesReached[4] = 5;
                         rightHeight = subtreeHeights.get(node.right);
                     }
 
@@ -161,6 +168,7 @@ public class CheckIfBinaryTreeBalanced {
                     // and left subtree differs by more than 1, we cannot be
                     // balanced
                     if (Math.abs(rightHeight - leftHeight) > 1) {
+                        branchesReached[5] = 6;
                         isBalanced = false;
                     }
 
@@ -289,5 +297,15 @@ public class CheckIfBinaryTreeBalanced {
         System.out.println("isBalancedRU: " + isBalancedRU);
         System.out.println("isBalancedIB: " + isBalancedIB);
         System.out.println("isBalancedIU: " + isBalancedIU);
+
+        int numBranchesReached = 0;
+        int numOfBranchesInAddEdge = 6;
+        for (int i = 0; i < branchesReached.length; i++) {
+            if (branchesReached[i] != 0) {
+                System.out.println("Branch with the ID " + branchesReached[i] + " was reached.\n");
+                numBranchesReached++;
+            }
+        }
+        System.out.println("Branches reached: " + numBranchesReached + " out of " + numOfBranchesInAddEdge + " branches were reached.");
     }
 }
