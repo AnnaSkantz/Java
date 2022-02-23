@@ -1,6 +1,13 @@
 package com.thealgorithms.ciphers;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 /*
  * Java Implementation of Hill Cipher
@@ -12,7 +19,17 @@ import java.util.Scanner;
  */
 public class HillCipher {
 
-    static Scanner in = new Scanner(System.in);
+    static ArrayList<Integer> coverageTrack = new ArrayList<Integer>();
+    static Set<Integer> coveredBranches = new HashSet<Integer>();
+    static Scanner in;
+
+    static void initScanner() {
+        in = new Scanner(System.in);
+    }
+
+    static void closeScanner() {
+        in.close();
+    }
 
     /* Following function encrypts the message
      */
@@ -23,46 +40,111 @@ public class HillCipher {
         int n = in.nextInt();
         System.out.println("Enter Key/encryptionKey matrix ");
         int keyMatrix[][] = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {   // id 0
+            coverageInfo(0);
+            for (int j = 0; j < n; j++) {   // id 1
+                coverageInfo(1);
                 keyMatrix[i][j] = in.nextInt();
             }
+            coverageInfo(2);   // id 2
         }
+        coverageInfo(3);   // id 3
+
         //check if det = 0
-        if (determinant(keyMatrix, n) % 26 == 0) {
+        if (determinant(keyMatrix, n) % 26 == 0) {  
+            coverageInfo(4);   // id 4
             System.out.println("Invalid key, as determinant = 0. Program Terminated");
             return;
         }
+        coverageInfo(5);   // id 5
 
         int[][] messageVector = new int[n][1];
         String CipherText = "";
         int cipherMatrix[][] = new int[n][1];
         int j = 0;
         while (j < message.length()) {
+            coverageInfo(6);   // id 6
             for (int i = 0; i < n; i++) {
+                coverageInfo(7);   // id 7
                 if (j >= message.length()) {
+                    coverageInfo(8);   // id 8
                     messageVector[i][0] = 23;
                 } else {
+                    coverageInfo(9);   // id 9
                     messageVector[i][0] = (message.charAt(j)) % 65;
                 }
                 System.out.println(messageVector[i][0]);
                 j++;
             }
+            coverageInfo(10);   // id 10
             int x, i;
             for (i = 0; i < n; i++) {
+                coverageInfo(11);   // id 11
                 cipherMatrix[i][0] = 0;
 
                 for (x = 0; x < n; x++) {
+                    coverageInfo(12);   // id 12
                     cipherMatrix[i][0] += keyMatrix[i][x] * messageVector[x][0];
                 }
+                coverageInfo(13);   // id 13
                 System.out.println(cipherMatrix[i][0]);
                 cipherMatrix[i][0] = cipherMatrix[i][0] % 26;
             }
+            coverageInfo(14);   // id 14
             for (i = 0; i < n; i++) {
+                coverageInfo(15);   // id 15
                 CipherText += (char) (cipherMatrix[i][0] + 65);
             }
+            coverageInfo(16);   // id 16
         }
+        coverageInfo(17);   // id 17
+        printCoverageInfoToFile();
+
         System.out.println("Ciphertext: " + CipherText);
+    }
+
+    static void coverageInfo(int branchId) {
+        coveredBranches.add(branchId);
+        coverageTrack.add(branchId);
+    }
+
+    /**
+     * Prints branch coverage information to file in /tmp folder
+     */
+    static void printCoverageInfoToFile() {
+        String fileName = "/tmp/coverageInfo.txt";
+        try {
+            File myFile = new File(fileName);
+            if (myFile.exists()) {
+                myFile.delete();
+            }
+            myFile.createNewFile();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Branch Coverage of the function HillCipher::encode\n\nCovered Branches:\n");
+            int i = 1;
+            for (int branch : coveredBranches) {
+                if (i++ != coveredBranches.size()) {
+                    sb.append(" id: "+ branch +"\n");
+                } else {
+                    sb.append(" id: "+ branch + "\n\n");
+                }
+            }
+            sb.append("Taken path:\n{");
+            i = 1;
+            for (int branch : coverageTrack) {
+                if (i++ != coverageTrack.size()) {
+                    sb.append(branch +", ");
+                } else {
+                    sb.append(branch + "}\n\n");
+                }
+            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+            writer.write(sb.toString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //Following function decrypts a message
@@ -162,9 +244,11 @@ public class HillCipher {
 
     // Driver code
     public static void main(String[] args) {
+        initScanner();
         // Get the message to be encrypted
         System.out.println("Enter message");
         String message = in.nextLine();
         hillcipher(message);
+        closeScanner();
     }
 }
