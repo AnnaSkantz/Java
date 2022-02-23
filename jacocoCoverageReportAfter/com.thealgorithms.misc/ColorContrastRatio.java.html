@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColorContrastRatio.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">ColorContrastRatio.java</span></div><h1>ColorContrastRatio.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.awt.Color;
+
+/**
+ * @brief A Java implementation of the offcial W3 documented procedure to
+ * calculate contrast ratio between colors on the web. This is used to calculate
+ * the readability of a foreground color on top of a background color.
+ * @since 2020-10-15
+ * @see [Color Contrast
+ * Ratio](https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-procedure)
+ * @author [Seth Falco](https://github.com/SethFalco)
+ */
+<span class="nc bnc" id="L14" title="All 2 branches missed.">public class ColorContrastRatio {</span>
+
+    /**
+     * @brief Calculates the contrast ratio between two given colors.
+     * @param a Any color, used to get the red, green, and blue values.
+     * @param b Another color, which will be compared against the first color.
+     * @return The contrast ratio between the two colors.
+     */
+    public double getContrastRatio(Color a, Color b) {
+<span class="nc" id="L23">        final double aColorLuminance = getRelativeLuminance(a);</span>
+<span class="nc" id="L24">        final double bColorLuminance = getRelativeLuminance(b);</span>
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (aColorLuminance &gt; bColorLuminance) {</span>
+<span class="nc" id="L27">            return (aColorLuminance + 0.05) / (bColorLuminance + 0.05);</span>
+        }
+
+<span class="nc" id="L30">        return (bColorLuminance + 0.05) / (aColorLuminance + 0.05);</span>
+    }
+
+    /**
+     * @brief Calculates the relative luminance of a given color.
+     * @param color Any color, used to get the red, green, and blue values.
+     * @return The relative luminance of the color.
+     * @see [More info on relative
+     * luminance.](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef)
+     */
+    public double getRelativeLuminance(Color color) {
+<span class="nc" id="L41">        final double red = getColor(color.getRed());</span>
+<span class="nc" id="L42">        final double green = getColor(color.getGreen());</span>
+<span class="nc" id="L43">        final double blue = getColor(color.getBlue());</span>
+
+<span class="nc" id="L45">        return 0.2126 * red + 0.7152 * green + 0.0722 * blue;</span>
+    }
+
+    /**
+     * @brief Calculates the final value for a color to be used in the relative
+     * luminance formula as described in step 1.
+     * @param color8Bit 8-bit representation of a color component value.
+     * @return Value for the provided color component to be used in the relative
+     * luminance formula.
+     */
+    public double getColor(int color8Bit) {
+<span class="nc" id="L56">        final double sRgb = getColorSRgb(color8Bit);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        return (sRgb &lt;= 0.03928) ? sRgb / 12.92 : Math.pow((sRgb + 0.055) / 1.055, 2.4);</span>
+    }
+
+    /**
+     * @brief Calculates the Color sRGB value as denoted in step 1 of the
+     * procedure document.
+     * @param color8Bit 8-bit representation of a color component value.
+     * @return A percentile value of the color component.
+     */
+    private double getColorSRgb(double color8Bit) {
+<span class="nc" id="L67">        return color8Bit / 255.0;</span>
+    }
+
+    /**
+     * You can check this example against another open-source implementation
+     * available on GitHub.
+     *
+     * @see [Online Contrast
+     * Ratio](https://contrast-ratio.com/#rgb%28226%2C%20229%2C%20248-on-rgb%2823%2C%20103%2C%20154%29)
+     * @see [GitHub Repository for Online Contrast
+     * Ratio](https://github.com/LeaVerou/contrast-ratio)
+     */
+    private static void test() {
+<span class="nc" id="L80">        final ColorContrastRatio algImpl = new ColorContrastRatio();</span>
+
+<span class="nc" id="L82">        final Color black = Color.BLACK;</span>
+<span class="nc" id="L83">        final double blackLuminance = algImpl.getRelativeLuminance(black);</span>
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        assert blackLuminance == 0 : &quot;Test 1 Failed - Incorrect relative luminance.&quot;;</span>
+
+<span class="nc" id="L86">        final Color white = Color.WHITE;</span>
+<span class="nc" id="L87">        final double whiteLuminance = algImpl.getRelativeLuminance(white);</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        assert whiteLuminance == 1 : &quot;Test 2 Failed - Incorrect relative luminance.&quot;;</span>
+
+<span class="nc" id="L90">        final double highestColorRatio = algImpl.getContrastRatio(black, white);</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">        assert highestColorRatio == 21 : &quot;Test 3 Failed - Incorrect contrast ratio.&quot;;</span>
+
+<span class="nc" id="L93">        final Color foreground = new Color(23, 103, 154);</span>
+<span class="nc" id="L94">        final double foregroundLuminance = algImpl.getRelativeLuminance(foreground);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        assert foregroundLuminance == 0.12215748057375966 : &quot;Test 4 Failed - Incorrect relative luminance.&quot;;</span>
+
+<span class="nc" id="L97">        final Color background = new Color(226, 229, 248);</span>
+<span class="nc" id="L98">        final double backgroundLuminance = algImpl.getRelativeLuminance(background);</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">        assert backgroundLuminance == 0.7898468477881603 : &quot;Test 5 Failed - Incorrect relative luminance.&quot;;</span>
+
+<span class="nc" id="L101">        final double contrastRatio = algImpl.getContrastRatio(foreground, background);</span>
+<span class="nc bnc" id="L102" title="All 4 branches missed.">        assert contrastRatio == 4.878363954846178 : &quot;Test 6 Failed - Incorrect contrast ratio.&quot;;</span>
+<span class="nc" id="L103">    }</span>
+
+    public static void main(String args[]) {
+<span class="nc" id="L106">        test();</span>
+<span class="nc" id="L107">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

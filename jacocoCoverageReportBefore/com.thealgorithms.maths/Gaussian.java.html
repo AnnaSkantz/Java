@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Gaussian.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">Gaussian.java</span></div><h1>Gaussian.java</h1><pre class="source lang-java linenums">/**
+ * \file
+ * \brief [Gaussian elimination
+ * method](https://en.wikipedia.org/wiki/Gaussian_elimination)
+ * @author [Sachwin Kohli](https://github.com/Sachwin-Kohli)
+ */
+package com.thealgorithms.maths;
+
+import java.util.*;
+
+/**
+ * Main function
+ */
+<span class="nc" id="L14">public class Gaussian {</span>
+
+    public static void main(String[] args) {
+        int mat_size, i, j, step;
+<span class="nc" id="L18">        Scanner sc = new Scanner(System.in);</span>
+
+<span class="nc" id="L20">        System.out.println(&quot;Matrix Size : &quot;);</span>
+<span class="nc" id="L21">        mat_size = sc.nextInt();</span>
+
+<span class="nc" id="L23">        double[][] mat = new double[mat_size + 1][mat_size + 1];</span>
+<span class="nc" id="L24">        double[][] x = new double[mat_size][mat_size + 1];</span>
+
+<span class="nc" id="L26">        System.out.println(&quot;Enter value of the matrix&quot;);</span>
+<span class="nc" id="L27">        System.out.println(' ');</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (i = 0; i &lt; mat_size; i++) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            for (j = 0; j &lt;= mat_size; j++) {</span>
+<span class="nc" id="L30">                mat[i][j] = sc.nextInt();</span>
+            }
+        }
+
+        // perform Gaussian elimination
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (step = 0; step &lt; mat_size - 1; step++) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (i = step; i &lt; mat_size - 1; i++) {</span>
+<span class="nc" id="L37">                double a = (mat[i + 1][step] / mat[step][step]);</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                for (j = step; j &lt;= mat_size; j++) {</span>
+<span class="nc" id="L40">                    mat[i + 1][j] = mat[i + 1][j] - (a * mat[step][j]);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L45">        System.out.println(&quot;Matrix using Gaussian Elimination method: &quot;);</span>
+<span class="nc" id="L46">        System.out.println(&quot; &quot;);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (i = 0; i &lt; mat_size; i++) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            for (j = 0; j &lt;= mat_size; j++) {</span>
+<span class="nc" id="L49">                x[i][j] = mat[i][j];</span>
+<span class="nc" id="L50">                System.out.print(mat[i][j] + &quot; &quot;);</span>
+            }
+<span class="nc" id="L52">            System.out.println();</span>
+        }
+<span class="nc" id="L54">        System.out.println(&quot;Value of the Gaussian Elimination method: &quot;);</span>
+<span class="nc" id="L55">        System.out.println(&quot; &quot;);</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (i = mat_size - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L58">            double sum = 0;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            for (j = mat_size - 1; j &gt; i; j--) {</span>
+<span class="nc" id="L60">                x[i][j] = x[j][j] * x[i][j];</span>
+<span class="nc" id="L61">                sum = x[i][j] + sum;</span>
+            }
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (x[i][i] == 0) {</span>
+<span class="nc" id="L64">                x[i][i] = 0;</span>
+            } else {
+<span class="nc" id="L66">                x[i][i] = (x[i][mat_size] - sum) / (x[i][i]);</span>
+            }
+<span class="nc" id="L68">            System.out.print(&quot;x&quot; + i + &quot;=&quot; + x[i][i]);</span>
+<span class="nc" id="L69">            System.out.println(&quot; &quot;);</span>
+        }
+<span class="nc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

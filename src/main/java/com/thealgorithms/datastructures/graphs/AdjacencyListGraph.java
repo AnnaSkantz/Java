@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class AdjacencyListGraph<E extends Comparable<E>> {
 
     ArrayList<Vertex> verticies;
+  
     public int[] branchesReached;
 
     public AdjacencyListGraph() {

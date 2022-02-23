@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sudoku.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">Sudoku.java</span></div><h1>Sudoku.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+<span class="nc" id="L3">class Sudoku {</span>
+
+    public static boolean isSafe(int[][] board,
+            int row, int col,
+            int num) {
+        // Row has the unique (row-clash)
+<span class="nc bnc" id="L9" title="All 2 branches missed.">        for (int d = 0; d &lt; board.length; d++) {</span>
+
+            // Check if the number we are trying to
+            // place is already present in
+            // that row, return false;
+<span class="nc bnc" id="L14" title="All 2 branches missed.">            if (board[row][d] == num) {</span>
+<span class="nc" id="L15">                return false;</span>
+            }
+        }
+
+        // Column has the unique numbers (column-clash)
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        for (int r = 0; r &lt; board.length; r++) {</span>
+
+            // Check if the number
+            // we are trying to
+            // place is already present in
+            // that column, return false;
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            if (board[r][col] == num) {</span>
+<span class="nc" id="L27">                return false;</span>
+            }
+        }
+
+        // Corresponding square has
+        // unique number (box-clash)
+<span class="nc" id="L33">        int sqrt = (int) Math.sqrt(board.length);</span>
+<span class="nc" id="L34">        int boxRowStart = row - row % sqrt;</span>
+<span class="nc" id="L35">        int boxColStart = col - col % sqrt;</span>
+
+<span class="nc" id="L37">        for (int r = boxRowStart;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                r &lt; boxRowStart + sqrt; r++) {</span>
+<span class="nc" id="L39">            for (int d = boxColStart;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                    d &lt; boxColStart + sqrt; d++) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                if (board[r][d] == num) {</span>
+<span class="nc" id="L42">                    return false;</span>
+                }
+            }
+        }
+
+        // if there is no clash, it's safe
+<span class="nc" id="L48">        return true;</span>
+    }
+
+    public static boolean solveSudoku(
+            int[][] board, int n) {
+<span class="nc" id="L53">        int row = -1;</span>
+<span class="nc" id="L54">        int col = -1;</span>
+<span class="nc" id="L55">        boolean isEmpty = true;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (board[i][j] == 0) {</span>
+<span class="nc" id="L59">                    row = i;</span>
+<span class="nc" id="L60">                    col = j;</span>
+
+                    // We still have some remaining
+                    // missing values in Sudoku
+<span class="nc" id="L64">                    isEmpty = false;</span>
+<span class="nc" id="L65">                    break;</span>
+                }
+            }
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (!isEmpty) {</span>
+<span class="nc" id="L69">                break;</span>
+            }
+        }
+
+        // No empty space left
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (isEmpty) {</span>
+<span class="nc" id="L75">            return true;</span>
+        }
+
+        // Else for each-row backtrack
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (int num = 1; num &lt;= n; num++) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (isSafe(board, row, col, num)) {</span>
+<span class="nc" id="L81">                board[row][col] = num;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (solveSudoku(board, n)) {</span>
+                    // print(board, n);
+<span class="nc" id="L84">                    return true;</span>
+                } else {
+                    // replace it
+<span class="nc" id="L87">                    board[row][col] = 0;</span>
+                }
+            }
+        }
+<span class="nc" id="L91">        return false;</span>
+    }
+
+    public static void print(
+            int[][] board, int N) {
+
+        // We got the answer, just print it
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        for (int r = 0; r &lt; N; r++) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            for (int d = 0; d &lt; N; d++) {</span>
+<span class="nc" id="L100">                System.out.print(board[r][d]);</span>
+<span class="nc" id="L101">                System.out.print(&quot; &quot;);</span>
+            }
+<span class="nc" id="L103">            System.out.print(&quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            if ((r + 1) % (int) Math.sqrt(N) == 0) {</span>
+<span class="nc" id="L106">                System.out.print(&quot;&quot;);</span>
+            }
+        }
+<span class="nc" id="L109">    }</span>
+
+    // Driver Code
+    public static void main(String args[]) {
+
+<span class="nc" id="L114">        int[][] board = new int[][]{</span>
+            {3, 0, 6, 5, 0, 8, 4, 0, 0},
+            {5, 2, 0, 0, 0, 0, 0, 0, 0},
+            {0, 8, 7, 0, 0, 0, 0, 3, 1},
+            {0, 0, 3, 0, 1, 0, 0, 8, 0},
+            {9, 0, 0, 8, 6, 3, 0, 0, 5},
+            {0, 5, 0, 0, 9, 0, 6, 0, 0},
+            {1, 3, 0, 0, 0, 0, 2, 5, 0},
+            {0, 0, 0, 0, 0, 0, 0, 7, 4},
+            {0, 0, 5, 2, 0, 6, 3, 0, 0}
+        };
+<span class="nc" id="L125">        int N = board.length;</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (solveSudoku(board, N)) {</span>
+            // print solution
+<span class="nc" id="L129">            print(board, N);</span>
+        } else {
+<span class="nc" id="L131">            System.out.println(&quot;No solution&quot;);</span>
+        }
+<span class="nc" id="L133">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

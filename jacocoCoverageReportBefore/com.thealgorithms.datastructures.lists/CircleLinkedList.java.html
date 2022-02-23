@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CircleLinkedList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.lists</a> &gt; <span class="el_source">CircleLinkedList.java</span></div><h1>CircleLinkedList.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.lists;
+
+public class CircleLinkedList&lt;E&gt; {
+
+    private static class Node&lt;E&gt; {
+
+        Node&lt;E&gt; next;
+        E value;
+
+<span class="nc" id="L10">        private Node(E value, Node&lt;E&gt; next) {</span>
+<span class="nc" id="L11">            this.value = value;</span>
+<span class="nc" id="L12">            this.next = next;</span>
+<span class="nc" id="L13">        }</span>
+    }
+
+    // For better O.O design this should be private allows for better black box design
+    private int size;
+    // this will point to dummy node;
+<span class="nc" id="L19">    private Node&lt;E&gt; head = null;</span>
+<span class="nc" id="L20">    private Node&lt;E&gt; tail = null; // keeping a tail pointer to keep track of the end of list</span>
+
+    // constructer for class.. here we will make a dummy node for circly linked list implementation
+    // with reduced error catching as our list will never be empty;
+<span class="nc" id="L24">    public CircleLinkedList() {</span>
+        // creation of the dummy node
+<span class="nc" id="L26">        head = new Node&lt;E&gt;(null, head);</span>
+<span class="nc" id="L27">        tail = head;</span>
+<span class="nc" id="L28">        size = 0;</span>
+<span class="nc" id="L29">    }</span>
+
+    // getter for the size... needed because size is private.
+    public int getSize() {
+<span class="nc" id="L33">        return size;</span>
+    }
+
+    // for the sake of simplistiy this class will only contain the append function or addLast other
+    // add functions can be implemented however this is the basses of them all really.
+    public void append(E value) {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (value == null) {</span>
+            // we do not want to add null elements to the list.
+<span class="nc" id="L41">            throw new NullPointerException(&quot;Cannot add null element to the list&quot;);</span>
+        }
+        // head.next points to the last element;
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (tail == null) {</span>
+<span class="nc" id="L45">            tail = new Node&lt;E&gt;(value, head);</span>
+<span class="nc" id="L46">            head.next = tail;</span>
+        } else {
+<span class="nc" id="L48">            tail.next = new Node&lt;E&gt;(value, head);</span>
+<span class="nc" id="L49">            tail = tail.next;</span>
+        }
+<span class="nc" id="L51">        size++;</span>
+<span class="nc" id="L52">    }</span>
+
+    // utility function for teraversing the list
+    public String toString() {
+<span class="nc" id="L56">        Node p = head.next;</span>
+<span class="nc" id="L57">        String s = &quot;[ &quot;;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        while (p != head) {</span>
+<span class="nc" id="L59">            s += p.value;</span>
+<span class="nc" id="L60">            s += &quot; , &quot;;</span>
+<span class="nc" id="L61">            p = p.next;</span>
+        }
+<span class="nc" id="L63">        return s + &quot; ]&quot;;</span>
+    }
+
+    public static void main(String args[]) {
+<span class="nc" id="L67">        CircleLinkedList cl = new CircleLinkedList&lt;Integer&gt;();</span>
+<span class="nc" id="L68">        cl.append(12);</span>
+<span class="nc" id="L69">        System.out.println(cl);</span>
+<span class="nc" id="L70">        cl.append(23);</span>
+<span class="nc" id="L71">        System.out.println(cl);</span>
+<span class="nc" id="L72">        cl.append(34);</span>
+<span class="nc" id="L73">        System.out.println(cl);</span>
+<span class="nc" id="L74">        cl.append(56);</span>
+<span class="nc" id="L75">        System.out.println(cl);</span>
+<span class="nc" id="L76">        cl.remove(3);</span>
+<span class="nc" id="L77">        System.out.println(cl);</span>
+<span class="nc" id="L78">    }</span>
+
+    public E remove(int pos) {
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        if (pos &gt; size || pos &lt; 0) {</span>
+            // catching errors
+<span class="nc" id="L83">            throw new IndexOutOfBoundsException(&quot;position cannot be greater than size or negative&quot;);</span>
+        }
+        // we need to keep track of the element before the element we want to remove we can see why
+        // bellow.
+<span class="nc" id="L87">        Node&lt;E&gt; before = head;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int i = 1; i &lt;= pos; i++) {</span>
+<span class="nc" id="L89">            before = before.next;</span>
+        }
+<span class="nc" id="L91">        Node&lt;E&gt; destroy = before.next;</span>
+<span class="nc" id="L92">        E saved = destroy.value;</span>
+        // assigning the next reference to the the element following the element we want to remove...
+        // the last element will be assigned to the head.
+<span class="nc" id="L95">        before.next = before.next.next;</span>
+        // scrubbing
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (destroy == tail) {</span>
+<span class="nc" id="L98">            tail = before;</span>
+        }
+<span class="nc" id="L100">        destroy = null;</span>
+<span class="nc" id="L101">        size--;</span>
+<span class="nc" id="L102">        return saved;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

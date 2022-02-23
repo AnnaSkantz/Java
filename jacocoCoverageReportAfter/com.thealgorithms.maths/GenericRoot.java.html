@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericRoot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">GenericRoot.java</span></div><h1>GenericRoot.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/*
+ * Algorithm explanation: https://technotip.com/6774/c-program-to-find-generic-root-of-a-number/#:~:text=Generic%20Root%3A%20of%20a%20number,get%20a%20single%2Ddigit%20output.&amp;text=For%20Example%3A%20If%20user%20input,%2B%204%20%2B%205%20%3D%2015.
+ */
+<span class="nc" id="L6">public class GenericRoot {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L9">        int number1 = 1234;</span>
+<span class="nc" id="L10">        int number2 = 12345;</span>
+<span class="nc" id="L11">        int result1 = genericRoot(number1);</span>
+<span class="nc" id="L12">        int result2 = genericRoot(number2);</span>
+<span class="nc" id="L13">        System.out.println(&quot;Generic root of &quot; + number1 + &quot; is: &quot; + result1);</span>
+<span class="nc" id="L14">        System.out.println(&quot;Generic root of &quot; + number2 + &quot; is: &quot; + result2);</span>
+<span class="nc" id="L15">    }</span>
+
+    private static int genericRoot(int n) {
+<span class="nc" id="L18">        int root = 0;</span>
+<span class="nc bnc" id="L19" title="All 4 branches missed.">        while (n &gt; 0 || root &gt; 9) {</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">            if (n == 0) {</span>
+<span class="nc" id="L21">                n = root;</span>
+<span class="nc" id="L22">                root = 0;</span>
+            }
+<span class="nc" id="L24">            root += n % 10;</span>
+<span class="nc" id="L25">            n /= 10;</span>
+        }
+<span class="nc" id="L27">        return root;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

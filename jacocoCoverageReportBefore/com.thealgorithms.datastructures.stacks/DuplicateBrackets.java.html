@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DuplicateBrackets.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">DuplicateBrackets.java</span></div><h1>DuplicateBrackets.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+
+//  1. You are given a string exp representing an expression.
+// 2. Assume that the expression is balanced  i.e. the opening and closing brackets match with each other.
+// 3. But, some of the pair of brackets maybe extra/needless. 
+// 4. You are required to print true if you detect extra brackets and false otherwise.
+// e.g.'
+// ((a + b) + (c + d)) -&gt; false
+// (a + b) + ((c + d)) -&gt; true
+import java.util.*;
+
+<span class="nc" id="L12">public class DuplicateBrackets {</span>
+
+    public static boolean check(String str) {
+<span class="nc" id="L15">        Stack&lt;Character&gt; st = new Stack&lt;&gt;();</span>
+
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (int i = 0; i &lt; str.length(); i++) {</span>
+<span class="nc" id="L18">            char ch = str.charAt(i);</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">            if (ch == ')') {</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">                if (st.peek() == '(') {</span>
+<span class="nc" id="L21">                    return true;</span>
+                } else {
+<span class="nc bnc" id="L23" title="All 4 branches missed.">                    while (st.size() &gt; 0 &amp;&amp; st.peek() != '(') {</span>
+<span class="nc" id="L24">                        st.pop();</span>
+                    }
+<span class="nc" id="L26">                    st.pop();</span>
+                }
+
+            } else {
+<span class="nc" id="L30">                st.push(ch);</span>
+            }
+            // System.out.println(st);
+        }
+<span class="nc" id="L34">        return false;</span>
+    }
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L38">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L39">        String str = sc.nextLine();</span>
+<span class="nc" id="L40">        System.out.println(check(str));</span>
+<span class="nc" id="L41">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

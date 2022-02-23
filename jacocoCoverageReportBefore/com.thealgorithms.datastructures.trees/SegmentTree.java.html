@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SegmentTree.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">SegmentTree.java</span></div><h1>SegmentTree.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+public class SegmentTree {
+
+    private int seg_t[];
+    private int n;
+    private int arr[];
+
+    /* Constructor which takes the size of the array and the array as a parameter*/
+<span class="nc" id="L10">    public SegmentTree(int n, int arr[]) {</span>
+<span class="nc" id="L11">        this.n = n;</span>
+<span class="nc" id="L12">        int x = (int) (Math.ceil(Math.log(n) / Math.log(2)));</span>
+<span class="nc" id="L13">        int seg_size = 2 * (int) Math.pow(2, x) - 1;</span>
+
+<span class="nc" id="L15">        this.seg_t = new int[seg_size];</span>
+<span class="nc" id="L16">        this.arr = arr;</span>
+<span class="nc" id="L17">        this.n = n;</span>
+<span class="nc" id="L18">        constructTree(arr, 0, n - 1, 0);</span>
+<span class="nc" id="L19">    }</span>
+
+    /* A function which will create the segment tree*/
+    public int constructTree(int[] arr, int start, int end, int index) {
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (start == end) {</span>
+<span class="nc" id="L24">            this.seg_t[index] = arr[start];</span>
+<span class="nc" id="L25">            return arr[start];</span>
+        }
+
+<span class="nc" id="L28">        int mid = start + (end - start) / 2;</span>
+<span class="nc" id="L29">        this.seg_t[index] = constructTree(arr, start, mid, index * 2 + 1)</span>
+<span class="nc" id="L30">                + constructTree(arr, mid + 1, end, index * 2 + 2);</span>
+<span class="nc" id="L31">        return this.seg_t[index];</span>
+    }
+
+    /* A function which will update the value at a index i. This will be called by the
+    update function internally*/
+    private void updateTree(int start, int end, int index, int diff, int seg_index) {
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        if (index &lt; start || index &gt; end) {</span>
+<span class="nc" id="L38">            return;</span>
+        }
+
+<span class="nc" id="L41">        this.seg_t[seg_index] += diff;</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (start != end) {</span>
+<span class="nc" id="L43">            int mid = start + (end - start) / 2;</span>
+<span class="nc" id="L44">            updateTree(start, mid, index, diff, seg_index * 2 + 1);</span>
+<span class="nc" id="L45">            updateTree(mid + 1, end, index, diff, seg_index * 2 + 2);</span>
+        }
+<span class="nc" id="L47">    }</span>
+
+    /* A function to update the value at a particular index*/
+    public void update(int index, int value) {
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        if (index &lt; 0 || index &gt; n) {</span>
+<span class="nc" id="L52">            return;</span>
+        }
+
+<span class="nc" id="L55">        int diff = value - arr[index];</span>
+<span class="nc" id="L56">        arr[index] = value;</span>
+<span class="nc" id="L57">        updateTree(0, n - 1, index, diff, 0);</span>
+<span class="nc" id="L58">    }</span>
+
+    /* A function to get the sum of the elements from index l to index r. This will be called internally*/
+    private int getSumTree(int start, int end, int q_start, int q_end, int seg_index) {
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        if (q_start &lt;= start &amp;&amp; q_end &gt;= end) {</span>
+<span class="nc" id="L63">            return this.seg_t[seg_index];</span>
+        }
+
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        if (q_start &gt; end || q_end &lt; start) {</span>
+<span class="nc" id="L67">            return 0;</span>
+        }
+
+<span class="nc" id="L70">        int mid = start + (end - start) / 2;</span>
+<span class="nc" id="L71">        return getSumTree(start, mid, q_start, q_end, seg_index * 2 + 1) + getSumTree(mid + 1, end, q_start, q_end, seg_index * 2 + 2);</span>
+    }
+
+    /* A function to query the sum of the subarray [start...end]*/
+    public int getSum(int start, int end) {
+<span class="nc bnc" id="L76" title="All 6 branches missed.">        if (start &lt; 0 || end &gt; n || start &gt; end) {</span>
+<span class="nc" id="L77">            return 0;</span>
+        }
+<span class="nc" id="L79">        return getSumTree(0, n - 1, start, end, 0);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

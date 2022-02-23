@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReverseString.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">ReverseString.java</span></div><h1>ReverseString.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+/**
+ * Reverse String using different version
+ */
+<span class="nc bnc" id="L6" title="All 2 branches missed.">public class ReverseString {</span>
+
+    public static void main(String[] args) {
+<span class="nc bnc" id="L9" title="All 4 branches missed.">        assert reverse(&quot;abc123&quot;).equals(&quot;321cba&quot;);</span>
+<span class="nc bnc" id="L10" title="All 4 branches missed.">        assert reverse2(&quot;abc123&quot;).equals(&quot;321cba&quot;);</span>
+<span class="nc" id="L11">    }</span>
+
+    /**
+     * easiest way to reverses the string str and returns it
+     *
+     * @param str string to be reversed
+     * @return reversed string
+     */
+    public static String reverse(String str) {
+<span class="nc" id="L20">        return new StringBuilder(str).reverse().toString();</span>
+    }
+
+    /**
+     * second way to reverses the string str and returns it
+     *
+     * @param str string to be reversed
+     * @return reversed string
+     */
+    public static String reverse2(String str) {
+
+<span class="nc bnc" id="L31" title="All 4 branches missed.">        if (str == null || str.isEmpty()) {</span>
+<span class="nc" id="L32">            return str;</span>
+        }
+
+<span class="nc" id="L35">        char[] value = str.toCharArray();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 0, j = str.length() - 1; i &lt; j; i++, j--) {</span>
+<span class="nc" id="L37">            char temp = value[i];</span>
+<span class="nc" id="L38">            value[i] = value[j];</span>
+<span class="nc" id="L39">            value[j] = temp;</span>
+        }
+<span class="nc" id="L41">        return new String(value);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GnomeSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">GnomeSort.java</span></div><h1>GnomeSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+/**
+ * Implementation of gnome sort
+ *
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @since 2018-04-10
+ */
+<span class="nc" id="L11">public class GnomeSort implements SortAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] arr) {
+<span class="nc" id="L15">        int i = 1;</span>
+<span class="nc" id="L16">        int j = 2;</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        while (i &lt; arr.length) {</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">            if (less(arr[i - 1], arr[i])) {</span>
+<span class="nc" id="L19">                i = j++;</span>
+            } else {
+<span class="nc" id="L21">                swap(arr, i - 1, i);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                if (--i == 0) {</span>
+<span class="nc" id="L23">                    i = j++;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L28">        return null;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L32">        Integer[] integers = {4, 23, 6, 78, 1, 26, 11, 23, 0, -6, 3, 54, 231, 9, 12};</span>
+<span class="nc" id="L33">        String[] strings = {&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;, &quot;dd&quot;, &quot;da&quot;, &quot;zz&quot;, &quot;AA&quot;, &quot;aa&quot;, &quot;aB&quot;, &quot;Hb&quot;, &quot;Z&quot;};</span>
+<span class="nc" id="L34">        GnomeSort gnomeSort = new GnomeSort();</span>
+
+<span class="nc" id="L36">        gnomeSort.sort(integers);</span>
+<span class="nc" id="L37">        gnomeSort.sort(strings);</span>
+
+<span class="nc" id="L39">        System.out.println(&quot;After sort : &quot;);</span>
+<span class="nc" id="L40">        print(integers);</span>
+<span class="nc" id="L41">        print(strings);</span>
+<span class="nc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

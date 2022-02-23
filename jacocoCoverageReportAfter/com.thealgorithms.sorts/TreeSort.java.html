@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TreeSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">TreeSort.java</span></div><h1>TreeSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.print;
+import com.thealgorithms.datastructures.trees.BSTRecursiveGeneric;
+
+import java.util.List;
+
+/**
+ * &lt;h1&gt; Implementation of the Tree Sort algorithm&lt;/h1&gt;
+ *
+ * &lt;p&gt;
+ * Tree Sort: A sorting algorithm which constructs a Binary Search Tree using
+ * the unsorted data and then outputs the data by inorder traversal of the tree.
+ *
+ * Reference: https://en.wikipedia.org/wiki/Tree_sort
+ * &lt;/p&gt;
+ *
+ * @author Madhur Panwar (https://github.com/mdrpanwar)
+ */
+<span class="nc" id="L20">public class TreeSort implements SortAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] unsortedArray) {
+<span class="nc" id="L24">        return doTreeSortArray(unsortedArray);</span>
+    }
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; List&lt;T&gt; sort(List&lt;T&gt; unsortedList) {
+<span class="nc" id="L29">        return doTreeSortList(unsortedList);</span>
+    }
+
+    private &lt;T extends Comparable&lt;T&gt;&gt; T[] doTreeSortArray(T[] unsortedArray) {
+        // create a generic BST tree
+<span class="nc" id="L34">        BSTRecursiveGeneric&lt;T&gt; tree = new BSTRecursiveGeneric&lt;T&gt;();</span>
+
+        // add all elements to the tree
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (T element : unsortedArray) {</span>
+<span class="nc" id="L38">            tree.add(element);</span>
+        }
+
+        // get the sorted list by inorder traversal of the tree
+<span class="nc" id="L42">        List&lt;T&gt; sortedList = tree.inorderSort();</span>
+
+        // add the elements back to the initial array
+<span class="nc" id="L45">        int i = 0;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (T element : sortedList) {</span>
+<span class="nc" id="L47">            unsortedArray[i++] = element;</span>
+<span class="nc" id="L48">        }</span>
+
+        // return the array
+<span class="nc" id="L51">        return unsortedArray;</span>
+    }
+
+    private &lt;T extends Comparable&lt;T&gt;&gt; List&lt;T&gt; doTreeSortList(List&lt;T&gt; unsortedList) {
+        // create a generic BST tree
+<span class="nc" id="L56">        BSTRecursiveGeneric&lt;T&gt; tree = new BSTRecursiveGeneric&lt;T&gt;();</span>
+
+        // add all elements to the tree
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (T element : unsortedList) {</span>
+<span class="nc" id="L60">            tree.add(element);</span>
+<span class="nc" id="L61">        }</span>
+
+        // get the sorted list by inorder traversal of the tree and return it
+<span class="nc" id="L64">        return tree.inorderSort();</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L68">        TreeSort treeSort = new TreeSort();</span>
+
+        // ==== Integer Array =======
+<span class="nc" id="L71">        System.out.println(&quot;Testing for Integer Array....&quot;);</span>
+<span class="nc" id="L72">        Integer[] a = {3, -7, 45, 1, 343, -5, 2, 9};</span>
+<span class="nc" id="L73">        System.out.print(String.format(&quot;%-10s&quot;, &quot;unsorted: &quot;));</span>
+<span class="nc" id="L74">        print(a);</span>
+<span class="nc" id="L75">        a = treeSort.sort(a);</span>
+<span class="nc" id="L76">        System.out.print(String.format(&quot;%-10s&quot;, &quot;sorted: &quot;));</span>
+<span class="nc" id="L77">        print(a);</span>
+<span class="nc" id="L78">        System.out.println();</span>
+
+        // ==== Integer List =======
+<span class="nc" id="L81">        System.out.println(&quot;Testing for Integer List....&quot;);</span>
+<span class="nc" id="L82">        List&lt;Integer&gt; intList = List.of(3, -7, 45, 1, 343, -5, 2, 9);</span>
+<span class="nc" id="L83">        System.out.print(String.format(&quot;%-10s&quot;, &quot;unsorted: &quot;));</span>
+<span class="nc" id="L84">        print(intList);</span>
+<span class="nc" id="L85">        intList = treeSort.sort(intList);</span>
+<span class="nc" id="L86">        System.out.print(String.format(&quot;%-10s&quot;, &quot;sorted: &quot;));</span>
+<span class="nc" id="L87">        print(intList);</span>
+<span class="nc" id="L88">        System.out.println();</span>
+
+        // ==== String Array =======
+<span class="nc" id="L91">        System.out.println(&quot;Testing for String Array....&quot;);</span>
+<span class="nc" id="L92">        String[] b = {&quot;banana&quot;, &quot;berry&quot;, &quot;orange&quot;, &quot;grape&quot;, &quot;peach&quot;, &quot;cherry&quot;, &quot;apple&quot;, &quot;pineapple&quot;};</span>
+<span class="nc" id="L93">        System.out.print(String.format(&quot;%-10s&quot;, &quot;unsorted: &quot;));</span>
+<span class="nc" id="L94">        print(b);</span>
+<span class="nc" id="L95">        b = treeSort.sort(b);</span>
+<span class="nc" id="L96">        System.out.print(String.format(&quot;%-10s&quot;, &quot;sorted: &quot;));</span>
+<span class="nc" id="L97">        print(b);</span>
+<span class="nc" id="L98">        System.out.println();</span>
+
+        // ==== String List =======
+<span class="nc" id="L101">        System.out.println(&quot;Testing for String List....&quot;);</span>
+<span class="nc" id="L102">        List&lt;String&gt; stringList = List.of(&quot;banana&quot;, &quot;berry&quot;, &quot;orange&quot;, &quot;grape&quot;, &quot;peach&quot;, &quot;cherry&quot;, &quot;apple&quot;, &quot;pineapple&quot;);</span>
+<span class="nc" id="L103">        System.out.print(String.format(&quot;%-10s&quot;, &quot;unsorted: &quot;));</span>
+<span class="nc" id="L104">        print(stringList);</span>
+<span class="nc" id="L105">        stringList = treeSort.sort(stringList);</span>
+<span class="nc" id="L106">        System.out.print(String.format(&quot;%-10s&quot;, &quot;sorted: &quot;));</span>
+<span class="nc" id="L107">        print(stringList);</span>
+
+<span class="nc" id="L109">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

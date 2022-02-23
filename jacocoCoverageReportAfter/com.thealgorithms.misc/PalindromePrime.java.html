@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PalindromePrime.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">PalindromePrime.java</span></div><h1>PalindromePrime.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class PalindromePrime {</span>
+
+    public static void main(String[] args) { // Main funtion
+<span class="nc" id="L8">        Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L9">        System.out.println(&quot;Enter the quantity of First Palindromic Primes you want&quot;);</span>
+<span class="nc" id="L10">        int n = in.nextInt(); // Input of how many first palindromic prime we want</span>
+<span class="nc" id="L11">        functioning(n); // calling function - functioning</span>
+<span class="nc" id="L12">        in.close();</span>
+<span class="nc" id="L13">    }</span>
+
+    public static boolean prime(int num) { // checking if number is prime or not
+<span class="nc bnc" id="L16" title="All 2 branches missed.">        for (int divisor = 3; divisor &lt;= Math.sqrt(num); divisor += 2) {</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            if (num % divisor == 0) {</span>
+<span class="nc" id="L18">                return false; //  false if not prime</span>
+            }
+        }
+<span class="nc" id="L21">        return true; // True if prime</span>
+    }
+
+    public static int reverse(int n) { //  Returns  the reverse of the number
+<span class="nc" id="L25">        int reverse = 0;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        while (n != 0) {</span>
+<span class="nc" id="L27">            reverse *= 10;</span>
+<span class="nc" id="L28">            reverse += n % 10;</span>
+<span class="nc" id="L29">            n /= 10;</span>
+        }
+<span class="nc" id="L31">        return reverse;</span>
+    }
+
+    public static void functioning(int y) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (y == 0) {</span>
+<span class="nc" id="L36">            return;</span>
+        }
+<span class="nc" id="L38">        System.out.print(2 + &quot;\n&quot;); // print the first Palindromic Prime</span>
+<span class="nc" id="L39">        int count = 1;</span>
+<span class="nc" id="L40">        int num = 3;</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        while (count &lt; y) {</span>
+<span class="nc bnc" id="L42" title="All 4 branches missed.">            if (num == reverse(num) &amp;&amp; prime(num)) { // number is prime and it's reverse is same</span>
+<span class="nc" id="L43">                count++; // counts check when to terminate while loop</span>
+<span class="nc" id="L44">                System.out.print(num + &quot;\n&quot;); // print the Palindromic Prime</span>
+            }
+<span class="nc" id="L46">            num += 2; // inrease iterator value by two</span>
+        }
+<span class="nc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

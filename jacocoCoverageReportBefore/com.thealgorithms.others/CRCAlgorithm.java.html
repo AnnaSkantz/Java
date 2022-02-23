@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CRCAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">CRCAlgorithm.java</span></div><h1>CRCAlgorithm.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * @author dimgrichr
+ */
+public class CRCAlgorithm {
+
+    private int correctMess;
+
+    private int wrongMess;
+
+    private int wrongMessCaught;
+
+    private int wrongMessNotCaught;
+
+    private int messSize;
+
+    private double ber;
+
+    private boolean messageChanged;
+
+    private ArrayList&lt;Integer&gt; message;
+
+    private ArrayList&lt;Integer&gt; dividedMessage;
+
+    private ArrayList&lt;Integer&gt; p;
+
+    private Random randomGenerator;
+
+    /**
+     * The algorithm's main constructor. The most significant variables, used in
+     * the algorithm, are set in their initial values.
+     *
+     * @param str The binary number P, in a string form, which is used by the
+     * CRC algorithm
+     * @param size The size of every transmitted message
+     * @param ber The Bit Error Rate
+     */
+<span class="nc" id="L43">    public CRCAlgorithm(String str, int size, double ber) {</span>
+<span class="nc" id="L44">        messageChanged = false;</span>
+<span class="nc" id="L45">        message = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L46">        messSize = size;</span>
+<span class="nc" id="L47">        dividedMessage = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L48">        p = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (int i = 0; i &lt; str.length(); i++) {</span>
+<span class="nc" id="L50">            p.add(Character.getNumericValue(str.charAt(i)));</span>
+        }
+<span class="nc" id="L52">        randomGenerator = new Random();</span>
+<span class="nc" id="L53">        correctMess = 0;</span>
+<span class="nc" id="L54">        wrongMess = 0;</span>
+<span class="nc" id="L55">        wrongMessCaught = 0;</span>
+<span class="nc" id="L56">        wrongMessNotCaught = 0;</span>
+<span class="nc" id="L57">        this.ber = ber;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Returns the counter wrongMess
+     *
+     * @return wrongMess, the number of Wrong Messages
+     */
+    public int getWrongMess() {
+<span class="nc" id="L66">        return wrongMess;</span>
+    }
+
+    /**
+     * Returns the counter wrongMessCaught
+     *
+     * @return wrongMessCaught, the number of wrong messages, which are caught
+     * by the CRC algoriithm
+     */
+    public int getWrongMessCaught() {
+<span class="nc" id="L76">        return wrongMessCaught;</span>
+    }
+
+    /**
+     * Returns the counter wrongMessNotCaught
+     *
+     * @return wrongMessNotCaught, the number of wrong messages, which are not
+     * caught by the CRC algorithm
+     */
+    public int getWrongMessNotCaught() {
+<span class="nc" id="L86">        return wrongMessNotCaught;</span>
+    }
+
+    /**
+     * Returns the counter correctMess
+     *
+     * @return correctMess, the number of the Correct Messages
+     */
+    public int getCorrectMess() {
+<span class="nc" id="L95">        return correctMess;</span>
+    }
+
+    /**
+     * Resets some of the object's values, used on the main function, so that it
+     * can be re-used, in order not to waste too much memory and time, by
+     * creating new objects.
+     */
+    public void refactor() {
+<span class="nc" id="L104">        messageChanged = false;</span>
+<span class="nc" id="L105">        message = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L106">        dividedMessage = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * Random messages, consisted of 0's and 1's, are generated, so that they
+     * can later be transmitted
+     */
+    public void generateRandomMess() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (int i = 0; i &lt; messSize; i++) {</span>
+<span class="nc" id="L115">            int x = ThreadLocalRandom.current().nextInt(0, 2);</span>
+<span class="nc" id="L116">            message.add(x);</span>
+        }
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * The most significant part of the CRC algorithm. The message is divided by
+     * P, so the dividedMessage ArrayList&lt;Integer&gt; is created. If check == true,
+     * the dividedMessaage is examined, in order to see if it contains any 1's.
+     * If it does, the message is considered to be wrong by the receiver,so the
+     * variable wrongMessCaught changes. If it does not, it is accepted, so one
+     * of the variables correctMess, wrongMessNotCaught, changes. If check ==
+     * false, the diviided Message is added at the end of the ArrayList&lt;integer&gt;
+     * message.
+     *
+     * @param check the variable used to determine, if the message is going to
+     * be checked from the receiver if true, it is checked otherwise, it is not
+     */
+    public void divideMessageWithP(boolean check) {
+<span class="nc" id="L134">        ArrayList&lt;Integer&gt; x = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L135">        ArrayList&lt;Integer&gt; k = (ArrayList&lt;Integer&gt;) message.clone();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (!check) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            for (int i = 0; i &lt; p.size() - 1; i++) {</span>
+<span class="nc" id="L138">                k.add(0);</span>
+            }
+        }
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        while (!k.isEmpty()) {</span>
+<span class="nc bnc" id="L142" title="All 4 branches missed.">            while (x.size() &lt; p.size() &amp;&amp; !k.isEmpty()) {</span>
+<span class="nc" id="L143">                x.add(k.get(0));</span>
+<span class="nc" id="L144">                k.remove(0);</span>
+            }
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (x.size() == p.size()) {</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                for (int i = 0; i &lt; p.size(); i++) {</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                    if (x.get(i) == p.get(i)) {</span>
+<span class="nc" id="L149">                        x.set(i, 0);</span>
+                    } else {
+<span class="nc" id="L151">                        x.set(i, 1);</span>
+                    }
+                }
+<span class="nc bnc" id="L154" title="All 4 branches missed.">                for (int i = 0; i &lt; x.size() &amp;&amp; x.get(i) != 1; i++) {</span>
+<span class="nc" id="L155">                    x.remove(0);</span>
+                }
+            }
+        }
+<span class="nc" id="L159">        dividedMessage = (ArrayList&lt;Integer&gt;) x.clone();</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (!check) {</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            for (int z : dividedMessage) {</span>
+<span class="nc" id="L162">                message.add(z);</span>
+<span class="nc" id="L163">            }</span>
+        } else {
+<span class="nc bnc" id="L165" title="All 4 branches missed.">            if (dividedMessage.contains(1) &amp;&amp; messageChanged) {</span>
+<span class="nc" id="L166">                wrongMessCaught++;</span>
+<span class="nc bnc" id="L167" title="All 4 branches missed.">            } else if (!dividedMessage.contains(1) &amp;&amp; messageChanged) {</span>
+<span class="nc" id="L168">                wrongMessNotCaught++;</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">            } else if (!messageChanged) {</span>
+<span class="nc" id="L170">                correctMess++;</span>
+            }
+        }
+<span class="nc" id="L173">    }</span>
+
+    /**
+     * Once the message is transmitted, some of it's elements, is possible to
+     * change from 1 to 0, or from 0 to 1, because of the Bit Error Rate (ber).
+     * For every element of the message, a random double number is created. If
+     * that number is smaller than ber, then the spesific element changes. On
+     * the other hand, if it's bigger than ber, it does not. Based on these
+     * changes. the boolean variable messageChanged, gets the value: true, or
+     * false.
+     */
+    public void changeMess() {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        for (int y : message) {</span>
+<span class="nc" id="L186">            double x = randomGenerator.nextDouble();</span>
+<span class="nc bnc" id="L187" title="All 4 branches missed.">            while (x &lt; 0.0000 || x &gt; 1.00000) {</span>
+<span class="nc" id="L188">                x = randomGenerator.nextDouble();</span>
+            }
+<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (x &lt; ber) {</span>
+<span class="nc" id="L191">                messageChanged = true;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if (y == 1) {</span>
+<span class="nc" id="L193">                    message.set(message.indexOf(y), 0);</span>
+                } else {
+<span class="nc" id="L195">                    message.set(message.indexOf(y), 1);</span>
+                }
+            }
+<span class="nc" id="L198">        }</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        if (messageChanged) {</span>
+<span class="nc" id="L200">            wrongMess++;</span>
+        }
+<span class="nc" id="L202">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

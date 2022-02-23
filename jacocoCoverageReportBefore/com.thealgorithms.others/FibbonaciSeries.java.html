@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FibbonaciSeries.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">FibbonaciSeries.java</span></div><h1>FibbonaciSeries.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Scanner;
+
+/**
+ * Fibonacci sequence, and characterized by the fact that every number after the
+ * first two is the sum of the two preceding ones.
+ *
+ * &lt;p&gt;
+ * Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21,...
+ *
+ * &lt;p&gt;
+ * Source for the explanation: https://en.wikipedia.org/wiki/Fibonacci_number
+ *
+ * Problem Statement: print all Fibonacci numbers that are smaller than your
+ * given input N
+ */
+<span class="nc" id="L18">public class FibbonaciSeries {</span>
+
+    public static void main(String[] args) {
+        // Get input from the user
+<span class="nc" id="L22">        Scanner scan = new Scanner(System.in);</span>
+<span class="nc" id="L23">        int n = scan.nextInt();</span>
+<span class="nc" id="L24">        int first = 0, second = 1;</span>
+<span class="nc" id="L25">        scan.close();</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        while (first &lt;= n) {</span>
+            // print first fibo 0 then add second fibo into it while updating second as well
+<span class="nc" id="L28">            System.out.println(first);</span>
+<span class="nc" id="L29">            int next = first + second;</span>
+<span class="nc" id="L30">            first = second;</span>
+<span class="nc" id="L31">            second = next;</span>
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

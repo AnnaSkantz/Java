@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FordFulkerson.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">FordFulkerson.java</span></div><h1>FordFulkerson.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Vector;
+
+<span class="nc" id="L7">public class FordFulkerson {</span>
+
+    static final int INF = 987654321;
+    // edges
+    static int V;
+    static int[][] capacity, flow;
+
+    public static void main(String[] args) {
+<span class="nc" id="L15">        System.out.println(&quot;V : 6&quot;);</span>
+<span class="nc" id="L16">        V = 6;</span>
+<span class="nc" id="L17">        capacity = new int[V][V];</span>
+
+<span class="nc" id="L19">        capacity[0][1] = 12;</span>
+<span class="nc" id="L20">        capacity[0][3] = 13;</span>
+<span class="nc" id="L21">        capacity[1][2] = 10;</span>
+<span class="nc" id="L22">        capacity[2][3] = 13;</span>
+<span class="nc" id="L23">        capacity[2][4] = 3;</span>
+<span class="nc" id="L24">        capacity[2][5] = 15;</span>
+<span class="nc" id="L25">        capacity[3][2] = 7;</span>
+<span class="nc" id="L26">        capacity[3][4] = 15;</span>
+<span class="nc" id="L27">        capacity[4][5] = 17;</span>
+
+<span class="nc" id="L29">        System.out.println(&quot;Max capacity in networkFlow : &quot; + networkFlow(0, 5));</span>
+<span class="nc" id="L30">    }</span>
+
+    private static int networkFlow(int source, int sink) {
+<span class="nc" id="L33">        flow = new int[V][V];</span>
+<span class="nc" id="L34">        int totalFlow = 0;</span>
+        while (true) {
+<span class="nc" id="L36">            Vector&lt;Integer&gt; parent = new Vector&lt;&gt;(V);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            for (int i = 0; i &lt; V; i++) {</span>
+<span class="nc" id="L38">                parent.add(-1);</span>
+            }
+<span class="nc" id="L40">            Queue&lt;Integer&gt; q = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L41">            parent.set(source, source);</span>
+<span class="nc" id="L42">            q.add(source);</span>
+<span class="nc bnc" id="L43" title="All 4 branches missed.">            while (!q.isEmpty() &amp;&amp; parent.get(sink) == -1) {</span>
+<span class="nc" id="L44">                int here = q.peek();</span>
+<span class="nc" id="L45">                q.poll();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                for (int there = 0; there &lt; V; ++there) {</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">                    if (capacity[here][there] - flow[here][there] &gt; 0 &amp;&amp; parent.get(there) == -1) {</span>
+<span class="nc" id="L48">                        q.add(there);</span>
+<span class="nc" id="L49">                        parent.set(there, here);</span>
+                    }
+                }
+<span class="nc" id="L52">            }</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (parent.get(sink) == -1) {</span>
+<span class="nc" id="L54">                break;</span>
+            }
+
+<span class="nc" id="L57">            int amount = INF;</span>
+<span class="nc" id="L58">            String printer = &quot;path : &quot;;</span>
+<span class="nc" id="L59">            StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            for (int p = sink; p != source; p = parent.get(p)) {</span>
+<span class="nc" id="L61">                amount = Math.min(capacity[parent.get(p)][p] - flow[parent.get(p)][p], amount);</span>
+<span class="nc" id="L62">                sb.append(p + &quot;-&quot;);</span>
+            }
+<span class="nc" id="L64">            sb.append(source);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            for (int p = sink; p != source; p = parent.get(p)) {</span>
+<span class="nc" id="L66">                flow[parent.get(p)][p] += amount;</span>
+<span class="nc" id="L67">                flow[p][parent.get(p)] -= amount;</span>
+            }
+<span class="nc" id="L69">            totalFlow += amount;</span>
+<span class="nc" id="L70">            printer += sb.reverse() + &quot; / max flow : &quot; + totalFlow;</span>
+<span class="nc" id="L71">            System.out.println(printer);</span>
+<span class="nc" id="L72">        }</span>
+
+<span class="nc" id="L74">        return totalFlow;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

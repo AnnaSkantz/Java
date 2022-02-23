@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkedQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.queues</a> &gt; <span class="el_source">LinkedQueue.java</span></div><h1>LinkedQueue.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.queues;
+
+import java.util.NoSuchElementException;
+
+<span class="nc bnc" id="L5" title="All 2 branches missed.">public class LinkedQueue {</span>
+
+    class Node {
+
+        int data;
+        Node next;
+
+        public Node() {
+<span class="nc" id="L13">            this(0);</span>
+<span class="nc" id="L14">        }</span>
+
+        public Node(int data) {
+<span class="nc" id="L17">            this(data, null);</span>
+<span class="nc" id="L18">        }</span>
+
+<span class="nc" id="L20">        public Node(int data, Node next) {</span>
+<span class="nc" id="L21">            this.data = data;</span>
+<span class="nc" id="L22">            this.next = next;</span>
+<span class="nc" id="L23">        }</span>
+    }
+
+    /**
+     * Front of Queue
+     */
+    private Node front;
+
+    /**
+     * Rear of Queue
+     */
+    private Node rear;
+
+    /**
+     * Size of Queue
+     */
+    private int size;
+
+    /**
+     * Init LinkedQueue
+     */
+<span class="nc" id="L44">    public LinkedQueue() {</span>
+<span class="nc" id="L45">        front = rear = new Node();</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * Check if queue is empty
+     *
+     * @return true if queue is empty, otherwise false
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        return size == 0;</span>
+    }
+
+    /**
+     * Add element to rear of queue
+     *
+     * @param data insert value
+     * @return true if add successfully
+     */
+    public boolean enqueue(int data) {
+<span class="nc" id="L64">        Node newNode = new Node(data);</span>
+<span class="nc" id="L65">        rear.next = newNode;</span>
+<span class="nc" id="L66">        rear = newNode;</span>
+        /* make rear point at last node */
+<span class="nc" id="L68">        size++;</span>
+<span class="nc" id="L69">        return true;</span>
+    }
+
+    /**
+     * Remove element at the front of queue
+     *
+     * @return element at the front of queue
+     */
+    public int dequeue() {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L79">            throw new NoSuchElementException(&quot;queue is empty&quot;);</span>
+        }
+<span class="nc" id="L81">        Node destroy = front.next;</span>
+<span class="nc" id="L82">        int retValue = destroy.data;</span>
+<span class="nc" id="L83">        front.next = front.next.next;</span>
+<span class="nc" id="L84">        destroy = null;</span>
+        /* clear let GC do it's work */
+<span class="nc" id="L86">        size--;</span>
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L89">            front = rear;</span>
+        }
+
+<span class="nc" id="L92">        return retValue;</span>
+    }
+
+    /**
+     * Peek element at the front of queue without removing
+     *
+     * @return element at the front
+     */
+    public int peekFront() {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L102">            throw new NoSuchElementException(&quot;queue is empty&quot;);</span>
+        }
+<span class="nc" id="L104">        return front.next.data;</span>
+    }
+
+    /**
+     * Peek element at the rear of queue without removing
+     *
+     * @return element at the front
+     */
+    public int peekRear() {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L114">            throw new NoSuchElementException(&quot;queue is empty&quot;);</span>
+        }
+<span class="nc" id="L116">        return rear.data;</span>
+    }
+
+    /**
+     * Return size of queue
+     *
+     * @return size of queue
+     */
+    public int size() {
+<span class="nc" id="L125">        return size;</span>
+    }
+
+    /**
+     * Clear all nodes in queue
+     */
+    public void clear() {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        while (!isEmpty()) {</span>
+<span class="nc" id="L133">            dequeue();</span>
+        }
+<span class="nc" id="L135">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L140">            return &quot;[]&quot;;</span>
+        }
+<span class="nc" id="L142">        StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L143">        Node cur = front.next;</span>
+<span class="nc" id="L144">        builder.append(&quot;[&quot;);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        while (cur != null) {</span>
+<span class="nc" id="L146">            builder.append(cur.data).append(&quot;, &quot;);</span>
+<span class="nc" id="L147">            cur = cur.next;</span>
+        }
+<span class="nc" id="L149">        builder.replace(builder.length() - 2, builder.length(), &quot;]&quot;);</span>
+<span class="nc" id="L150">        return builder.toString();</span>
+    }
+
+    /* Driver Code */
+    public static void main(String[] args) {
+<span class="nc" id="L155">        LinkedQueue queue = new LinkedQueue();</span>
+<span class="nc bnc" id="L156" title="All 4 branches missed.">        assert queue.isEmpty();</span>
+
+<span class="nc" id="L158">        queue.enqueue(1);</span>
+        /* 1 */
+<span class="nc" id="L160">        queue.enqueue(2);</span>
+        /* 1 2 */
+<span class="nc" id="L162">        queue.enqueue(3);</span>
+        /* 1 2 3 */
+<span class="nc" id="L164">        System.out.println(queue);</span>
+        /* [1, 2, 3] */
+
+<span class="nc bnc" id="L167" title="All 4 branches missed.">        assert queue.size() == 3;</span>
+<span class="nc bnc" id="L168" title="All 4 branches missed.">        assert queue.dequeue() == 1;</span>
+<span class="nc bnc" id="L169" title="All 4 branches missed.">        assert queue.peekFront() == 2;</span>
+<span class="nc bnc" id="L170" title="All 4 branches missed.">        assert queue.peekRear() == 3;</span>
+
+<span class="nc" id="L172">        queue.clear();</span>
+<span class="nc bnc" id="L173" title="All 4 branches missed.">        assert queue.isEmpty();</span>
+
+<span class="nc" id="L175">        System.out.println(queue);</span>
+        /* [] */
+<span class="nc" id="L177">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

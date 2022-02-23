@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeapElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.heaps</a> &gt; <span class="el_source">HeapElement.java</span></div><h1>HeapElement.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.heaps;
+
+/**
+ * Class for heap elements.&lt;br&gt;
+ *
+ * &lt;p&gt;
+ * A heap element contains two attributes: a key which will be used to build the
+ * tree (int or double, either primitive type or object) and any kind of
+ * IMMUTABLE object the user sees fit to carry any information he/she likes. Be
+ * aware that the use of a mutable object might jeopardize the integrity of this
+ * information.
+ *
+ * @author Nicolas Renard
+ */
+public class HeapElement {
+
+    private final double key;
+    private final Object additionalInfo;
+
+    // Constructors
+    /**
+     * @param key : a number of primitive type 'double'
+     * @param info : any kind of IMMUTABLE object. May be null, since the
+     * purpose is only to carry additional information of use for the user
+     */
+<span class="nc" id="L26">    public HeapElement(double key, Object info) {</span>
+<span class="nc" id="L27">        this.key = key;</span>
+<span class="nc" id="L28">        this.additionalInfo = info;</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * @param key : a number of primitive type 'int'
+     * @param info : any kind of IMMUTABLE object. May be null, since the
+     * purpose is only to carry additional information of use for the user
+     */
+<span class="nc" id="L36">    public HeapElement(int key, Object info) {</span>
+<span class="nc" id="L37">        this.key = key;</span>
+<span class="nc" id="L38">        this.additionalInfo = info;</span>
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * @param key : a number of object type 'Integer'
+     * @param info : any kind of IMMUTABLE object. May be null, since the
+     * purpose is only to carry additional information of use for the user
+     */
+<span class="nc" id="L46">    public HeapElement(Integer key, Object info) {</span>
+<span class="nc" id="L47">        this.key = key;</span>
+<span class="nc" id="L48">        this.additionalInfo = info;</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * @param key : a number of object type 'Double'
+     * @param info : any kind of IMMUTABLE object. May be null, since the
+     * purpose is only to carry additional information of use for the user
+     */
+<span class="nc" id="L56">    public HeapElement(Double key, Object info) {</span>
+<span class="nc" id="L57">        this.key = key;</span>
+<span class="nc" id="L58">        this.additionalInfo = info;</span>
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * @param key : a number of primitive type 'double'
+     */
+<span class="nc" id="L64">    public HeapElement(double key) {</span>
+<span class="nc" id="L65">        this.key = key;</span>
+<span class="nc" id="L66">        this.additionalInfo = null;</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * @param key : a number of primitive type 'int'
+     */
+<span class="nc" id="L72">    public HeapElement(int key) {</span>
+<span class="nc" id="L73">        this.key = key;</span>
+<span class="nc" id="L74">        this.additionalInfo = null;</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * @param key : a number of object type 'Integer'
+     */
+<span class="nc" id="L80">    public HeapElement(Integer key) {</span>
+<span class="nc" id="L81">        this.key = key;</span>
+<span class="nc" id="L82">        this.additionalInfo = null;</span>
+<span class="nc" id="L83">    }</span>
+
+    /**
+     * @param key : a number of object type 'Double'
+     */
+<span class="nc" id="L88">    public HeapElement(Double key) {</span>
+<span class="nc" id="L89">        this.key = key;</span>
+<span class="nc" id="L90">        this.additionalInfo = null;</span>
+<span class="nc" id="L91">    }</span>
+
+    // Getters
+    /**
+     * @return the object containing the additional info provided by the user.
+     */
+    public Object getInfo() {
+<span class="nc" id="L98">        return additionalInfo;</span>
+    }
+
+    /**
+     * @return the key value of the element
+     */
+    public double getKey() {
+<span class="nc" id="L105">        return key;</span>
+    }
+
+    // Overridden object methods
+    public String toString() {
+<span class="nc" id="L110">        return &quot;Key: &quot; + key + &quot; - &quot; + additionalInfo.toString();</span>
+    }
+
+    /**
+     * @param otherHeapElement
+     * @return true if the keys on both elements are identical and the
+     * additional info objects are identical.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (o != null) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            if (!(o instanceof HeapElement)) {</span>
+<span class="nc" id="L122">                return false;</span>
+            }
+<span class="nc" id="L124">            HeapElement otherHeapElement = (HeapElement) o;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            return (this.key == otherHeapElement.key)</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                    &amp;&amp; (this.additionalInfo.equals(otherHeapElement.additionalInfo));</span>
+        }
+<span class="nc" id="L128">        return false;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L133">        int result = 0;</span>
+<span class="nc" id="L134">        result = 31 * result + (int) key;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        result = 31 * result + (additionalInfo != null ? additionalInfo.hashCode() : 0);</span>
+<span class="nc" id="L136">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

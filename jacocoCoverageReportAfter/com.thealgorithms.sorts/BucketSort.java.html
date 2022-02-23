@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BucketSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">BucketSort.java</span></div><h1>BucketSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Wikipedia: https://en.wikipedia.org/wiki/Bucket_sort
+ */
+<span class="nc bnc" id="L11" title="All 2 branches missed.">public class BucketSort {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L14">        int[] arr = new int[10];</span>
+
+        /* generate 10 random numbers from -50 to 49 */
+<span class="nc" id="L17">        Random random = new Random();</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length; ++i) {</span>
+<span class="nc" id="L19">            arr[i] = random.nextInt(100) - 50;</span>
+        }
+
+<span class="nc" id="L22">        bucketSort(arr);</span>
+
+        /* check array is sorted or not */
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (int i = 0, limit = arr.length - 1; i &lt; limit; ++i) {</span>
+<span class="nc bnc" id="L26" title="All 4 branches missed.">            assert arr[i] &lt;= arr[i + 1];</span>
+        }
+<span class="nc" id="L28">    }</span>
+
+    /**
+     * BucketSort algorithms implements
+     *
+     * @param arr the array contains elements
+     */
+    private static void bucketSort(int[] arr) {
+        /* get max value of arr */
+<span class="nc" id="L37">        int max = max(arr);</span>
+
+        /* get min value of arr */
+<span class="nc" id="L40">        int min = min(arr);</span>
+
+        /* number of buckets */
+<span class="nc" id="L43">        int numberOfBuckets = max - min + 1;</span>
+
+<span class="nc" id="L45">        List&lt;List&lt;Integer&gt;&gt; buckets = new ArrayList&lt;&gt;(numberOfBuckets);</span>
+
+        /* init buckets */
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfBuckets; ++i) {</span>
+<span class="nc" id="L49">            buckets.add(new ArrayList&lt;&gt;());</span>
+        }
+
+        /* store elements to buckets */
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (int value : arr) {</span>
+<span class="nc" id="L54">            int hash = hash(value, min, numberOfBuckets);</span>
+<span class="nc" id="L55">            buckets.get(hash).add(value);</span>
+        }
+
+        /* sort individual bucket */
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (List&lt;Integer&gt; bucket : buckets) {</span>
+<span class="nc" id="L60">            Collections.sort(bucket);</span>
+<span class="nc" id="L61">        }</span>
+
+        /* concatenate buckets to origin array */
+<span class="nc" id="L64">        int index = 0;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (List&lt;Integer&gt; bucket : buckets) {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            for (int value : bucket) {</span>
+<span class="nc" id="L67">                arr[index++] = value;</span>
+<span class="nc" id="L68">            }</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">    }</span>
+
+    /**
+     * Get index of bucket which of our elements gets placed into it.
+     *
+     * @param elem the element of array to be sorted
+     * @param min min value of array
+     * @param numberOfBucket the number of bucket
+     * @return index of bucket
+     */
+    private static int hash(int elem, int min, int numberOfBucket) {
+<span class="nc" id="L81">        return (elem - min) / numberOfBucket;</span>
+    }
+
+    /**
+     * Calculate max value of array
+     *
+     * @param arr the array contains elements
+     * @return max value of given array
+     */
+    public static int max(int[] arr) {
+<span class="nc" id="L91">        int max = arr[0];</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (int value : arr) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (value &gt; max) {</span>
+<span class="nc" id="L94">                max = value;</span>
+            }
+        }
+<span class="nc" id="L97">        return max;</span>
+    }
+
+    /**
+     * Calculate min value of array
+     *
+     * @param arr the array contains elements
+     * @return min value of given array
+     */
+    public static int min(int[] arr) {
+<span class="nc" id="L107">        int min = arr[0];</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (int value : arr) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (value &lt; min) {</span>
+<span class="nc" id="L110">                min = value;</span>
+            }
+        }
+<span class="nc" id="L113">        return min;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

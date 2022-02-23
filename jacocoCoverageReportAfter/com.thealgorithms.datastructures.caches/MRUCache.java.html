@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MRUCache.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.caches</a> &gt; <span class="el_source">MRUCache.java</span></div><h1>MRUCache.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.caches;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Most recently used (MRU)
+ * &lt;p&gt;
+ * In contrast to Least Recently Used (LRU), MRU discards the most recently used
+ * items first.
+ * https://en.wikipedia.org/wiki/Cache_replacement_policies#Most_recently_used_(MRU)
+ *
+ * @param &lt;K&gt; key type
+ * @param &lt;V&gt; value type
+ */
+public class MRUCache&lt;K, V&gt; {
+
+<span class="nc" id="L18">    private final Map&lt;K, Entry&lt;K, V&gt;&gt; data = new HashMap&lt;&gt;();</span>
+    private Entry&lt;K, V&gt; head;
+    private Entry&lt;K, V&gt; tail;
+    private int cap;
+    private static final int DEFAULT_CAP = 100;
+
+<span class="nc" id="L24">    public MRUCache() {</span>
+<span class="nc" id="L25">        setCapacity(DEFAULT_CAP);</span>
+<span class="nc" id="L26">    }</span>
+
+    private void setCapacity(int newCapacity) {
+<span class="nc" id="L29">        checkCapacity(newCapacity);</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (int i = data.size(); i &gt; newCapacity; i--) {</span>
+<span class="nc" id="L31">            Entry&lt;K, V&gt; evicted = evict();</span>
+<span class="nc" id="L32">            data.remove(evicted.getKey());</span>
+        }
+<span class="nc" id="L34">        this.cap = newCapacity;</span>
+<span class="nc" id="L35">    }</span>
+
+    private void checkCapacity(int capacity) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (capacity &lt;= 0) {</span>
+<span class="nc" id="L39">            throw new RuntimeException(&quot;capacity must greater than 0!&quot;);</span>
+        }
+<span class="nc" id="L41">    }</span>
+
+    private Entry&lt;K, V&gt; evict() {
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (head == null) {</span>
+<span class="nc" id="L45">            throw new RuntimeException(&quot;cache cannot be empty!&quot;);</span>
+        }
+<span class="nc" id="L47">        final Entry&lt;K, V&gt; evicted = this.tail;</span>
+<span class="nc" id="L48">        tail = evicted.getPreEntry();</span>
+<span class="nc" id="L49">        tail.setNextEntry(null);</span>
+<span class="nc" id="L50">        evicted.setNextEntry(null);</span>
+<span class="nc" id="L51">        return evicted;</span>
+    }
+
+<span class="nc" id="L54">    public MRUCache(int cap) {</span>
+<span class="nc" id="L55">        setCapacity(cap);</span>
+<span class="nc" id="L56">    }</span>
+
+    public V get(K key) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (!data.containsKey(key)) {</span>
+<span class="nc" id="L60">            return null;</span>
+        }
+<span class="nc" id="L62">        final Entry&lt;K, V&gt; entry = data.get(key);</span>
+<span class="nc" id="L63">        moveEntryToLast(entry);</span>
+<span class="nc" id="L64">        return entry.getValue();</span>
+    }
+
+    public void put(K key, V value) {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (data.containsKey(key)) {</span>
+<span class="nc" id="L69">            final Entry&lt;K, V&gt; exitingEntry = data.get(key);</span>
+<span class="nc" id="L70">            exitingEntry.setValue(value);</span>
+<span class="nc" id="L71">            moveEntryToLast(exitingEntry);</span>
+<span class="nc" id="L72">            return;</span>
+        }
+        Entry&lt;K, V&gt; newEntry;
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (data.size() == cap) {</span>
+<span class="nc" id="L76">            newEntry = evict();</span>
+<span class="nc" id="L77">            data.remove(newEntry.getKey());</span>
+        } else {
+<span class="nc" id="L79">            newEntry = new Entry&lt;&gt;();</span>
+        }
+<span class="nc" id="L81">        newEntry.setKey(key);</span>
+<span class="nc" id="L82">        newEntry.setValue(value);</span>
+<span class="nc" id="L83">        addNewEntry(newEntry);</span>
+<span class="nc" id="L84">        data.put(key, newEntry);</span>
+<span class="nc" id="L85">    }</span>
+
+    private void addNewEntry(Entry&lt;K, V&gt; newEntry) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (data.isEmpty()) {</span>
+<span class="nc" id="L89">            head = newEntry;</span>
+<span class="nc" id="L90">            tail = newEntry;</span>
+<span class="nc" id="L91">            return;</span>
+        }
+<span class="nc" id="L93">        tail.setNextEntry(newEntry);</span>
+<span class="nc" id="L94">        newEntry.setPreEntry(tail);</span>
+<span class="nc" id="L95">        newEntry.setNextEntry(null);</span>
+<span class="nc" id="L96">        tail = newEntry;</span>
+<span class="nc" id="L97">    }</span>
+
+    private void moveEntryToLast(Entry&lt;K, V&gt; entry) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (tail == entry) {</span>
+<span class="nc" id="L101">            return;</span>
+        }
+<span class="nc" id="L103">        final Entry&lt;K, V&gt; preEntry = entry.getPreEntry();</span>
+<span class="nc" id="L104">        final Entry&lt;K, V&gt; nextEntry = entry.getNextEntry();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (preEntry != null) {</span>
+<span class="nc" id="L106">            preEntry.setNextEntry(nextEntry);</span>
+        }
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (nextEntry != null) {</span>
+<span class="nc" id="L109">            nextEntry.setPreEntry(preEntry);</span>
+        }
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (head == entry) {</span>
+<span class="nc" id="L112">            head = nextEntry;</span>
+        }
+<span class="nc" id="L114">        tail.setNextEntry(entry);</span>
+<span class="nc" id="L115">        entry.setPreEntry(tail);</span>
+<span class="nc" id="L116">        entry.setNextEntry(null);</span>
+<span class="nc" id="L117">        tail = entry;</span>
+<span class="nc" id="L118">    }</span>
+
+    static final class Entry&lt;I, J&gt; {
+
+        private Entry&lt;I, J&gt; preEntry;
+        private Entry&lt;I, J&gt; nextEntry;
+        private I key;
+        private J value;
+
+<span class="nc" id="L127">        public Entry() {</span>
+<span class="nc" id="L128">        }</span>
+
+<span class="nc" id="L130">        public Entry(Entry&lt;I, J&gt; preEntry, Entry&lt;I, J&gt; nextEntry, I key, J value) {</span>
+<span class="nc" id="L131">            this.preEntry = preEntry;</span>
+<span class="nc" id="L132">            this.nextEntry = nextEntry;</span>
+<span class="nc" id="L133">            this.key = key;</span>
+<span class="nc" id="L134">            this.value = value;</span>
+<span class="nc" id="L135">        }</span>
+
+        public Entry&lt;I, J&gt; getPreEntry() {
+<span class="nc" id="L138">            return preEntry;</span>
+        }
+
+        public void setPreEntry(Entry&lt;I, J&gt; preEntry) {
+<span class="nc" id="L142">            this.preEntry = preEntry;</span>
+<span class="nc" id="L143">        }</span>
+
+        public Entry&lt;I, J&gt; getNextEntry() {
+<span class="nc" id="L146">            return nextEntry;</span>
+        }
+
+        public void setNextEntry(Entry&lt;I, J&gt; nextEntry) {
+<span class="nc" id="L150">            this.nextEntry = nextEntry;</span>
+<span class="nc" id="L151">        }</span>
+
+        public I getKey() {
+<span class="nc" id="L154">            return key;</span>
+        }
+
+        public void setKey(I key) {
+<span class="nc" id="L158">            this.key = key;</span>
+<span class="nc" id="L159">        }</span>
+
+        public J getValue() {
+<span class="nc" id="L162">            return value;</span>
+        }
+
+        public void setValue(J value) {
+<span class="nc" id="L166">            this.value = value;</span>
+<span class="nc" id="L167">        }</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L171">        final MRUCache&lt;String, Integer&gt; cache = new MRUCache&lt;&gt;(2);</span>
+<span class="nc" id="L172">        cache.put(&quot;Key1&quot;, 1);</span>
+<span class="nc" id="L173">        cache.put(&quot;Key2&quot;, 2);</span>
+<span class="nc" id="L174">        cache.put(&quot;Key3&quot;, 3);</span>
+<span class="nc" id="L175">        cache.put(&quot;Key4&quot;, 4);</span>
+<span class="nc" id="L176">        System.out.println(&quot;getValue(Key1): &quot; + cache.get(&quot;Key1&quot;));</span>
+<span class="nc" id="L177">        System.out.println(&quot;getValue(Key2): &quot; + cache.get(&quot;Key2&quot;));</span>
+<span class="nc" id="L178">        System.out.println(&quot;getValue(Key3): &quot; + cache.get(&quot;Key3&quot;));</span>
+<span class="nc" id="L179">        System.out.println(&quot;getValue(Key4): &quot; + cache.get(&quot;Key4&quot;));</span>
+<span class="nc" id="L180">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

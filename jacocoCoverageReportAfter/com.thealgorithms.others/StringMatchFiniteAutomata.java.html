@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringMatchFiniteAutomata.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">StringMatchFiniteAutomata.java</span></div><h1>StringMatchFiniteAutomata.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+/**
+ * @author Prateek Kumar Oraon (https://github.com/prateekKrOraon)
+ */
+import java.util.Scanner;
+
+// An implementaion of string matching using finite automata
+<span class="nc" id="L9">public class StringMatchFiniteAutomata {</span>
+
+    public static final int CHARS = 256;
+    public static int[][] FA;
+<span class="nc" id="L13">    public static Scanner scanner = null;</span>
+
+    public static void main(String[] args) {
+
+<span class="nc" id="L17">        scanner = new Scanner(System.in);</span>
+<span class="nc" id="L18">        System.out.println(&quot;Enter String&quot;);</span>
+<span class="nc" id="L19">        String text = scanner.nextLine();</span>
+<span class="nc" id="L20">        System.out.println(&quot;Enter pattern&quot;);</span>
+<span class="nc" id="L21">        String pat = scanner.nextLine();</span>
+
+<span class="nc" id="L23">        searchPat(text, pat);</span>
+
+<span class="nc" id="L25">        scanner.close();</span>
+<span class="nc" id="L26">    }</span>
+
+    public static void searchPat(String text, String pat) {
+
+<span class="nc" id="L30">        int m = pat.length();</span>
+<span class="nc" id="L31">        int n = text.length();</span>
+
+<span class="nc" id="L33">        FA = new int[m + 1][CHARS];</span>
+
+<span class="nc" id="L35">        computeFA(pat, m, FA);</span>
+
+<span class="nc" id="L37">        int state = 0;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L39">            state = FA[state][text.charAt(i)];</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (state == m) {</span>
+<span class="nc" id="L42">                System.out.println(&quot;Pattern found at index &quot; + (i - m + 1));</span>
+            }
+        }
+<span class="nc" id="L45">    }</span>
+
+    // Computes finite automata for the partern
+    public static void computeFA(String pat, int m, int[][] FA) {
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (int state = 0; state &lt;= m; ++state) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            for (int x = 0; x &lt; CHARS; ++x) {</span>
+<span class="nc" id="L52">                FA[state][x] = getNextState(pat, m, state, x);</span>
+            }
+        }
+<span class="nc" id="L55">    }</span>
+
+    public static int getNextState(String pat, int m, int state, int x) {
+
+        // if current state is less than length of pattern
+        // and input character of pattern matches the character in the alphabet
+        // then automata goes to next state
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        if (state &lt; m &amp;&amp; x == pat.charAt(state)) {</span>
+<span class="nc" id="L63">            return state + 1;</span>
+        }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (int ns = state; ns &gt; 0; ns--) {</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (pat.charAt(ns - 1) == x) {</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                for (int i = 0; i &lt; ns - 1; i++) {</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                    if (pat.charAt(i) != pat.charAt(state - ns + i + 1)) {</span>
+<span class="nc" id="L73">                        break;</span>
+                    }
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                    if (i == ns - 1) {</span>
+<span class="nc" id="L77">                        return ns;</span>
+                    }
+                }
+            }
+        }
+
+<span class="nc" id="L83">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

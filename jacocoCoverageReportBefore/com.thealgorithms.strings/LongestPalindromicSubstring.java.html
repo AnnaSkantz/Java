@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestPalindromicSubstring.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">LongestPalindromicSubstring.java</span></div><h1>LongestPalindromicSubstring.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+// Longest Palindromic Substring
+import java.util.Scanner;
+
+<span class="nc" id="L6">class LongestPalindromicSubstring {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L9">        Solution s = new Solution();</span>
+<span class="nc" id="L10">        String str = &quot;&quot;;</span>
+<span class="nc" id="L11">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L12">        System.out.print(&quot;Enter the string: &quot;);</span>
+<span class="nc" id="L13">        str = sc.nextLine();</span>
+<span class="nc" id="L14">        System.out.println(&quot;Longest substring is : &quot; + s.longestPalindrome(str));</span>
+<span class="nc" id="L15">    }</span>
+}
+
+<span class="nc" id="L18">class Solution {</span>
+
+    public String longestPalindrome(String s) {
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        if (s == null || s.length() == 0) {</span>
+<span class="nc" id="L22">            return &quot;&quot;;</span>
+        }
+<span class="nc" id="L24">        int n = s.length();</span>
+<span class="nc" id="L25">        String maxStr = &quot;&quot;;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        for (int i = 0; i &lt; n; ++i) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            for (int j = i; j &lt; n; ++j) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                if (isValid(s, i, j) == true) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                    if (j - i + 1 &gt; maxStr.length()) { // update maxStr</span>
+<span class="nc" id="L30">                        maxStr = s.substring(i, j + 1);</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L35">        return maxStr;</span>
+    }
+
+    private boolean isValid(String s, int lo, int hi) {
+<span class="nc" id="L39">        int n = hi - lo + 1;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int i = 0; i &lt; n / 2; ++i) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (s.charAt(lo + i) != s.charAt(hi - i)) {</span>
+<span class="nc" id="L42">                return false;</span>
+            }
+        }
+<span class="nc" id="L45">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

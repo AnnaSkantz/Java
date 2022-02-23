@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NthUglyNumber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">NthUglyNumber.java</span></div><h1>NthUglyNumber.java</h1><pre class="source lang-java linenums">// Ugly numbers are numbers whose only prime factors are 2, 3 or 5. The sequence 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, … shows the first 11 ugly numbers.
+// By convention, 1 is included.
+// A program to find the nth Ugly number
+// Algorithm :
+// Initialize three-pointers two, three, and five pointing to zero.
+// Take 3 variables nm2, nm3, and nm5 to keep track of next multiple of 2,3 and 5.
+// Make an array of size n to store the ugly numbers with 1 at 0th index.
+// Initialize a variable next which stores the value of the last element in the array.
+// Run a loop n-1 times and perform steps 6,7 and 8.
+// Update the values of nm2, nm3, nm5 as ugly[two]*2, ugly[three]*3, ugly[5]*5 respectively.
+// Select the minimum value from nm2, nm3, and nm5 and increment the pointer related to it.
+// Store the minimum value in variable next and array.
+// Return next.
+package com.thealgorithms.maths;
+
+import java.util.*;
+
+<span class="nc" id="L18">class NthUglyNumber {</span>
+
+    /* Function to get the nth ugly number*/
+    public long getNthUglyNo(int n) {
+<span class="nc" id="L22">        long[] ugly = new long[n];</span>
+<span class="nc" id="L23">        int two = 0, three = 0, five = 0;</span>
+<span class="nc" id="L24">        long nm2 = 2, nm3 = 3, nm5 = 5;</span>
+<span class="nc" id="L25">        long next = 1;</span>
+
+<span class="nc" id="L27">        ugly[0] = 1;</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (int i = 1; i &lt; n; i++) {</span>
+<span class="nc" id="L30">            next = Math.min(nm2, Math.min(nm3, nm5));</span>
+
+<span class="nc" id="L32">            ugly[i] = next;</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (next == nm2) {</span>
+<span class="nc" id="L34">                two = two + 1;</span>
+<span class="nc" id="L35">                nm2 = ugly[two] * 2;</span>
+            }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (next == nm3) {</span>
+<span class="nc" id="L38">                three = three + 1;</span>
+<span class="nc" id="L39">                nm3 = ugly[three] * 3;</span>
+            }
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (next == nm5) {</span>
+<span class="nc" id="L42">                five = five + 1;</span>
+<span class="nc" id="L43">                nm5 = ugly[five] * 5;</span>
+            }
+        }
+<span class="nc" id="L46">        return next;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L50">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L51">        System.out.println(&quot;Enter the value of n : &quot;);</span>
+<span class="nc" id="L52">        int n = sc.nextInt();</span>
+<span class="nc" id="L53">        NthUglyNumber ob = new NthUglyNumber();</span>
+<span class="nc" id="L54">        long ugly = ob.getNthUglyNo(n);</span>
+<span class="nc" id="L55">        System.out.println(&quot;nth Ugly number is : &quot; + ugly);</span>
+<span class="nc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

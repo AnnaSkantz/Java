@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BipartiteGrapfDFS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.graphs</a> &gt; <span class="el_source">BipartiteGrapfDFS.java</span></div><h1>BipartiteGrapfDFS.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.graphs;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * Given an adjacency list of a graph adj of V no. of vertices having 0 based
+ * index. Check whether the graph is bipartite or not.
+ *
+ * Input : {{0, 1, 0, 1}, {1, 0, 1, 0}, {0, 1, 0, 1}, {1, 0, 1, 0}}
+ *
+ * Output : YES
+ */
+<span class="nc" id="L17">public class BipartiteGrapfDFS {</span>
+
+    private static boolean bipartite(int V, ArrayList&lt;ArrayList&lt;Integer&gt;&gt; adj, int[] color, int node) {
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (color[node] == -1) {</span>
+<span class="nc" id="L21">            color[node] = 1;</span>
+        }
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (Integer it : adj.get(node)) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            if (color[it] == -1) {</span>
+<span class="nc" id="L25">                color[it] = 1 - color[node];</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                if (bipartite(V, adj, color, it) == false) {</span>
+<span class="nc" id="L27">                    return false;</span>
+                }
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            } else if (color[it] == color[node]) {</span>
+<span class="nc" id="L30">                return false;</span>
+            }
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">        return true;</span>
+    }
+
+    public static boolean isBipartite(int V, ArrayList&lt;ArrayList&lt;Integer&gt;&gt; adj) {
+        // Code here
+<span class="nc" id="L38">        int[] color = new int[V + 1];</span>
+<span class="nc" id="L39">        Arrays.fill(color, -1);</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (int i = 0; i &lt; V; i++) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (color[i] == -1) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                if (!bipartite(V, adj, color, i)) {</span>
+<span class="nc" id="L44">                    return false;</span>
+                }
+            }
+        }
+<span class="nc" id="L48">        return true;</span>
+    }
+
+    public static void main(String[] args) throws IOException {
+<span class="nc" id="L52">        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));</span>
+<span class="nc" id="L53">        int t = Integer.parseInt(read.readLine().trim());</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        while (t-- &gt; 0) {</span>
+<span class="nc" id="L55">            String[] S = read.readLine().trim().split(&quot; &quot;);</span>
+<span class="nc" id="L56">            int V = Integer.parseInt(S[0]);</span>
+<span class="nc" id="L57">            int E = Integer.parseInt(S[1]);</span>
+
+<span class="nc" id="L59">            ArrayList&lt;ArrayList&lt;Integer&gt;&gt; adj = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            for (int i = 0; i &lt; V; i++) {</span>
+<span class="nc" id="L61">                adj.add(new ArrayList&lt;&gt;());</span>
+            }
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (int i = 0; i &lt; E; i++) {</span>
+<span class="nc" id="L64">                String[] s = read.readLine().trim().split(&quot; &quot;);</span>
+<span class="nc" id="L65">                int u = Integer.parseInt(s[0]);</span>
+<span class="nc" id="L66">                int v = Integer.parseInt(s[1]);</span>
+<span class="nc" id="L67">                adj.get(u).add(v);</span>
+<span class="nc" id="L68">                adj.get(v).add(u);</span>
+            }
+
+<span class="nc" id="L71">            boolean ans = isBipartite(V, adj);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (ans) {</span>
+<span class="nc" id="L73">                System.out.println(&quot;YES&quot;);</span>
+            } else {
+<span class="nc" id="L75">                System.out.println(&quot;NO&quot;);</span>
+            }
+<span class="nc" id="L77">        }</span>
+<span class="nc" id="L78">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,5 +1,10 @@
 package com.thealgorithms.datastructures.trees;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  *
  *
@@ -18,6 +23,7 @@ package com.thealgorithms.datastructures.trees;
  * @author [Lakhan Nad](https://github.com/Lakhan-Nad)
  */
 public class BSTRecursive {
+    private static ArrayList<String> testTrack = new ArrayList<String>();
 
     /**
      * only data member is root of BST
@@ -63,34 +69,71 @@ public class BSTRecursive {
      * @return Node the updated value of root parameter after delete operation
      */
     private Node delete(Node node, int data) {
+        // id 1
+        testTrack.add("1");
         if (node == null) {
+            // id 2
+            testTrack.add("2");
             System.out.println("No such data present in BST.");
         } else if (node.data > data) {
+            // id 3
+            testTrack.add("3");
             node.left = delete(node.left, data);
         } else if (node.data < data) {
+            // id 4
+            testTrack.add("4");
             node.right = delete(node.right, data);
         } else {
+            // id 5
+            testTrack.add("5");
             if (node.right == null && node.left == null) { // If it is leaf node
+                // id 6
+                testTrack.add("6");
                 node = null;
             } else if (node.left == null) { // If only right node is present
+                // id 7
+                testTrack.add("7");
                 Node temp = node.right;
                 node.right = null;
                 node = temp;
             } else if (node.right == null) { // Only left node is present
+                // id 8
+                testTrack.add("8");
                 Node temp = node.left;
                 node.left = null;
                 node = temp;
             } else { // both child are present
+                // id 9
+                testTrack.add("9");
                 Node temp = node.right;
                 // Find leftmost child of right subtree
                 while (temp.left != null) {
+                    // id 10
+                    testTrack.add("10");
                     temp = temp.left;
                 }
                 node.data = temp.data;
                 node.right = delete(node.right, temp.data);
             }
         }
+        writeToFile(testTrack.toString());
         return node;
+    }
+
+    /**
+     * Writes the input string s to a file called branchesBST.txt in /tmp
+     * @param s - What to write in the file
+     */
+    private static void writeToFile(String s) {
+        // write res to file
+        File f = new File("/tmp/branchesBST.txt");
+        try {
+            FileWriter fw = new FileWriter("/tmp/branchesBST.txt");
+            fw.write(testTrack.toString());
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

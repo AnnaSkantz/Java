@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SieveOfEratosthenes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">SieveOfEratosthenes.java</span></div><h1>SieveOfEratosthenes.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Arrays;
+
+/**
+ * Sieve of Eratosthenes is an ancient algorithm for finding all prime numbers
+ * up to any given limit. It does so by iteratively marking as composite (i.e.,
+ * not prime) the multiples of each prime, starting with the first prime number,
+ * 2. The multiples of a given prime are generated as a sequence of numbers
+ * starting from that prime, with constant difference between them that is equal
+ * to that prime. This is the sieve's key distinction from using trial division
+ * to sequentially test each candidate number for divisibility by each prime.
+ * Once all the multiples of each discovered prime have been marked as
+ * composites, the remaining unmarked numbers are primes.
+ * &lt;p&gt;
+ * Poetry about Sieve of Eratosthenes:
+ * &lt;p&gt;
+ * &lt;i&gt;Sift the Two's and Sift the Three's:&lt;/i&gt;&lt;/p&gt;
+ * &lt;p&gt;
+ * &lt;i&gt;The Sieve of Eratosthenes.&lt;/i&gt;&lt;/p&gt;
+ * &lt;p&gt;
+ * &lt;i&gt;When the multiples sublime,&lt;/i&gt;&lt;/p&gt;
+ * &lt;p&gt;
+ * &lt;i&gt;The numbers that remain are Prime.&lt;/i&gt;&lt;/p&gt;
+ *
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes&quot;&gt;Wiki&lt;/a&gt;
+ */
+<span class="nc" id="L28">public class SieveOfEratosthenes {</span>
+
+    /**
+     * @param n The number till which we have to check for prime Prints all the
+     * prime numbers till n. Should be more than 1.
+     * @return array of all prime numbers between 0 to n
+     */
+    public static int[] findPrimesTill(int n) {
+        // Create array where index is number and value is flag - is that number a prime or not.
+        // size of array is n + 1 cause in Java array indexes starts with 0
+<span class="nc" id="L38">        Type[] numbers = new Type[n + 1];</span>
+
+        // Start with assumption that all numbers except 0 and 1 are primes.
+<span class="nc" id="L41">        Arrays.fill(numbers, Type.PRIME);</span>
+<span class="nc" id="L42">        numbers[0] = numbers[1] = Type.NOT_PRIME;</span>
+
+<span class="nc" id="L44">        double cap = Math.sqrt(n);</span>
+        // Main algorithm: mark all numbers which are multiples of some other values as not prime
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int i = 2; i &lt;= cap; i++) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (numbers[i] == Type.PRIME) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                for (int j = 2; i * j &lt;= n; j++) {</span>
+<span class="nc" id="L49">                    numbers[i * j] = Type.NOT_PRIME;</span>
+                }
+            }
+        }
+
+        //Write all primes to result array
+<span class="nc" id="L55">        int primesCount = (int) Arrays.stream(numbers)</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                .filter(element -&gt; element == Type.PRIME)</span>
+<span class="nc" id="L57">                .count();</span>
+<span class="nc" id="L58">        int[] primes = new int[primesCount];</span>
+
+<span class="nc" id="L60">        int primeIndex = 0;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (int i = 0; i &lt; n + 1; i++) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (numbers[i] == Type.PRIME) {</span>
+<span class="nc" id="L63">                primes[primeIndex++] = i;</span>
+            }
+        }
+
+<span class="nc" id="L67">        return primes;</span>
+    }
+
+<span class="nc" id="L70">    private enum Type {</span>
+<span class="nc" id="L71">        PRIME, NOT_PRIME</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L75">        int n = 100;</span>
+<span class="nc" id="L76">        System.out.println(&quot;Searching for all primes from zero to &quot; + n);</span>
+<span class="nc" id="L77">        int[] primes = findPrimesTill(n);</span>
+<span class="nc" id="L78">        System.out.println(&quot;Found: &quot; + Arrays.toString(primes));</span>
+<span class="nc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

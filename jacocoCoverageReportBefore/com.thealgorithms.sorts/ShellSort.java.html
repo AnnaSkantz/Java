@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShellSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">ShellSort.java</span></div><h1>ShellSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+<span class="nc bnc" id="L5" title="All 2 branches missed.">public class ShellSort implements SortAlgorithm {</span>
+
+    /**
+     * Implements generic shell sort.
+     *
+     * @param array the array to be sorted.
+     * @param &lt;T&gt; the type of elements in the array.
+     * @return the sorted array.
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] array) {
+<span class="nc" id="L16">        int length = array.length;</span>
+<span class="nc" id="L17">        int gap = 1;</span>
+
+        /* Calculate gap for optimization purpose */
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        while (gap &lt; length / 3) {</span>
+<span class="nc" id="L21">            gap = 3 * gap + 1;</span>
+        }
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        for (; gap &gt; 0; gap /= 3) {</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            for (int i = gap; i &lt; length; i++) {</span>
+                int j;
+<span class="nc" id="L27">                T temp = array[i];</span>
+<span class="nc bnc" id="L28" title="All 4 branches missed.">                for (j = i; j &gt;= gap &amp;&amp; less(temp, array[j - gap]); j -= gap) {</span>
+<span class="nc" id="L29">                    array[j] = array[j - gap];</span>
+                }
+<span class="nc" id="L31">                array[j] = temp;</span>
+            }
+        }
+<span class="nc" id="L34">        return array;</span>
+    }
+
+    /* Driver Code */
+    public static void main(String[] args) {
+<span class="nc" id="L39">        Integer[] toSort = {4, 23, 6, 78, 1, 54, 231, 9, 12};</span>
+
+<span class="nc" id="L41">        ShellSort sort = new ShellSort();</span>
+<span class="nc" id="L42">        sort.sort(toSort);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (int i = 0; i &lt; toSort.length - 1; ++i) {</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">            assert toSort[i] &lt;= toSort[i + 1];</span>
+        }
+<span class="nc" id="L46">        print(toSort);</span>
+<span class="nc" id="L47">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

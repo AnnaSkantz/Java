@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DecimalToBinary.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">DecimalToBinary.java</span></div><h1>DecimalToBinary.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+import java.util.Scanner;
+
+/**
+ * This class converts a Decimal number to a Binary number
+ */
+<span class="nc" id="L8">class DecimalToBinary {</span>
+
+    /**
+     * Main Method
+     *
+     * @param args Command Line Arguments
+     */
+    public static void main(String args[]) {
+<span class="nc" id="L16">        conventionalConversion();</span>
+<span class="nc" id="L17">        bitwiseConversion();</span>
+<span class="nc" id="L18">    }</span>
+
+    /**
+     * This method converts a decimal number to a binary number using a
+     * conventional algorithm.
+     */
+    public static void conventionalConversion() {
+<span class="nc" id="L25">        int n, b = 0, c = 0, d;</span>
+<span class="nc" id="L26">        Scanner input = new Scanner(System.in);</span>
+<span class="nc" id="L27">        System.out.printf(&quot;Conventional conversion.%n Enter the decimal number: &quot;);</span>
+<span class="nc" id="L28">        n = input.nextInt();</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        while (n != 0) {</span>
+<span class="nc" id="L30">            d = n % 2;</span>
+<span class="nc" id="L31">            b = b + d * (int) Math.pow(10, c++);</span>
+<span class="nc" id="L32">            n /= 2;</span>
+        } // converting decimal to binary
+<span class="nc" id="L34">        System.out.println(&quot;\tBinary number: &quot; + b);</span>
+<span class="nc" id="L35">        input.close();</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * This method converts a decimal number to a binary number using a bitwise
+     * algorithm
+     */
+    public static void bitwiseConversion() {
+<span class="nc" id="L43">        int n, b = 0, c = 0, d;</span>
+<span class="nc" id="L44">        Scanner input = new Scanner(System.in);</span>
+<span class="nc" id="L45">        System.out.printf(&quot;Bitwise conversion.%n Enter the decimal number: &quot;);</span>
+<span class="nc" id="L46">        n = input.nextInt();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        while (n != 0) {</span>
+<span class="nc" id="L48">            d = (n &amp; 1);</span>
+<span class="nc" id="L49">            b += d * (int) Math.pow(10, c++);</span>
+<span class="nc" id="L50">            n &gt;&gt;= 1;</span>
+        }
+<span class="nc" id="L52">        System.out.println(&quot;\tBinary number: &quot; + b);</span>
+<span class="nc" id="L53">        input.close();</span>
+<span class="nc" id="L54">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

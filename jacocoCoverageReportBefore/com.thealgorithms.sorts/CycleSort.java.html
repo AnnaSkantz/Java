@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CycleSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">CycleSort.java</span></div><h1>CycleSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.less;
+import static com.thealgorithms.sorts.SortUtils.print;
+
+/**
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ */
+<span class="nc" id="L9">class CycleSort implements SortAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] arr) {
+<span class="nc" id="L13">        int n = arr.length;</span>
+
+        // traverse array elements
+<span class="nc bnc" id="L16" title="All 2 branches missed.">        for (int j = 0; j &lt;= n - 2; j++) {</span>
+            // initialize item as starting point
+<span class="nc" id="L18">            T item = arr[j];</span>
+
+            // Find position where we put the item.
+<span class="nc" id="L21">            int pos = j;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">            for (int i = j + 1; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">                if (less(arr[i], item)) {</span>
+<span class="nc" id="L24">                    pos++;</span>
+                }
+            }
+
+            // If item is already in correct position
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            if (pos == j) {</span>
+<span class="nc" id="L30">                continue;</span>
+            }
+
+            // ignore all duplicate elements
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            while (item.compareTo(arr[pos]) == 0) {</span>
+<span class="nc" id="L35">                pos += 1;</span>
+            }
+
+            // put the item to it's right position
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (pos != j) {</span>
+<span class="nc" id="L40">                item = replace(arr, pos, item);</span>
+            }
+
+            // Rotate rest of the cycle
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            while (pos != j) {</span>
+<span class="nc" id="L45">                pos = j;</span>
+
+                // Find position where we put the element
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                for (int i = j + 1; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (less(arr[i], item)) {</span>
+<span class="nc" id="L50">                        pos += 1;</span>
+                    }
+                }
+
+                // ignore all duplicate elements
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                while (item.compareTo(arr[pos]) == 0) {</span>
+<span class="nc" id="L56">                    pos += 1;</span>
+                }
+
+                // put the item to it's right position
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (item != arr[pos]) {</span>
+<span class="nc" id="L61">                    item = replace(arr, pos, item);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L66">        return arr;</span>
+    }
+
+    private &lt;T extends Comparable&lt;T&gt;&gt; T replace(T[] arr, int pos, T item) {
+<span class="nc" id="L70">        T temp = item;</span>
+<span class="nc" id="L71">        item = arr[pos];</span>
+<span class="nc" id="L72">        arr[pos] = temp;</span>
+<span class="nc" id="L73">        return item;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L77">        Integer arr[] = {4, 23, 6, 78, 1, 26, 11, 23, 0, -6, 3, 54, 231, 9, 12};</span>
+<span class="nc" id="L78">        CycleSort cycleSort = new CycleSort();</span>
+<span class="nc" id="L79">        cycleSort.sort(arr);</span>
+
+<span class="nc" id="L81">        System.out.println(&quot;After sort : &quot;);</span>
+<span class="nc" id="L82">        print(arr);</span>
+<span class="nc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TreeTraversal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">TreeTraversal.java</span></div><h1>TreeTraversal.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+import java.util.LinkedList;
+
+/**
+ * @author Varun Upadhyay (https://github.com/varunu28)
+ */
+// Driver Program
+<span class="nc" id="L9">public class TreeTraversal {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L12">        Node tree = new Node(5);</span>
+<span class="nc" id="L13">        tree.insert(3);</span>
+<span class="nc" id="L14">        tree.insert(2);</span>
+<span class="nc" id="L15">        tree.insert(7);</span>
+<span class="nc" id="L16">        tree.insert(4);</span>
+<span class="nc" id="L17">        tree.insert(6);</span>
+<span class="nc" id="L18">        tree.insert(8);</span>
+
+        // Prints 5 3 2 4 7 6 8
+<span class="nc" id="L21">        System.out.println(&quot;Pre order traversal:&quot;);</span>
+<span class="nc" id="L22">        tree.printPreOrder();</span>
+<span class="nc" id="L23">        System.out.println();</span>
+        // Prints 2 3 4 5 6 7 8
+<span class="nc" id="L25">        System.out.println(&quot;In order traversal:&quot;);</span>
+<span class="nc" id="L26">        tree.printInOrder();</span>
+<span class="nc" id="L27">        System.out.println();</span>
+        // Prints 2 4 3 6 8 7 5
+<span class="nc" id="L29">        System.out.println(&quot;Post order traversal:&quot;);</span>
+<span class="nc" id="L30">        tree.printPostOrder();</span>
+<span class="nc" id="L31">        System.out.println();</span>
+        // Prints 5 3 7 2 4 6 8
+<span class="nc" id="L33">        System.out.println(&quot;Level order traversal:&quot;);</span>
+<span class="nc" id="L34">        tree.printLevelOrder();</span>
+<span class="nc" id="L35">        System.out.println();</span>
+<span class="nc" id="L36">    }</span>
+}
+
+/**
+ * The Node class which initializes a Node of a tree Consists of all 4 traversal
+ * methods: printInOrder, printPostOrder， printPreOrder &amp; printLevelOrder
+ * printInOrder: LEFT -&gt; ROOT -&gt; RIGHT printPreOrder: ROOT -&gt; LEFT -&gt; RIGHT
+ * printPostOrder: LEFT -&gt; RIGHT -&gt; ROOT printLevelOrder: Prints by level
+ * (starting at root), from left to right.
+ */
+class Node {
+
+    Node left, right;
+    int data;
+
+<span class="nc" id="L51">    public Node(int data) {</span>
+<span class="nc" id="L52">        this.data = data;</span>
+<span class="nc" id="L53">    }</span>
+
+    public void insert(int value) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (value &lt; data) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (left == null) {</span>
+<span class="nc" id="L58">                left = new Node(value);</span>
+            } else {
+<span class="nc" id="L60">                left.insert(value);</span>
+            }
+        } else {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (right == null) {</span>
+<span class="nc" id="L64">                right = new Node(value);</span>
+            } else {
+<span class="nc" id="L66">                right.insert(value);</span>
+            }
+        }
+<span class="nc" id="L69">    }</span>
+
+    public void printInOrder() {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (left != null) {</span>
+<span class="nc" id="L73">            left.printInOrder();</span>
+        }
+<span class="nc" id="L75">        System.out.print(data + &quot; &quot;);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (right != null) {</span>
+<span class="nc" id="L77">            right.printInOrder();</span>
+        }
+<span class="nc" id="L79">    }</span>
+
+    public void printPreOrder() {
+<span class="nc" id="L82">        System.out.print(data + &quot; &quot;);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (left != null) {</span>
+<span class="nc" id="L84">            left.printPreOrder();</span>
+        }
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (right != null) {</span>
+<span class="nc" id="L87">            right.printPreOrder();</span>
+        }
+<span class="nc" id="L89">    }</span>
+
+    public void printPostOrder() {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (left != null) {</span>
+<span class="nc" id="L93">            left.printPostOrder();</span>
+        }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (right != null) {</span>
+<span class="nc" id="L96">            right.printPostOrder();</span>
+        }
+<span class="nc" id="L98">        System.out.print(data + &quot; &quot;);</span>
+<span class="nc" id="L99">    }</span>
+
+    /**
+     * O(n) time algorithm. Uses O(n) space to store nodes in a queue to aid in
+     * traversal.
+     */
+    public void printLevelOrder() {
+<span class="nc" id="L106">        LinkedList&lt;Node&gt; queue = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L107">        queue.add(this);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        while (queue.size() &gt; 0) {</span>
+<span class="nc" id="L109">            Node head = queue.remove();</span>
+<span class="nc" id="L110">            System.out.print(head.data + &quot; &quot;);</span>
+            // Add children of recently-printed node to queue, if they exist.
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            if (head.left != null) {</span>
+<span class="nc" id="L113">                queue.add(head.left);</span>
+            }
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if (head.right != null) {</span>
+<span class="nc" id="L116">                queue.add(head.right);</span>
+            }
+<span class="nc" id="L118">        }</span>
+<span class="nc" id="L119">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

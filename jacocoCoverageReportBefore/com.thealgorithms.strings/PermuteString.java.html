@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PermuteString.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">PermuteString.java</span></div><h1>PermuteString.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+/*
+Backtracking algorithm used in the program:-
+
+&gt;&gt;Fix a character in the first position and swap the rest of the character with the first character.
+  Like in ABC, in the first iteration three strings are formed: ABC, BAC, and CBA by swapping A with
+  A, B and C respectively.
+&gt;&gt;Repeat step 1 for the rest of the characters like fixing second character B and so on.
+&gt;&gt;Now swap again to go back to the previous position. E.g., from ABC, we formed ABC by fixing B again,
+  and we backtrack to the previous position and swap B with C. So, now we got ABC and ACB.
+&gt;&gt;Repeat these steps for BAC and CBA, to get all the permutations.
+ */
+<span class="nc" id="L14">public class PermuteString {</span>
+
+    //Function for swapping the characters at position I with character at position j    
+    public static String swapString(String a, int i, int j) {
+<span class="nc" id="L18">        char[] b = a.toCharArray();</span>
+        char ch;
+<span class="nc" id="L20">        ch = b[i];</span>
+<span class="nc" id="L21">        b[i] = b[j];</span>
+<span class="nc" id="L22">        b[j] = ch;</span>
+<span class="nc" id="L23">        return String.valueOf(b);</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L27">        String str = &quot;ABC&quot;;</span>
+<span class="nc" id="L28">        int len = str.length();</span>
+<span class="nc" id="L29">        System.out.println(&quot;All the permutations of the string are: &quot;);</span>
+<span class="nc" id="L30">        generatePermutation(str, 0, len);</span>
+<span class="nc" id="L31">    }</span>
+
+    //Function for generating different permutations of the string    
+    public static void generatePermutation(String str, int start, int end) {
+        //Prints the permutations    
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (start == end - 1) {</span>
+<span class="nc" id="L37">            System.out.println(str);</span>
+        } else {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            for (int i = start; i &lt; end; i++) {</span>
+                //Swapping the string by fixing a character    
+<span class="nc" id="L41">                str = swapString(str, start, i);</span>
+                //Recursively calling function generatePermutation() for rest of the characters     
+<span class="nc" id="L43">                generatePermutation(str, start + 1, end);</span>
+                //Backtracking and swapping the characters again.    
+<span class="nc" id="L45">                str = swapString(str, start, i);</span>
+            }
+        }
+<span class="nc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

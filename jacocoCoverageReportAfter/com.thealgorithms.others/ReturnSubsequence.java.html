@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReturnSubsequence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">ReturnSubsequence.java</span></div><h1>ReturnSubsequence.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class ReturnSubsequence {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L8">        System.out.println(&quot;Enter String: &quot;);</span>
+<span class="nc" id="L9">        Scanner s = new Scanner(System.in);</span>
+<span class="nc" id="L10">        String givenString = s.next(); // given string</span>
+<span class="nc" id="L11">        String[] subsequence = returnSubsequence(givenString); // calling returnSubsequence() function</span>
+<span class="nc" id="L12">        System.out.println(&quot;Subsequences : &quot;);</span>
+        // print the given array of subsequences
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for (int i = 0; i &lt; subsequence.length; i++) {</span>
+<span class="nc" id="L15">            System.out.println(subsequence[i]);</span>
+        }
+<span class="nc" id="L17">        s.close();</span>
+<span class="nc" id="L18">    }</span>
+
+    /**
+     * @param givenString
+     * @return subsequence
+     */
+    private static String[] returnSubsequence(String givenString) {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (givenString.length()</span>
+                == 0) // If string is empty we will create an array of size=1 and insert &quot;&quot; (Empty string)
+        // in it
+        {
+<span class="nc" id="L29">            String[] ans = new String[1];</span>
+<span class="nc" id="L30">            ans[0] = &quot;&quot;;</span>
+<span class="nc" id="L31">            return ans;</span>
+        }
+<span class="nc" id="L33">        String[] SmallAns</span>
+<span class="nc" id="L34">                = returnSubsequence(</span>
+<span class="nc" id="L35">                        givenString.substring(</span>
+                                1)); // recursive call to get subsequences of substring starting from index
+        // position=1
+
+<span class="nc" id="L39">        String[] ans</span>
+                = new String[2 * SmallAns.length]; // Our answer will be an array off string of size=2*SmallAns
+<span class="nc" id="L41">        int i = 0;</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        for (; i &lt; SmallAns.length; i++) {</span>
+<span class="nc" id="L43">            ans[i] = SmallAns[i]; // Copying all the strings present in SmallAns to ans string array</span>
+        }
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (int k = 0; k &lt; SmallAns.length; k++) {</span>
+<span class="nc" id="L46">            ans[k + SmallAns.length]</span>
+<span class="nc" id="L47">                    = givenString.charAt(0)</span>
+                    + SmallAns[k]; // Insert character at index=0 of the given substring in front of every string
+            // in SmallAns
+        }
+<span class="nc" id="L51">        return ans;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

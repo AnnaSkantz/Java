@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JumpSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">JumpSearch.java</span></div><h1>JumpSearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import com.thealgorithms.devutils.searches.SearchAlgorithm;
+
+<span class="nc bnc" id="L5" title="All 2 branches missed.">public class JumpSearch implements SearchAlgorithm {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L8">        JumpSearch jumpSearch = new JumpSearch();</span>
+<span class="nc" id="L9">        Integer[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};</span>
+<span class="nc bnc" id="L10" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="nc bnc" id="L11" title="All 4 branches missed.">            assert jumpSearch.find(array, i) == i;</span>
+        }
+<span class="nc bnc" id="L13" title="All 4 branches missed.">        assert jumpSearch.find(array, -1) == -1;</span>
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        assert jumpSearch.find(array, 11) == -1;</span>
+<span class="nc" id="L15">    }</span>
+
+    /**
+     * Jump Search algorithm implements
+     *
+     * @param array the array contains elements
+     * @param key to be searched
+     * @return index of {@code key} if found, otherwise &lt;tt&gt;-1&lt;/tt&gt;
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; int find(T[] array, T key) {
+<span class="nc" id="L26">        int length = array.length;</span>
+        /* length of array */
+<span class="nc" id="L28">        int blockSize = (int) Math.sqrt(length);</span>
+        /* block size to be jumped */
+
+<span class="nc" id="L31">        int limit = blockSize;</span>
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        while (key.compareTo(array[limit]) &gt; 0 &amp;&amp; limit &lt; array.length - 1) {</span>
+<span class="nc" id="L33">            limit = Math.min(limit + blockSize, array.length - 1);</span>
+        }
+
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = limit - blockSize; i &lt;= limit; i++) {</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (array[i] == key) {</span>
+                /* execute linear search */
+<span class="nc" id="L39">                return i;</span>
+            }
+        }
+<span class="nc" id="L42">        return -1;</span>
+        /* not found */
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

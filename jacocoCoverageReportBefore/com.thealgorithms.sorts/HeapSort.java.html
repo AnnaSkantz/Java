@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeapSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">HeapSort.java</span></div><h1>HeapSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Heap Sort Algorithm Implements MinHeap
+ *
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ */
+<span class="nc" id="L14">public class HeapSort implements SortAlgorithm {</span>
+
+    private static class Heap&lt;T extends Comparable&lt;T&gt;&gt; {
+
+        /**
+         * Array to store heap
+         */
+        private T[] heap;
+
+        /**
+         * Constructor
+         *
+         * @param heap array of unordered integers
+         */
+<span class="nc" id="L28">        public Heap(T[] heap) {</span>
+<span class="nc" id="L29">            this.heap = heap;</span>
+<span class="nc" id="L30">        }</span>
+
+        /**
+         * Heapifies subtree from top as root to last as last child
+         *
+         * @param rootIndex index of root
+         * @param lastChild index of last child
+         */
+        private void heapSubtree(int rootIndex, int lastChild) {
+<span class="nc" id="L39">            int leftIndex = rootIndex * 2 + 1;</span>
+<span class="nc" id="L40">            int rightIndex = rootIndex * 2 + 2;</span>
+<span class="nc" id="L41">            T root = heap[rootIndex];</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (rightIndex &lt;= lastChild) { // if has right and left children</span>
+<span class="nc" id="L43">                T left = heap[leftIndex];</span>
+<span class="nc" id="L44">                T right = heap[rightIndex];</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">                if (less(left, right) &amp;&amp; less(left, root)) {</span>
+<span class="nc" id="L46">                    swap(heap, leftIndex, rootIndex);</span>
+<span class="nc" id="L47">                    heapSubtree(leftIndex, lastChild);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                } else if (less(right, root)) {</span>
+<span class="nc" id="L49">                    swap(heap, rightIndex, rootIndex);</span>
+<span class="nc" id="L50">                    heapSubtree(rightIndex, lastChild);</span>
+                }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            } else if (leftIndex &lt;= lastChild) { // if no right child, but has left child</span>
+<span class="nc" id="L53">                T left = heap[leftIndex];</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (less(left, root)) {</span>
+<span class="nc" id="L55">                    swap(heap, leftIndex, rootIndex);</span>
+<span class="nc" id="L56">                    heapSubtree(leftIndex, lastChild);</span>
+                }
+            }
+<span class="nc" id="L59">        }</span>
+
+        /**
+         * Makes heap with root as root
+         *
+         * @param root index of root of heap
+         */
+        private void makeMinHeap(int root) {
+<span class="nc" id="L67">            int leftIndex = root * 2 + 1;</span>
+<span class="nc" id="L68">            int rightIndex = root * 2 + 2;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            boolean hasLeftChild = leftIndex &lt; heap.length;</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            boolean hasRightChild = rightIndex &lt; heap.length;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (hasRightChild) { // if has left and right</span>
+<span class="nc" id="L72">                makeMinHeap(leftIndex);</span>
+<span class="nc" id="L73">                makeMinHeap(rightIndex);</span>
+<span class="nc" id="L74">                heapSubtree(root, heap.length - 1);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            } else if (hasLeftChild) {</span>
+<span class="nc" id="L76">                heapSubtree(root, heap.length - 1);</span>
+            }
+<span class="nc" id="L78">        }</span>
+
+        /**
+         * Gets the root of heap
+         *
+         * @return root of heap
+         */
+        private T getRoot(int size) {
+<span class="nc" id="L86">            swap(heap, 0, size);</span>
+<span class="nc" id="L87">            heapSubtree(0, size - 1);</span>
+<span class="nc" id="L88">            return heap[size]; // return old root</span>
+        }
+    }
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] unsorted) {
+<span class="nc" id="L94">        return sort(Arrays.asList(unsorted)).toArray(unsorted);</span>
+    }
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; List&lt;T&gt; sort(List&lt;T&gt; unsorted) {
+<span class="nc" id="L99">        int size = unsorted.size();</span>
+
+        @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L102">        Heap&lt;T&gt; heap = new Heap&lt;&gt;(unsorted.toArray((T[]) new Comparable[unsorted.size()]));</span>
+
+<span class="nc" id="L104">        heap.makeMinHeap(0); // make min heap using index 0 as root.</span>
+<span class="nc" id="L105">        List&lt;T&gt; sorted = new ArrayList&lt;&gt;(size);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        while (size &gt; 0) {</span>
+<span class="nc" id="L107">            T min = heap.getRoot(--size);</span>
+<span class="nc" id="L108">            sorted.add(min);</span>
+<span class="nc" id="L109">        }</span>
+
+<span class="nc" id="L111">        return sorted;</span>
+    }
+
+    /**
+     * Main method
+     *
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L120">        Integer[] heap = {4, 23, 6, 78, 1, 54, 231, 9, 12};</span>
+<span class="nc" id="L121">        HeapSort heapSort = new HeapSort();</span>
+<span class="nc" id="L122">        print(heapSort.sort(heap));</span>
+<span class="nc" id="L123">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

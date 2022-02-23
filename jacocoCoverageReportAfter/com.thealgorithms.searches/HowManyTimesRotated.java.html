@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HowManyTimesRotated.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">HowManyTimesRotated.java</span></div><h1>HowManyTimesRotated.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.*;
+
+/*
+    Problem Statement: 
+    Given an array, find out how many times it has to been rotated 
+    from its initial sorted position.
+    Input-Output:
+    Eg. [11,12,15,18,2,5,6,8]
+    It has been rotated: 4 times
+    (One rotation means putting the first element to the end)
+    Note: The array cannot contain duplicates
+
+    Logic: 
+    The position of the minimum element will give the number of times the array has been rotated
+    from its initial sorted position.
+    Eg. For [2,5,6,8,11,12,15,18], 1 rotation gives [5,6,8,11,12,15,18,2], 2 rotations [6,8,11,12,15,18,2,5] and so on.
+    Finding the minimum element will take O(N) time but, we can  use Binary Search to find the mimimum element, we can reduce the complexity to O(log N).
+    If we look at the rotated array, to identify the minimum element (say a[i]), we observe that  a[i-1]&gt;a[i]&lt;a[i+1].
+
+    Some other test cases: 
+    1. [1,2,3,4] Number of rotations: 0 or 4(Both valid)
+    2. [15,17,2,3,5] Number of rotations: 3
+ */
+<span class="nc" id="L26">class HowManyTimesRotated {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L29">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L30">        int n = sc.nextInt();</span>
+<span class="nc" id="L31">        int[] a = new int[n];</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L33">            a[i] = sc.nextInt();</span>
+        }
+
+<span class="nc" id="L36">        System.out.println(&quot;The array has been rotated &quot; + rotated(a) + &quot; times&quot;);</span>
+<span class="nc" id="L37">        sc.close();</span>
+
+<span class="nc" id="L39">    }</span>
+
+    public static int rotated(int[] a) {
+<span class="nc" id="L42">        int low = 0;</span>
+<span class="nc" id="L43">        int high = a.length - 1;</span>
+<span class="nc" id="L44">        int mid = 0; // low + (high-low)/2 = (low + high)/2</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        while (low &lt;= high) {</span>
+<span class="nc" id="L47">            mid = low + (high - low) / 2;</span>
+
+<span class="nc bnc" id="L49" title="All 4 branches missed.">            if (a[mid] &lt; a[mid - 1] &amp;&amp; a[mid] &lt; a[mid + 1]) {</span>
+<span class="nc" id="L50">                break;</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">            } else if (a[mid] &gt; a[mid - 1] &amp;&amp; a[mid] &lt; a[mid + 1]) {</span>
+<span class="nc" id="L52">                high = mid + 1;</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">            } else if (a[mid] &gt; a[mid - 1] &amp;&amp; a[mid] &gt; a[mid + 1]) {</span>
+<span class="nc" id="L54">                low = mid - 1;</span>
+            }
+        }
+
+<span class="nc" id="L58">        return mid;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

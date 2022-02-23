@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rotation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">Rotation.java</span></div><h1>Rotation.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+/**
+ * Given a string, moving several characters in front of the string to the end
+ * of the string. For example, move the two characters'a' and 'b' in front of
+ * the string &quot;abcdef&quot; to the end of the string, so that the original string
+ * becomes the string &quot;cdefab&quot;
+ */
+<span class="nc bnc" id="L9" title="All 2 branches missed.">public class Rotation {</span>
+
+    public static void main(String[] args) {
+<span class="nc bnc" id="L12" title="All 4 branches missed.">        assert rotation(&quot;abcdef&quot;, 2).equals(&quot;cdefab&quot;);</span>
+
+<span class="nc" id="L14">        char[] values = &quot;abcdef&quot;.toCharArray();</span>
+<span class="nc" id="L15">        rotation(values, 2);</span>
+<span class="nc bnc" id="L16" title="All 4 branches missed.">        assert new String(values).equals(&quot;cdefab&quot;);</span>
+<span class="nc" id="L17">    }</span>
+
+    /**
+     * Move {@code n} characters in front of given string to the end of string
+     * time complexity: O(n) space complexity: O(n)
+     *
+     * @param s given string
+     * @param n the total characters to be moved
+     * @return string after rotation
+     */
+    public static String rotation(String s, int n) {
+<span class="nc" id="L28">        return s.substring(n) + s.substring(0, n);</span>
+    }
+
+    /**
+     * Move {@code n} characters in front of given character array to the end of
+     * array time complexity: O(n) space complexity: O(1)
+     *
+     * @param values given character array
+     * @param n the total characters to be moved
+     */
+    public static void rotation(char[] values, int n) {
+<span class="nc" id="L39">        reverse(values, 0, n - 1);</span>
+<span class="nc" id="L40">        reverse(values, n, values.length - 1);</span>
+<span class="nc" id="L41">        reverse(values, 0, values.length - 1);</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * Reverse character array
+     *
+     * @param values character array
+     * @param from begin index of given array
+     * @param to end index of given array
+     */
+    public static void reverse(char[] values, int from, int to) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        while (from &lt; to) {</span>
+<span class="nc" id="L53">            char temp = values[from];</span>
+<span class="nc" id="L54">            values[from] = values[to];</span>
+<span class="nc" id="L55">            values[to] = temp;</span>
+<span class="nc" id="L56">            from++;</span>
+<span class="nc" id="L57">            to--;</span>
+<span class="nc" id="L58">        }</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

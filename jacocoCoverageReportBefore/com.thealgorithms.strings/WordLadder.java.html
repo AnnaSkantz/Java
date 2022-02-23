@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WordLadder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.strings</a> &gt; <span class="el_source">WordLadder.java</span></div><h1>WordLadder.java</h1><pre class="source lang-java linenums">package com.thealgorithms.strings;
+
+import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.HashSet;
+
+/*
+    **Problem Statement:**
+    A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -&gt; s1 -&gt; s2 -&gt; ... -&gt; sk such that:
+
+    Every adjacent pair of words differs by a single letter.
+    Every si for 1 &lt;= i &lt;= k is in wordList. Note that beginWord does not need to be in wordList.
+    sk == endWord
+    Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+
+    **Example 1:**
+    Input: beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;,&quot;cog&quot;]
+    Output: 5 
+    Explanation: One shortest transformation sequence is &quot;hit&quot; -&gt; &quot;hot&quot; -&gt; &quot;dot&quot; -&gt; &quot;dog&quot; -&gt; cog&quot;, which is 5 words long.
+
+    **Example 2:**
+    Input: beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;]
+    Output: 0
+    Explanation: The endWord &quot;cog&quot; is not in wordList, therefore there is no valid transformation sequence.
+
+    **Constraints:**
+    1 &lt;= beginWord.length &lt;= 10
+    endWord.length == beginWord.length
+    1 &lt;= wordList.length &lt;= 5000
+    wordList[i].length == beginWord.length
+    beginWord, endWord, and wordList[i] consist of lowercase English letters.
+    beginWord != endWord
+    All the words in wordList are unique.
+ */
+<span class="nc" id="L37">class WordLadder {</span>
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+
+<span class="nc" id="L44">        String beginWord = &quot;hit&quot;;</span>
+<span class="nc" id="L45">        String endWord = &quot;cog&quot;;</span>
+<span class="nc" id="L46">        String words[] = {&quot;hot&quot;, &quot;dot&quot;, &quot;dog&quot;, &quot;lot&quot;, &quot;log&quot;, &quot;cog&quot;};</span>
+<span class="nc" id="L47">        List&lt;String&gt; wordList = Arrays.asList(words);</span>
+
+<span class="nc" id="L49">        System.out.println(&quot;Ladder Length: &quot; + ladderLength(beginWord, endWord, wordList));</span>
+<span class="nc" id="L50">    }</span>
+
+    /**
+     * This function finds the ladderLength
+     *
+     * @param beginWord: Starting word of the ladder
+     * @param endWord: Ending word of the ladder
+     * @param wordList: This list contains the words which needs to be included
+     * in ladder.
+     * @return ladderLength: This function will return the ladderLength(level)
+     * if the endword is there. Otherwise, will return the length as 0.
+     */
+    public static int ladderLength(String beginWord, String endWord, List&lt;String&gt; wordList) {
+<span class="nc" id="L63">        HashSet&lt;String&gt; set = new HashSet();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for (String word : wordList) {</span>
+<span class="nc" id="L65">            set.add(word);</span>
+<span class="nc" id="L66">        }</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (!set.contains(endWord)) {</span>
+<span class="nc" id="L69">            return 0;</span>
+        }
+
+<span class="nc" id="L72">        Queue&lt;String&gt; queue = new LinkedList();</span>
+<span class="nc" id="L73">        queue.offer(beginWord);</span>
+<span class="nc" id="L74">        int level = 1;</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        while (!queue.isEmpty()) {</span>
+<span class="nc" id="L77">            int size = queue.size();</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L79">                String curr = queue.poll();</span>
+<span class="nc" id="L80">                char[] words_chars = curr.toCharArray();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                for (int j = 0; j &lt; words_chars.length; j++) {</span>
+<span class="nc" id="L82">                    char original_chars = words_chars[j];</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                    for (char c = 'a'; c &lt;= 'z'; c++) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                        if (words_chars[j] == c) {</span>
+<span class="nc" id="L85">                            continue;</span>
+                        }
+<span class="nc" id="L87">                        words_chars[j] = c;</span>
+<span class="nc" id="L88">                        String new_word = String.valueOf(words_chars);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                        if (new_word.equals(endWord)) {</span>
+<span class="nc" id="L90">                            return level + 1;</span>
+                        }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                        if (set.contains(new_word)) {</span>
+<span class="nc" id="L93">                            set.remove(new_word);</span>
+<span class="nc" id="L94">                            queue.offer(new_word);</span>
+                        }
+                    }
+<span class="nc" id="L97">                    words_chars[j] = original_chars;</span>
+                }
+            }
+<span class="nc" id="L100">            level++;</span>
+<span class="nc" id="L101">        }</span>
+<span class="nc" id="L102">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -13,9 +13,11 @@ package com.thealgorithms.datastructures.trees;
  *
  * @author [Lakhan Nad](https://github.com/Lakhan-Nad)
  */
+import java.util.HashMap;
 import java.util.Stack;
 
 public class BSTIterative {
+    private static HashMap<Integer, Integer> branchesReached = new HashMap<>();
 
     /**
      * Reference for the node of BST.
@@ -27,12 +29,16 @@ public class BSTIterative {
      */
     BSTIterative() {
         root = null;
+        for (int i = 1; i < 11; i++){
+            branchesReached.put(i, 0);
+        }
     }
 
     /**
      * main function for tests
      */
     public static void main(String[] args) {
+
         BSTIterative tree = new BSTIterative();
         tree.add(3);
         tree.add(2);
@@ -50,7 +56,8 @@ public class BSTIterative {
        Will print following order
        3 9 30 40
          */
-        tree.inorder();
+        tree.postorder();
+        printBranchesReached(branchesReached);
     }
 
     /**
@@ -210,31 +217,52 @@ public class BSTIterative {
      */
     public void postorder() {
         if (this.root == null) {
+            incrementValue(branchesReached, 1); // id 1
             System.out.println("This BST is empty.");
             return;
         }
+        incrementValue(branchesReached, 2); // id 2
         System.out.println("Postorder traversal of this tree is:");
         Stack<Node> st = new Stack<Node>();
         Node cur = this.root, temp2;
         while (cur != null || !st.empty()) {
+            incrementValue(branchesReached, 3); // id 3
             if (cur != null) {
+                incrementValue(branchesReached, 4); // id 4
                 st.push(cur);
                 cur = cur.left;
             } else {
+                incrementValue(branchesReached, 5); // id 5
                 temp2 = st.peek();
                 if (temp2.right != null) {
+                    incrementValue(branchesReached, 6); // id 6
                     cur = temp2.right;
                 } else {
+                    incrementValue(branchesReached, 7); // id 7
                     st.pop();
                     while (!st.empty() && st.peek().right == temp2) {
+                        incrementValue(branchesReached, 8); // id 8
                         System.out.print(temp2.data + " ");
                         temp2 = st.pop();
                     }
+                    incrementValue(branchesReached, 9); // id 9
                     System.out.print(temp2.data + " ");
                 }
             }
         }
+        incrementValue(branchesReached, 10); // id 10
         System.out.println(); // for next line
+    }
+
+    public static void incrementValue(HashMap<Integer, Integer> hashmap, Integer key) {
+        hashmap.put(key, hashmap.get(key)+1);
+    }
+
+    private static void printBranchesReached(HashMap<Integer, Integer> branchesReached) {
+        System.out.println("BSTIterative branches reached: (ID : # of times)");
+        for (int i = 1; i < branchesReached.size() + 1; i++) {
+            System.out.println(i + ": " + branchesReached.get(i));
+        }
     }
 
     /**

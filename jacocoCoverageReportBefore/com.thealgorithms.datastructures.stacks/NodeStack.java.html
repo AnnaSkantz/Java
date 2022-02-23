@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NodeStack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">NodeStack.java</span></div><h1>NodeStack.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+
+/**
+ * Implementation of a stack using nodes. Unlimited size, no arraylist.
+ *
+ * @author Kyler Smith, 2017
+ */
+public class NodeStack&lt;Item&gt; {
+
+    /**
+     * Entry point for the program.
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L14">        NodeStack&lt;Integer&gt; Stack = new NodeStack&lt;Integer&gt;();</span>
+
+<span class="nc" id="L16">        Stack.push(3);</span>
+<span class="nc" id="L17">        Stack.push(4);</span>
+<span class="nc" id="L18">        Stack.push(5);</span>
+<span class="nc" id="L19">        System.out.println(&quot;Testing :&quot;);</span>
+<span class="nc" id="L20">        Stack.print(); // prints : 5 4 3</span>
+
+<span class="nc" id="L22">        Integer x = Stack.pop(); // x = 5</span>
+<span class="nc" id="L23">        Stack.push(1);</span>
+<span class="nc" id="L24">        Stack.push(8);</span>
+<span class="nc" id="L25">        Integer y = Stack.peek(); // y = 8</span>
+<span class="nc" id="L26">        System.out.println(&quot;Testing :&quot;);</span>
+<span class="nc" id="L27">        Stack.print(); // prints : 8 1 4 3</span>
+
+<span class="nc" id="L29">        System.out.println(&quot;Testing :&quot;);</span>
+<span class="nc" id="L30">        System.out.println(&quot;x : &quot; + x);</span>
+<span class="nc" id="L31">        System.out.println(&quot;y : &quot; + y);</span>
+<span class="nc" id="L32">    }</span>
+
+    /**
+     * Information each node should contain.
+     *
+     * @value data : information of the value in the node
+     * @value head : the head of the stack
+     * @value next : the next value from this node
+     * @value previous : the last value from this node
+     * @value size : size of the stack
+     */
+    private Item data;
+
+    private static NodeStack&lt;?&gt; head;
+    private NodeStack&lt;?&gt; next;
+    private NodeStack&lt;?&gt; previous;
+<span class="nc" id="L48">    private static int size = 0;</span>
+
+    /**
+     * Constructors for the NodeStack.
+     */
+<span class="nc" id="L53">    public NodeStack() {</span>
+<span class="nc" id="L54">    }</span>
+
+<span class="nc" id="L56">    private NodeStack(Item item) {</span>
+<span class="nc" id="L57">        this.data = item;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Put a value onto the stack.
+     *
+     * @param item : value to be put on the stack.
+     */
+    public void push(Item item) {
+
+<span class="nc" id="L67">        NodeStack&lt;Item&gt; newNs = new NodeStack&lt;Item&gt;(item);</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (this.isEmpty()) {</span>
+<span class="nc" id="L70">            NodeStack.setHead(new NodeStack&lt;&gt;(item));</span>
+<span class="nc" id="L71">            newNs.setNext(null);</span>
+<span class="nc" id="L72">            newNs.setPrevious(null);</span>
+        } else {
+<span class="nc" id="L74">            newNs.setPrevious(NodeStack.head);</span>
+<span class="nc" id="L75">            NodeStack.head.setNext(newNs);</span>
+<span class="nc" id="L76">            NodeStack.head.setHead(newNs);</span>
+        }
+
+<span class="nc" id="L79">        NodeStack.setSize(NodeStack.getSize() + 1);</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Value to be taken off the stack.
+     *
+     * @return item : value that is returned.
+     */
+    public Item pop() {
+
+<span class="nc" id="L89">        Item item = (Item) NodeStack.head.getData();</span>
+
+<span class="nc" id="L91">        NodeStack.head.setHead(NodeStack.head.getPrevious());</span>
+<span class="nc" id="L92">        NodeStack.head.setNext(null);</span>
+
+<span class="nc" id="L94">        NodeStack.setSize(NodeStack.getSize() - 1);</span>
+
+<span class="nc" id="L96">        return item;</span>
+    }
+
+    /**
+     * Value that is next to be taken off the stack.
+     *
+     * @return item : the next value that would be popped off the stack.
+     */
+    public Item peek() {
+<span class="nc" id="L105">        return (Item) NodeStack.head.getData();</span>
+    }
+
+    /**
+     * If the stack is empty or there is a value in.
+     *
+     * @return boolean : whether or not the stack has anything in it.
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        return NodeStack.getSize() == 0;</span>
+    }
+
+    /**
+     * Returns the size of the stack.
+     *
+     * @return int : number of values in the stack.
+     */
+    public int size() {
+<span class="nc" id="L123">        return NodeStack.getSize();</span>
+    }
+
+    /**
+     * Print the contents of the stack in the following format.
+     *
+     * &lt;p&gt;
+     * x &lt;- head (next out) y z &lt;- tail (first in) . . .
+     */
+    public void print() {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        for (NodeStack&lt;?&gt; n = NodeStack.head; n != null; n = n.previous) {</span>
+<span class="nc" id="L134">            System.out.println(n.getData().toString());</span>
+        }
+<span class="nc" id="L136">    }</span>
+
+    /**
+     * Getters and setters (private)
+     */
+    private NodeStack&lt;?&gt; getHead() {
+<span class="nc" id="L142">        return NodeStack.head;</span>
+    }
+
+    private static void setHead(NodeStack&lt;?&gt; ns) {
+<span class="nc" id="L146">        NodeStack.head = ns;</span>
+<span class="nc" id="L147">    }</span>
+
+    private NodeStack&lt;?&gt; getNext() {
+<span class="nc" id="L150">        return next;</span>
+    }
+
+    private void setNext(NodeStack&lt;?&gt; next) {
+<span class="nc" id="L154">        this.next = next;</span>
+<span class="nc" id="L155">    }</span>
+
+    private NodeStack&lt;?&gt; getPrevious() {
+<span class="nc" id="L158">        return previous;</span>
+    }
+
+    private void setPrevious(NodeStack&lt;?&gt; previous) {
+<span class="nc" id="L162">        this.previous = previous;</span>
+<span class="nc" id="L163">    }</span>
+
+    private static int getSize() {
+<span class="nc" id="L166">        return size;</span>
+    }
+
+    private static void setSize(int size) {
+<span class="nc" id="L170">        NodeStack.size = size;</span>
+<span class="nc" id="L171">    }</span>
+
+    private Item getData() {
+<span class="nc" id="L174">        return this.data;</span>
+    }
+
+    private void setData(Item item) {
+<span class="nc" id="L178">        this.data = item;</span>
+<span class="nc" id="L179">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

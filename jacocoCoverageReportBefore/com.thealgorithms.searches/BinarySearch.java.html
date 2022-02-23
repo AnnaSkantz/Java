@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BinarySearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">BinarySearch.java</span></div><h1>BinarySearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import static java.lang.String.format;
+
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+import com.thealgorithms.devutils.searches.SearchAlgorithm;
+
+/**
+ * Binary search is one of the most popular algorithms The algorithm finds the
+ * position of a target value within a sorted array
+ *
+ * &lt;p&gt;
+ * Worst-case performance O(log n) Best-case performance O(1) Average
+ * performance O(log n) Worst-case space complexity O(1)
+ *
+ * @author Varun Upadhyay (https://github.com/varunu28)
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see SearchAlgorithm
+ * @see IterativeBinarySearch
+ */
+<span class="nc" id="L24">class BinarySearch implements SearchAlgorithm {</span>
+
+    /**
+     * @param array is an array where the element should be found
+     * @param key is an element which should be found
+     * @param &lt;T&gt; is any comparable type
+     * @return index of the element
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; int find(T[] array, T key) {
+<span class="nc" id="L34">        return search(array, key, 0, array.length);</span>
+    }
+
+    /**
+     * This method implements the Generic Binary Search
+     *
+     * @param array The array to make the binary search
+     * @param key The number you are looking for
+     * @param left The lower bound
+     * @param right The upper bound
+     * @return the location of the key
+     */
+    private &lt;T extends Comparable&lt;T&gt;&gt; int search(T array[], T key, int left, int right) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (right &lt; left) {</span>
+<span class="nc" id="L48">            return -1; // this means that the key not found</span>
+        }
+        // find median
+<span class="nc" id="L51">        int median = (left + right) &gt;&gt;&gt; 1;</span>
+<span class="nc" id="L52">        int comp = key.compareTo(array[median]);</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (comp == 0) {</span>
+<span class="nc" id="L55">            return median;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        } else if (comp &lt; 0) {</span>
+<span class="nc" id="L57">            return search(array, key, left, median - 1);</span>
+        } else {
+<span class="nc" id="L59">            return search(array, key, median + 1, right);</span>
+        }
+    }
+
+    // Driver Program
+    public static void main(String[] args) {
+        // Just generate data
+<span class="nc" id="L66">        Random r = ThreadLocalRandom.current();</span>
+
+<span class="nc" id="L68">        int size = 100;</span>
+<span class="nc" id="L69">        int maxElement = 100000;</span>
+
+<span class="nc" id="L71">        Integer[] integers</span>
+<span class="nc" id="L72">                = IntStream.generate(() -&gt; r.nextInt(maxElement))</span>
+<span class="nc" id="L73">                        .limit(size)</span>
+<span class="nc" id="L74">                        .sorted()</span>
+<span class="nc" id="L75">                        .boxed()</span>
+<span class="nc" id="L76">                        .toArray(Integer[]::new);</span>
+
+        // The element that should be found
+<span class="nc" id="L79">        int shouldBeFound = integers[r.nextInt(size - 1)];</span>
+
+<span class="nc" id="L81">        BinarySearch search = new BinarySearch();</span>
+<span class="nc" id="L82">        int atIndex = search.find(integers, shouldBeFound);</span>
+
+<span class="nc" id="L84">        System.out.println(</span>
+<span class="nc" id="L85">                format(</span>
+                        &quot;Should be found: %d. Found %d at index %d. An array length %d&quot;,
+<span class="nc" id="L87">                        shouldBeFound, integers[atIndex], atIndex, size));</span>
+
+<span class="nc" id="L89">        int toCheck = Arrays.binarySearch(integers, shouldBeFound);</span>
+<span class="nc" id="L90">        System.out.println(</span>
+<span class="nc" id="L91">                format(</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                        &quot;Found by system method at an index: %d. Is equal: %b&quot;, toCheck, toCheck == atIndex));</span>
+<span class="nc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

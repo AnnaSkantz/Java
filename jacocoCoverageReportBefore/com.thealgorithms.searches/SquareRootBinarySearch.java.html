@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SquareRootBinarySearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">SquareRootBinarySearch.java</span></div><h1>SquareRootBinarySearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.Scanner;
+
+/**
+ * Given an integer x, find the square root of x. If x is not a perfect square,
+ * then return floor(√x).
+ * &lt;p&gt;
+ * For example, if x = 5, The answer should be 2 which is the floor value of √5.
+ * &lt;p&gt;
+ * The approach that will be used for solving the above problem is not going to
+ * be a straight forward Math.sqrt(). Instead we will be using Binary Search to
+ * find the square root of a number in the most optimised way.
+ *
+ * @author sahil
+ */
+<span class="nc" id="L17">public class SquareRootBinarySearch {</span>
+
+    /**
+     * This is the driver method.
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String args[]) {
+<span class="nc" id="L25">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L26">        System.out.print(&quot;Enter a number you want to calculate square root of : &quot;);</span>
+<span class="nc" id="L27">        int num = sc.nextInt();</span>
+<span class="nc" id="L28">        long ans = squareRoot(num);</span>
+<span class="nc" id="L29">        System.out.println(&quot;The square root is : &quot; + ans);</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * This function calculates the floor of square root of a number. We use
+     * Binary Search algorithm to calculate the square root in a more optimised
+     * way.
+     *
+     * @param num Number
+     * @return answer
+     */
+    private static long squareRoot(long num) {
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (num == 0 || num == 1) {</span>
+<span class="nc" id="L42">            return num;</span>
+        }
+<span class="nc" id="L44">        long l = 1;</span>
+<span class="nc" id="L45">        long r = num;</span>
+<span class="nc" id="L46">        long ans = 0;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        while (l &lt;= r) {</span>
+<span class="nc" id="L48">            long mid = l + (r - l) / 2;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            if (mid == num / mid) {</span>
+<span class="nc" id="L50">                return mid;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            } else if (mid &lt; num / mid) {</span>
+<span class="nc" id="L52">                ans = mid;</span>
+<span class="nc" id="L53">                l = mid + 1;</span>
+            } else {
+<span class="nc" id="L55">                r = mid - 1;</span>
+            }
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">        return ans;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

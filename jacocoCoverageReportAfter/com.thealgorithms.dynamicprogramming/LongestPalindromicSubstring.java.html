@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestPalindromicSubstring.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">LongestPalindromicSubstring.java</span></div><h1>LongestPalindromicSubstring.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/*
+ * Algorithm explanation https://leetcode.com/problems/longest-palindromic-substring/
+ */
+<span class="nc" id="L11">public class LongestPalindromicSubstring {</span>
+<span class="fc" id="L12">    private static ArrayList&lt;String&gt; testTrack = new ArrayList&lt;String&gt;();</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L15">        String a = &quot;babad&quot;;</span>
+<span class="nc" id="L16">        String b = &quot;cbbd&quot;;</span>
+
+<span class="nc" id="L18">        String aLPS = LPS(a);</span>
+<span class="nc" id="L19">        String bLPS = LPS(b);</span>
+
+<span class="nc" id="L21">        System.out.println(a + &quot; =&gt; &quot; + aLPS);</span>
+<span class="nc" id="L22">        System.out.println(b + &quot; =&gt; &quot; + bLPS);</span>
+<span class="nc" id="L23">    }</span>
+
+    public static String LPS(String input) {
+        // id 1
+<span class="fc" id="L27">        testTrack.add(&quot;1&quot;);</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">        if (input == null || input.length() == 0) {</span>
+            // id 2
+<span class="fc" id="L30">            testTrack.add(&quot;2&quot;);</span>
+<span class="fc" id="L31">            writeToFile(testTrack.toString());</span>
+<span class="fc" id="L32">            return input;</span>
+        }
+        // id 3
+<span class="fc" id="L35">        testTrack.add(&quot;3&quot;);</span>
+<span class="fc" id="L36">        boolean arr[][] = new boolean[input.length()][input.length()];</span>
+<span class="fc" id="L37">        int start = 0, end = 0;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (int g = 0; g &lt; input.length(); g++) {</span>
+            // id 4
+<span class="fc" id="L40">            testTrack.add(&quot;4&quot;);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            for (int i = 0, j = g; j &lt; input.length(); i++, j++) {</span>
+                // id 5
+<span class="fc" id="L43">                testTrack.add(&quot;5&quot;);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                if (g == 0) {</span>
+                    // id 6
+<span class="fc" id="L46">                    testTrack.add(&quot;6&quot;);</span>
+<span class="fc" id="L47">                    arr[i][j] = true;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                } else if (g == 1) {</span>
+                    // id 7
+<span class="fc" id="L50">                    testTrack.add(&quot;7&quot;);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                    if (input.charAt(i) == input.charAt(j)) {</span>
+                        // id 8
+<span class="fc" id="L53">                        testTrack.add(&quot;8&quot;);</span>
+<span class="fc" id="L54">                        arr[i][j] = true;</span>
+                    } else {
+                        // id 9
+<span class="fc" id="L57">                        testTrack.add(&quot;9&quot;);</span>
+<span class="fc" id="L58">                        arr[i][j] = false;</span>
+                    }
+                } else {
+                    // id 10
+<span class="fc" id="L62">                    testTrack.add(&quot;10&quot;);</span>
+<span class="fc bfc" id="L63" title="All 4 branches covered.">                    if (input.charAt(i) == input.charAt(j) &amp;&amp; arr[i + 1][j - 1]) {</span>
+                        // id 11
+<span class="fc" id="L65">                        testTrack.add(&quot;11&quot;);</span>
+<span class="fc" id="L66">                        arr[i][j] = true;</span>
+                    } else {
+                        // id 12
+<span class="fc" id="L69">                        testTrack.add(&quot;12&quot;);</span>
+<span class="fc" id="L70">                        arr[i][j] = false;</span>
+                    }
+                }
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                if (arr[i][j]) {</span>
+                    // id 13
+<span class="fc" id="L76">                    testTrack.add(&quot;13&quot;);</span>
+<span class="fc" id="L77">                    start = i;</span>
+<span class="fc" id="L78">                    end = j;</span>
+                }
+            }
+        }
+<span class="fc" id="L82">        writeToFile(testTrack.toString());</span>
+<span class="fc" id="L83">        return input.substring(start, end + 1);</span>
+    }
+
+    private static void writeToFile(String s) {
+        // write res to file
+<span class="fc" id="L88">        File f = new File(&quot;/tmp/branchesPall.txt&quot;);</span>
+        try {
+<span class="fc" id="L90">            FileWriter fw = new FileWriter(&quot;/tmp/branchesPall.txt&quot;);</span>
+<span class="fc" id="L91">            fw.write(testTrack.toString());</span>
+<span class="fc" id="L92">            fw.close();</span>
+<span class="nc" id="L93">        } catch (IOException e) {</span>
+<span class="nc" id="L94">            e.printStackTrace();</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SwapSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">SwapSort.java</span></div><h1>SwapSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+/**
+ * The idea of Swap-Sort is to count the number m of smaller values (that are in
+ * A) from each element of an array A(1...n) and then swap the element with the
+ * element in A(m+1). This ensures that the exchanged element is already in the
+ * correct, i.e. final, position. The disadvantage of this algorithm is that
+ * each element may only occur once, otherwise there is no termination.
+ */
+<span class="nc" id="L12">public class SwapSort implements SortAlgorithm {</span>
+
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] array) {
+<span class="nc" id="L16">        int LENGTH = array.length;</span>
+<span class="nc" id="L17">        int index = 0;</span>
+
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        while (index &lt; LENGTH - 1) {</span>
+<span class="nc" id="L20">            int amountSmallerElements = this.getSmallerElementCount(array, index);</span>
+
+<span class="nc bnc" id="L22" title="All 4 branches missed.">            if (amountSmallerElements &gt; 0 &amp;&amp; index != amountSmallerElements) {</span>
+<span class="nc" id="L23">                T element = array[index];</span>
+<span class="nc" id="L24">                array[index] = array[amountSmallerElements];</span>
+<span class="nc" id="L25">                array[amountSmallerElements] = element;</span>
+<span class="nc" id="L26">            } else {</span>
+<span class="nc" id="L27">                index++;</span>
+            }
+<span class="nc" id="L29">        }</span>
+
+<span class="nc" id="L31">        return array;</span>
+    }
+
+    private &lt;T extends Comparable&lt;T&gt;&gt; int getSmallerElementCount(T[] array, int index) {
+<span class="nc" id="L35">        int counter = 0;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (less(array[i], array[index])) {</span>
+<span class="nc" id="L38">                counter++;</span>
+            }
+        }
+
+<span class="nc" id="L42">        return counter;</span>
+    }
+
+    public static void main(String[] args) {
+        // ==== Int =======
+<span class="nc" id="L47">        Integer[] a = {3, 7, 45, 1, 33, 5, 2, 9};</span>
+<span class="nc" id="L48">        System.out.print(&quot;unsorted: &quot;);</span>
+<span class="nc" id="L49">        print(a);</span>
+<span class="nc" id="L50">        System.out.println();</span>
+
+<span class="nc" id="L52">        new SwapSort().sort(a);</span>
+<span class="nc" id="L53">        System.out.print(&quot;sorted: &quot;);</span>
+<span class="nc" id="L54">        print(a);</span>
+<span class="nc" id="L55">        System.out.println();</span>
+
+        // ==== String =======
+<span class="nc" id="L58">        String[] b = {&quot;banana&quot;, &quot;berry&quot;, &quot;orange&quot;, &quot;grape&quot;, &quot;peach&quot;, &quot;cherry&quot;, &quot;apple&quot;, &quot;pineapple&quot;};</span>
+<span class="nc" id="L59">        System.out.print(&quot;unsorted: &quot;);</span>
+<span class="nc" id="L60">        print(b);</span>
+<span class="nc" id="L61">        System.out.println();</span>
+
+<span class="nc" id="L63">        new SwapSort().sort(b);</span>
+<span class="nc" id="L64">        System.out.print(&quot;sorted: &quot;);</span>
+<span class="nc" id="L65">        print(b);</span>
+<span class="nc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

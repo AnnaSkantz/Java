@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestPalindromicSubsequence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">LongestPalindromicSubsequence.java</span></div><h1>LongestPalindromicSubsequence.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/**
+ * Algorithm explanation
+ * https://www.educative.io/edpresso/longest-palindromic-subsequence-algorithm
+ */
+<span class="nc" id="L7">public class LongestPalindromicSubsequence {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L10">        String a = &quot;BBABCBCAB&quot;;</span>
+<span class="nc" id="L11">        String b = &quot;BABCBAB&quot;;</span>
+
+<span class="nc" id="L13">        String aLPS = LPS(a);</span>
+<span class="nc" id="L14">        String bLPS = LPS(b);</span>
+
+<span class="nc" id="L16">        System.out.println(a + &quot; =&gt; &quot; + aLPS);</span>
+<span class="nc" id="L17">        System.out.println(b + &quot; =&gt; &quot; + bLPS);</span>
+<span class="nc" id="L18">    }</span>
+
+    public static String LPS(String original) throws IllegalArgumentException {
+<span class="nc" id="L21">        StringBuilder reverse = new StringBuilder(original);</span>
+<span class="nc" id="L22">        reverse = reverse.reverse();</span>
+<span class="nc" id="L23">        return recursiveLPS(original, reverse.toString());</span>
+    }
+
+    private static String recursiveLPS(String original, String reverse) {
+<span class="nc" id="L27">        String bestResult = &quot;&quot;;</span>
+
+        // no more chars, then return empty
+<span class="nc bnc" id="L30" title="All 4 branches missed.">        if (original.length() == 0 || reverse.length() == 0) {</span>
+<span class="nc" id="L31">            bestResult = &quot;&quot;;</span>
+        } else {
+
+            // if the last chars match, then remove it from both strings and recur
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (original.charAt(original.length() - 1) == reverse.charAt(reverse.length() - 1)) {</span>
+<span class="nc" id="L36">                String bestSubResult</span>
+<span class="nc" id="L37">                        = recursiveLPS(</span>
+<span class="nc" id="L38">                                original.substring(0, original.length() - 1),</span>
+<span class="nc" id="L39">                                reverse.substring(0, reverse.length() - 1));</span>
+
+<span class="nc" id="L41">                bestResult = reverse.charAt(reverse.length() - 1) + bestSubResult;</span>
+<span class="nc" id="L42">            } else {</span>
+                // otherwise (1) ignore the last character of reverse, and recur on original and updated
+                // reverse again
+                // (2) ignore the last character of original and recur on the updated original and reverse
+                // again
+                // then select the best result from these two subproblems.
+
+<span class="nc" id="L49">                String bestSubResult1 = recursiveLPS(original, reverse.substring(0, reverse.length() - 1));</span>
+<span class="nc" id="L50">                String bestSubResult2 = recursiveLPS(original.substring(0, original.length() - 1), reverse);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                if (bestSubResult1.length() &gt; bestSubResult2.length()) {</span>
+<span class="nc" id="L52">                    bestResult = bestSubResult1;</span>
+                } else {
+<span class="nc" id="L54">                    bestResult = bestSubResult2;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L59">        return bestResult;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

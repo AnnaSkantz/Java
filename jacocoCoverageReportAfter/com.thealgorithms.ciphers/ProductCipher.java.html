@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductCipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">ProductCipher.java</span></div><h1>ProductCipher.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">class ProductCipher {</span>
+
+    public static void main(String args[]) {
+<span class="nc" id="L8">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L9">        System.out.println(&quot;Enter the input to be encrypted: &quot;);</span>
+<span class="nc" id="L10">        String substitutionInput = sc.nextLine();</span>
+<span class="nc" id="L11">        System.out.println(&quot; &quot;);</span>
+<span class="nc" id="L12">        System.out.println(&quot;Enter a number: &quot;);</span>
+<span class="nc" id="L13">        int n = sc.nextInt();</span>
+
+        // Substitution encryption
+<span class="nc" id="L16">        StringBuffer substitutionOutput = new StringBuffer();</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (int i = 0; i &lt; substitutionInput.length(); i++) {</span>
+<span class="nc" id="L18">            char c = substitutionInput.charAt(i);</span>
+<span class="nc" id="L19">            substitutionOutput.append((char) (c + 5));</span>
+        }
+<span class="nc" id="L21">        System.out.println(&quot; &quot;);</span>
+<span class="nc" id="L22">        System.out.println(&quot;Substituted text: &quot;);</span>
+<span class="nc" id="L23">        System.out.println(substitutionOutput);</span>
+
+        // Transposition encryption
+<span class="nc" id="L26">        String transpositionInput = substitutionOutput.toString();</span>
+        int modulus;
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if ((modulus = transpositionInput.length() % n) != 0) {</span>
+<span class="nc" id="L29">            modulus = n - modulus;</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            for (; modulus != 0; modulus--) {</span>
+<span class="nc" id="L32">                transpositionInput += &quot;/&quot;;</span>
+            }
+        }
+<span class="nc" id="L35">        StringBuffer transpositionOutput = new StringBuffer();</span>
+<span class="nc" id="L36">        System.out.println(&quot; &quot;);</span>
+<span class="nc" id="L37">        System.out.println(&quot;Transposition Matrix: &quot;);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            for (int j = 0; j &lt; transpositionInput.length() / n; j++) {</span>
+<span class="nc" id="L40">                char c = transpositionInput.charAt(i + (j * n));</span>
+<span class="nc" id="L41">                System.out.print(c);</span>
+<span class="nc" id="L42">                transpositionOutput.append(c);</span>
+            }
+<span class="nc" id="L44">            System.out.println();</span>
+        }
+<span class="nc" id="L46">        System.out.println(&quot; &quot;);</span>
+<span class="nc" id="L47">        System.out.println(&quot;Final encrypted text: &quot;);</span>
+<span class="nc" id="L48">        System.out.println(transpositionOutput);</span>
+
+        // Transposition decryption
+<span class="nc" id="L51">        n = transpositionOutput.length() / n;</span>
+<span class="nc" id="L52">        StringBuffer transpositionPlaintext = new StringBuffer();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            for (int j = 0; j &lt; transpositionOutput.length() / n; j++) {</span>
+<span class="nc" id="L55">                char c = transpositionOutput.charAt(i + (j * n));</span>
+<span class="nc" id="L56">                transpositionPlaintext.append(c);</span>
+            }
+        }
+
+        // Substitution decryption
+<span class="nc" id="L61">        StringBuffer plaintext = new StringBuffer();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; transpositionPlaintext.length(); i++) {</span>
+<span class="nc" id="L63">            char c = transpositionPlaintext.charAt(i);</span>
+<span class="nc" id="L64">            plaintext.append((char) (c - 5));</span>
+        }
+
+<span class="nc" id="L67">        System.out.println(&quot;Plaintext: &quot;);</span>
+<span class="nc" id="L68">        System.out.println(plaintext);</span>
+<span class="nc" id="L69">        sc.close();</span>
+<span class="nc" id="L70">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

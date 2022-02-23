@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NextGraterElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">NextGraterElement.java</span></div><h1>NextGraterElement.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+import java.util.Arrays;
+import java.util.Stack;
+/*
+    Given an array &quot;input&quot; you need to print the first grater element for each element.
+    For a given element x of an array, the Next Grater element of that element is the
+    first grater element to the right side of it. If no such element is present print -1.
+
+    Example
+    input = { 2, 7, 3, 5, 4, 6, 8 };
+    At i = 0
+    Next Grater element between (1 to n) is 7
+    At i = 1
+    Next Grater element between (2 to n) is 8
+    At i = 2
+    Next Grater element between (3 to n) is 5
+    At i = 3
+    Next Grater element between (4 to n) is 6
+    At i = 4
+    Next Grater element between (5 to n) is 6
+    At i = 5
+    Next Grater element between (6 to n) is 8
+    At i = 6
+    Next Grater element between (6 to n) is -1
+
+    result : [7, 8, 5, 6, 6, 8, -1]
+
+    1. If the stack is empty Push an element in the stack.
+    2. If the stack is not empty:
+        a.  compare the top element of the stack with next.
+        b.  If next is greater than the top element, Pop element from the stack.
+            next is the next greater element for the popped element.
+        c.  Keep popping from the stack while the popped element is smaller
+            than next. next becomes the next greater element for all such
+            popped elements.
+        d. Finally, push the next in the stack.
+
+    3. If elements are left in stack after completing while loop then their Next Grater element is -1.
+ */
+
+
+<span class="nc" id="L42">public class NextGraterElement {</span>
+ 
+    public static int[] findNextGreaterElements(int[] array) {
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (array == null) {</span>
+<span class="nc" id="L47">            return array;</span>
+        }
+
+<span class="nc" id="L50">        int[] result = new int[array.length];</span>
+<span class="nc" id="L51">        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">            while (!stack.isEmpty() &amp;&amp; array[stack.peek()] &lt; array[i]) {</span>
+<span class="nc" id="L55">                result[stack.pop()] = array[i];</span>
+            }
+<span class="nc" id="L57">            stack.push(i);</span>
+        }
+
+<span class="nc" id="L60">        return result;</span>
+    }
+
+    public static void main(String[] args)
+    {
+<span class="nc" id="L65">        int[] input = { 2, 7, 3, 5, 4, 6, 8 };</span>
+<span class="nc" id="L66">        int[] result = findNextGreaterElements(input);</span>
+<span class="nc" id="L67">        System.out.println(Arrays.toString(result));</span>
+<span class="nc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

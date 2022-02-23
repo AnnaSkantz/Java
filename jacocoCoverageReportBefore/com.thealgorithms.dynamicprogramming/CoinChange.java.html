@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoinChange.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">CoinChange.java</span></div><h1>CoinChange.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/**
+ * @author Varun Upadhyay (https://github.com/varunu28)
+ */
+<span class="nc" id="L6">public class CoinChange {</span>
+
+    // Driver Program
+    public static void main(String[] args) {
+
+<span class="nc" id="L11">        int amount = 12;</span>
+<span class="nc" id="L12">        int[] coins = {2, 4, 5};</span>
+
+<span class="nc" id="L14">        System.out.println(</span>
+<span class="nc" id="L15">                &quot;Number of combinations of getting change for &quot; + amount + &quot; is: &quot; + change(coins, amount));</span>
+<span class="nc" id="L16">        System.out.println(</span>
+                &quot;Minimum number of coins required for amount :&quot;
+                + amount
+                + &quot; is: &quot;
+<span class="nc" id="L20">                + minimumCoins(coins, amount));</span>
+<span class="nc" id="L21">    }</span>
+
+    /**
+     * This method finds the number of combinations of getting change for a
+     * given amount and change coins
+     *
+     * @param coins The list of coins
+     * @param amount The amount for which we need to find the change Finds the
+     * number of combinations of change
+     */
+    public static int change(int[] coins, int amount) {
+
+<span class="nc" id="L33">        int[] combinations = new int[amount + 1];</span>
+<span class="nc" id="L34">        combinations[0] = 1;</span>
+
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int coin : coins) {</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            for (int i = coin; i &lt; amount + 1; i++) {</span>
+<span class="nc" id="L38">                combinations[i] += combinations[i - coin];</span>
+            }
+            // Uncomment the below line to see the state of combinations for each coin
+            // printAmount(combinations);
+        }
+
+<span class="nc" id="L44">        return combinations[amount];</span>
+    }
+
+    /**
+     * This method finds the minimum number of coins needed for a given amount.
+     *
+     * @param coins The list of coins
+     * @param amount The amount for which we need to find the minimum number of
+     * coins. Finds the the minimum number of coins that make a given value.
+     */
+    public static int minimumCoins(int[] coins, int amount) {
+        // minimumCoins[i] will store the minimum coins needed for amount i
+<span class="nc" id="L56">        int[] minimumCoins = new int[amount + 1];</span>
+
+<span class="nc" id="L58">        minimumCoins[0] = 0;</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        for (int i = 1; i &lt;= amount; i++) {</span>
+<span class="nc" id="L61">            minimumCoins[i] = Integer.MAX_VALUE;</span>
+        }
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (int i = 1; i &lt;= amount; i++) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            for (int coin : coins) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                if (coin &lt;= i) {</span>
+<span class="nc" id="L66">                    int sub_res = minimumCoins[i - coin];</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">                    if (sub_res != Integer.MAX_VALUE &amp;&amp; sub_res + 1 &lt; minimumCoins[i]) {</span>
+<span class="nc" id="L68">                        minimumCoins[i] = sub_res + 1;</span>
+                    }
+                }
+            }
+        }
+        // Uncomment the below line to see the state of combinations for each coin
+        // printAmount(minimumCoins);
+<span class="nc" id="L75">        return minimumCoins[amount];</span>
+    }
+
+    // A basic print method which prints all the contents of the array
+    public static void printAmount(int[] arr) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length; i++) {</span>
+<span class="nc" id="L81">            System.out.print(arr[i] + &quot; &quot;);</span>
+        }
+<span class="nc" id="L83">        System.out.println();</span>
+<span class="nc" id="L84">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

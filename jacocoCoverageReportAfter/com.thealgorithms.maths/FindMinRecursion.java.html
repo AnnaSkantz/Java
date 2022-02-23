@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FindMinRecursion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">FindMinRecursion.java</span></div><h1>FindMinRecursion.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+import java.util.Arrays;
+import java.util.Random;
+
+<span class="nc bnc" id="L6" title="All 2 branches missed.">public class FindMinRecursion {</span>
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L12">        Random rand = new Random();</span>
+
+        /* rand size */
+<span class="nc" id="L15">        int size = rand.nextInt(100) + 1;</span>
+<span class="nc" id="L16">        int[] array = new int[size];</span>
+
+        /* init array with rand numbers */
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L20">            array[i] = rand.nextInt() % 100;</span>
+        }
+
+<span class="nc bnc" id="L23" title="All 4 branches missed.">        assert min(array, 0, array.length - 1) == Arrays.stream(array).min().getAsInt();</span>
+<span class="nc bnc" id="L24" title="All 4 branches missed.">        assert min(array, array.length) == Arrays.stream(array).min().getAsInt();</span>
+<span class="nc" id="L25">    }</span>
+
+    /**
+     * Get min of array using divide and conquer algorithm
+     *
+     * @param array contains elements
+     * @param low the index of the first element
+     * @param high the index of the last element
+     * @return min of {@code array}
+     */
+    public static int min(int[] array, int low, int high) {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (low == high) {</span>
+<span class="nc" id="L37">            return array[low]; // or array[high]</span>
+        }
+
+<span class="nc" id="L40">        int mid = (low + high) &gt;&gt;&gt; 1;</span>
+
+<span class="nc" id="L42">        int leftMin = min(array, low, mid); // get min in [low, mid]</span>
+<span class="nc" id="L43">        int rightMin = min(array, mid + 1, high); // get min in [mid+1, high]</span>
+
+<span class="nc" id="L45">        return Math.min(leftMin, rightMin);</span>
+    }
+
+    /**
+     * Get min of array using recursion algorithm
+     *
+     * @param array contains elements
+     * @param len length of given array
+     * @return min value of {@code array}
+     */
+    public static int min(int[] array, int len) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        return len == 1 ? array[0] : Math.min(min(array, len - 1), array[len - 1]);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

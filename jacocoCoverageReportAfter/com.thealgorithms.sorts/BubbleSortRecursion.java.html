@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BubbleSortRecursion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">BubbleSortRecursion.java</span></div><h1>BubbleSortRecursion.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import java.util.Random;
+
+/**
+ * BubbleSort algorithm implements using recursion
+ */
+<span class="nc bnc" id="L8" title="All 2 branches missed.">public class BubbleSortRecursion implements SortAlgorithm {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L11">        Integer[] array = new Integer[10];</span>
+
+<span class="nc" id="L13">        Random random = new Random();</span>
+        /* generate 10 random numbers from -50 to 49 */
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length; ++i) {</span>
+<span class="nc" id="L16">            array[i] = random.nextInt(100) - 50;</span>
+        }
+
+<span class="nc" id="L19">        BubbleSortRecursion bubbleSortRecursion = new BubbleSortRecursion();</span>
+<span class="nc" id="L20">        bubbleSortRecursion.sort(array);</span>
+
+        /* check array is sorted or not */
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (int i = 0; i &lt; array.length - 1; ++i) {</span>
+<span class="nc bnc" id="L24" title="All 4 branches missed.">            assert (array[i].compareTo(array[i + 1]) &lt;= 0);</span>
+        }
+<span class="nc" id="L26">    }</span>
+
+    /**
+     * @param unsorted - an array should be sorted
+     * @return sorted array
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] unsorted) {
+<span class="nc" id="L34">        bubbleSort(unsorted, unsorted.length);</span>
+<span class="nc" id="L35">        return unsorted;</span>
+    }
+
+    /**
+     * BubbleSort algorithm implements using recursion
+     *
+     * @param unsorted array contains elements
+     * @param len length of given array
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; void bubbleSort(T[] unsorted, int len) {
+<span class="nc" id="L45">        boolean swapped = false;</span>
+        /* flag to check if array is sorted or not */
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (int i = 0; i &lt; len - 1; ++i) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (SortUtils.greater(unsorted[i], unsorted[i + 1])) {</span>
+<span class="nc" id="L49">                SortUtils.swap(unsorted, i, i + 1);</span>
+<span class="nc" id="L50">                swapped = true;</span>
+            }
+        }
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (swapped) {</span>
+<span class="nc" id="L54">            bubbleSort(unsorted, len - 1);</span>
+        }
+<span class="nc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

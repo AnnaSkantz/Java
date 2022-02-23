@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpperBound.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">UpperBound.java</span></div><h1>UpperBound.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import static java.lang.String.format;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+import com.thealgorithms.devutils.searches.SearchAlgorithm;
+
+/**
+ * The UpperBound method is used to return an index pointing to the first
+ * element in the range [first, last) which has a value greater than val, or the
+ * last index if no such element exists i.e. the index of the next smallest
+ * number just greater than that number. If there are multiple values that are
+ * equal to val it returns the index of the first such value.
+ *
+ * &lt;p&gt;
+ * This is an extension of BinarySearch.
+ *
+ * &lt;p&gt;
+ * Worst-case performance O(log n) Best-case performance O(1) Average
+ * performance O(log n) Worst-case space complexity O(1)
+ *
+ * @author Pratik Padalia (https://github.com/15pratik)
+ * @see SearchAlgorithm
+ * @see BinarySearch
+ */
+<span class="nc" id="L28">class UpperBound implements SearchAlgorithm {</span>
+
+    // Driver Program
+    public static void main(String[] args) {
+        // Just generate data
+<span class="nc" id="L33">        Random r = ThreadLocalRandom.current();</span>
+
+<span class="nc" id="L35">        int size = 100;</span>
+<span class="nc" id="L36">        int maxElement = 100000;</span>
+
+<span class="nc" id="L38">        Integer[] integers</span>
+<span class="nc" id="L39">                = IntStream.generate(() -&gt; r.nextInt(maxElement))</span>
+<span class="nc" id="L40">                        .limit(size)</span>
+<span class="nc" id="L41">                        .sorted()</span>
+<span class="nc" id="L42">                        .boxed()</span>
+<span class="nc" id="L43">                        .toArray(Integer[]::new);</span>
+
+        // The element for which the upper bound is to be found
+<span class="nc" id="L46">        int val = integers[r.nextInt(size - 1)] + 1;</span>
+
+<span class="nc" id="L48">        UpperBound search = new UpperBound();</span>
+<span class="nc" id="L49">        int atIndex = search.find(integers, val);</span>
+
+<span class="nc" id="L51">        System.out.println(</span>
+<span class="nc" id="L52">                format(</span>
+                        &quot;Val: %d. Upper Bound Found %d at index %d. An array length %d&quot;,
+<span class="nc" id="L54">                        val, integers[atIndex], atIndex, size));</span>
+
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        boolean toCheck = integers[atIndex] &gt; val || integers[size - 1] &lt; val;</span>
+<span class="nc" id="L57">        System.out.println(</span>
+<span class="nc" id="L58">                format(</span>
+<span class="nc" id="L59">                        &quot;Upper Bound found at an index: %d. Is greater or max element: %b&quot;, atIndex, toCheck));</span>
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * @param array is an array where the UpperBound value is to be found
+     * @param key is an element for which the UpperBound is to be found
+     * @param &lt;T&gt; is any comparable type
+     * @return index of the UpperBound element
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; int find(T[] array, T key) {
+<span class="nc" id="L70">        return search(array, key, 0, array.length - 1);</span>
+    }
+
+    /**
+     * This method implements the Generic Binary Search
+     *
+     * @param array The array to make the binary search
+     * @param key The number you are looking for
+     * @param left The lower bound
+     * @param right The upper bound
+     * @return the location of the key
+     */
+    private &lt;T extends Comparable&lt;T&gt;&gt; int search(T[] array, T key, int left, int right) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (right &lt;= left) {</span>
+<span class="nc" id="L84">            return left;</span>
+        }
+
+        // find median
+<span class="nc" id="L88">        int median = (left + right) &gt;&gt;&gt; 1;</span>
+<span class="nc" id="L89">        int comp = key.compareTo(array[median]);</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (comp &lt; 0) {</span>
+            // key is smaller, median position can be a possible solution
+<span class="nc" id="L93">            return search(array, key, left, median);</span>
+        } else {
+            // key we are looking is greater, so we must look on the right of median position
+<span class="nc" id="L96">            return search(array, key, median + 1, right);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

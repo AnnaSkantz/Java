@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BubbleSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">BubbleSort.java</span></div><h1>BubbleSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+import static com.thealgorithms.sorts.SortUtils.*;
+
+/**
+ * @author Varun Upadhyay (https://github.com/varunu28)
+ * @author Podshivalov Nikita (https://github.com/nikitap492)
+ * @see SortAlgorithm
+ */
+<span class="nc bnc" id="L10" title="All 2 branches missed.">class BubbleSort implements SortAlgorithm {</span>
+
+    /**
+     * Implements generic bubble sort algorithm.
+     *
+     * @param array the array to be sorted.
+     * @param &lt;T&gt; the type of elements in the array.
+     * @return the sorted array.
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] array) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        for (int i = 1, size = array.length; i &lt; size; ++i) {</span>
+<span class="nc" id="L22">            boolean swapped = false;</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">            for (int j = 0; j &lt; size - i; ++j) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">                if (greater(array[j], array[j + 1])) {</span>
+<span class="nc" id="L25">                    swap(array, j, j + 1);</span>
+<span class="nc" id="L26">                    swapped = true;</span>
+                }
+            }
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            if (!swapped) {</span>
+<span class="nc" id="L30">                break;</span>
+            }
+        }
+<span class="nc" id="L33">        return array;</span>
+    }
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+
+<span class="nc" id="L41">        Integer[] integers = {4, 23, 6, 78, 1, 54, 231, 9, 12};</span>
+<span class="nc" id="L42">        BubbleSort bubbleSort = new BubbleSort();</span>
+<span class="nc" id="L43">        bubbleSort.sort(integers);</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (int i = 0; i &lt; integers.length - 1; ++i) {</span>
+<span class="nc bnc" id="L46" title="All 4 branches missed.">            assert integers[i] &lt;= integers[i + 1];</span>
+        }
+<span class="nc" id="L48">        print(integers);</span>
+        /* output: [1, 4, 6, 9, 12, 23, 54, 78, 231] */
+
+<span class="nc" id="L51">        String[] strings = {&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;};</span>
+<span class="nc" id="L52">        bubbleSort.sort(strings);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (int i = 0; i &lt; strings.length - 1; i++) {</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">            assert strings[i].compareTo(strings[i + 1]) &lt;= 0;</span>
+        }
+<span class="nc" id="L56">        print(bubbleSort.sort(strings));</span>
+        /* output: [a, b, c, d, e] */
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

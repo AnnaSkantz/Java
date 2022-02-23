@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinimumSumPartition.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">MinimumSumPartition.java</span></div><h1>MinimumSumPartition.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+// Partition a set into two subsets such that the difference of subset sums is minimum
+
+/*
+Input:  arr[] = {1, 6, 11, 5}
+Output: 1
+Explanation:
+Subset1 = {1, 5, 6}, sum of Subset1 = 12
+Subset2 = {11}, sum of Subset2 = 11
+
+Input:  arr[] = {36, 7, 46, 40}
+Output: 23
+Explanation:
+Subset1 = {7, 46} ;  sum of Subset1 = 53
+Subset2 = {36, 40} ; sum of Subset2  = 76
+ */
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">public class MinimumSumPartition {</span>
+
+    public static int subSet(int[] arr) {
+<span class="fc" id="L20">        int n = arr.length;</span>
+<span class="fc" id="L21">        int sum = getSum(arr);</span>
+<span class="fc" id="L22">        boolean[][] dp = new boolean[n + 1][sum + 1];</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        for (int i = 0; i &lt;= n; i++) {</span>
+<span class="fc" id="L24">            dp[i][0] = true;</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (int j = 0; j &lt;= sum; j++) {</span>
+<span class="fc" id="L27">            dp[0][j] = false;</span>
+        }
+
+        // fill dp array
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            for (int j = 1; j &lt;= sum; j++) {</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                if (arr[i - 1] &lt; j) {</span>
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">                    dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">                } else if (arr[i - 1] == j) {</span>
+<span class="fc" id="L36">                    dp[i][j] = true;</span>
+                } else {
+<span class="fc" id="L38">                    dp[i][j] = dp[i - 1][j];</span>
+                }
+            }
+        }
+
+        // fill the index array
+<span class="fc" id="L44">        int[] index = new int[sum];</span>
+<span class="fc" id="L45">        int p = 0;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (int i = 0; i &lt;= sum / 2; i++) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            if (dp[n][i]) {</span>
+<span class="fc" id="L48">                index[p++] = i;</span>
+            }
+        }
+
+<span class="fc" id="L52">        return getMin(index, sum);</span>
+    }
+
+    /**
+     * Calculate sum of array elements
+     *
+     * @param arr the array
+     * @return sum of given array
+     */
+    public static int getSum(int[] arr) {
+<span class="fc" id="L62">        int sum = 0;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (int temp : arr) {</span>
+<span class="fc" id="L64">            sum += temp;</span>
+        }
+<span class="fc" id="L66">        return sum;</span>
+    }
+
+    public static int getMin(int[] arr, int sum) {
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (arr.length == 0) {</span>
+<span class="nc" id="L71">            return 0;</span>
+        }
+<span class="fc" id="L73">        int min = Integer.MAX_VALUE;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (int temp : arr) {</span>
+<span class="fc" id="L75">            min = Math.min(min, sum - 2 * temp);</span>
+        }
+<span class="fc" id="L77">        return min;</span>
+    }
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        assert subSet(new int[]{1, 6, 11, 5}) == 1;</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        assert subSet(new int[]{36, 7, 46, 40}) == 23;</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        assert subSet(new int[]{1, 2, 3, 9}) == 3;</span>
+<span class="nc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

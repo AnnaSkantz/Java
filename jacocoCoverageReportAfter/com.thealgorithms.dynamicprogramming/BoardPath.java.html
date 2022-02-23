@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoardPath.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">BoardPath.java</span></div><h1>BoardPath.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/*
+* this is an important Algo in which
+* we have starting and ending of board and we have to reach
+* we have to count no. of ways
+* that help to reach end point i.e number by rolling dice
+* which have 1 to 6 digits
+
+Test Case:
+here target is 10
+
+int n=10;
+		startAlgo();
+		System.out.println(bpR(0,n));
+		System.out.println(endAlgo()+&quot;ms&quot;);
+		int[] strg=new int [n+1];
+		startAlgo();
+		System.out.println(bpRS(0,n,strg));
+		System.out.println(endAlgo()+&quot;ms&quot;);
+		startAlgo();
+		System.out.println(bpIS(0,n,strg));
+		System.out.println(endAlgo()+&quot;ms&quot;);
+
+
+
+ */
+<span class="nc" id="L28">public class BoardPath {</span>
+
+    public static long startTime;
+    public static long endTime;
+
+    public static void startAlgo() {
+<span class="nc" id="L34">        startTime = System.currentTimeMillis();</span>
+<span class="nc" id="L35">    }</span>
+
+    public static long endAlgo() {
+<span class="nc" id="L38">        endTime = System.currentTimeMillis();</span>
+<span class="nc" id="L39">        return endTime - startTime;</span>
+    }
+
+    public static int bpR(int start, int end) {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (start == end) {</span>
+<span class="nc" id="L44">            return 1;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        } else if (start &gt; end) {</span>
+<span class="nc" id="L46">            return 0;</span>
+        }
+<span class="nc" id="L48">        int count = 0;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (int dice = 1; dice &lt;= 6; dice++) {</span>
+<span class="nc" id="L50">            count += bpR(start + dice, end);</span>
+        }
+<span class="nc" id="L52">        return count;</span>
+    }
+
+    public static int bpRS(int curr, int end, int strg[]) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (curr == end) {</span>
+<span class="nc" id="L57">            return 1;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        } else if (curr &gt; end) {</span>
+<span class="nc" id="L59">            return 0;</span>
+        }
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (strg[curr] != 0) {</span>
+<span class="nc" id="L62">            return strg[curr];</span>
+        }
+<span class="nc" id="L64">        int count = 0;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int dice = 1; dice &lt;= 6; dice++) {</span>
+<span class="nc" id="L66">            count += bpRS(curr + dice, end, strg);</span>
+        }
+<span class="nc" id="L68">        strg[curr] = count;</span>
+<span class="nc" id="L69">        return count;</span>
+    }
+
+    public static int bpIS(int curr, int end, int[] strg) {
+<span class="nc" id="L73">        strg[end] = 1;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (int i = end - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L75">            int count = 0;</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">            for (int dice = 1; dice &lt;= 6 &amp;&amp; dice + i &lt; strg.length; dice++) {</span>
+<span class="nc" id="L77">                count += strg[i + dice];</span>
+            }
+<span class="nc" id="L79">            strg[i] = count;</span>
+        }
+<span class="nc" id="L81">        return strg[0];</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

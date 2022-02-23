@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mandelbrot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">Mandelbrot.java</span></div><h1>Mandelbrot.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+/**
+ * The Mandelbrot set is the set of complex numbers &quot;c&quot; for which the series
+ * &quot;z_(n+1) = z_n * z_n + c&quot; does not diverge, i.e. remains bounded. Thus, a
+ * complex number &quot;c&quot; is a member of the Mandelbrot set if, when starting with
+ * &quot;z_0 = 0&quot; and applying the iteration repeatedly, the absolute value of &quot;z_n&quot;
+ * remains bounded for all &quot;n &gt; 0&quot;. Complex numbers can be written as &quot;a + b*i&quot;:
+ * &quot;a&quot; is the real component, usually drawn on the x-axis, and &quot;b*i&quot; is the
+ * imaginary component, usually drawn on the y-axis. Most visualizations of the
+ * Mandelbrot set use a color-coding to indicate after how many steps in the
+ * series the numbers outside the set cross the divergence threshold. Images of
+ * the Mandelbrot set exhibit an elaborate and infinitely complicated boundary
+ * that reveals progressively ever-finer recursive detail at increasing
+ * magnifications, making the boundary of the Mandelbrot set a fractal curve.
+ * (description adapted from https://en.wikipedia.org/wiki/Mandelbrot_set ) (see
+ * also https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set
+ * )
+ */
+<span class="nc bnc" id="L26" title="All 2 branches missed.">public class Mandelbrot {</span>
+
+    public static void main(String[] args) {
+        // Test black and white
+<span class="nc" id="L30">        BufferedImage blackAndWhiteImage = getImage(800, 600, -0.6, 0, 3.2, 50, false);</span>
+
+        // Pixel outside the Mandelbrot set should be white.
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        assert blackAndWhiteImage.getRGB(0, 0) == new Color(255, 255, 255).getRGB();</span>
+
+        // Pixel inside the Mandelbrot set should be black.
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        assert blackAndWhiteImage.getRGB(400, 300) == new Color(0, 0, 0).getRGB();</span>
+
+        // Test color-coding
+<span class="nc" id="L39">        BufferedImage coloredImage = getImage(800, 600, -0.6, 0, 3.2, 50, true);</span>
+
+        // Pixel distant to the Mandelbrot set should be red.
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        assert coloredImage.getRGB(0, 0) == new Color(255, 0, 0).getRGB();</span>
+
+        // Pixel inside the Mandelbrot set should be black.
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        assert coloredImage.getRGB(400, 300) == new Color(0, 0, 0).getRGB();</span>
+
+        // Save image
+        try {
+<span class="nc" id="L49">            ImageIO.write(coloredImage, &quot;png&quot;, new File(&quot;Mandelbrot.png&quot;));</span>
+<span class="nc" id="L50">        } catch (IOException e) {</span>
+<span class="nc" id="L51">            e.printStackTrace();</span>
+<span class="nc" id="L52">        }</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * Method to generate the image of the Mandelbrot set. Two types of
+     * coordinates are used: image-coordinates that refer to the pixels and
+     * figure-coordinates that refer to the complex numbers inside and outside
+     * the Mandelbrot set. The figure-coordinates in the arguments of this
+     * method determine which section of the Mandelbrot set is viewed. The main
+     * area of the Mandelbrot set is roughly between &quot;-1.5 &lt; x &lt; 0.5&quot; and &quot;-1 &lt;
+     * y &lt; 1&quot; in the figure-coordinates.
+     *
+     * @param imageWidth The width of the rendered image.
+     * @param imageHeight The height of the rendered image.
+     * @param figureCenterX The x-coordinate of the center of the figure.
+     * @param figureCenterY The y-coordinate of the center of the figure.
+     * @param figureWidth The width of the figure.
+     * @param maxStep Maximum number of steps to check for divergent behavior.
+     * @param useDistanceColorCoding Render in color or black and white.
+     * @return The image of the rendered Mandelbrot set.
+     */
+    public static BufferedImage getImage(
+            int imageWidth,
+            int imageHeight,
+            double figureCenterX,
+            double figureCenterY,
+            double figureWidth,
+            int maxStep,
+            boolean useDistanceColorCoding) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (imageWidth &lt;= 0) {</span>
+<span class="nc" id="L82">            throw new IllegalArgumentException(&quot;imageWidth should be greater than zero&quot;);</span>
+        }
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (imageHeight &lt;= 0) {</span>
+<span class="nc" id="L86">            throw new IllegalArgumentException(&quot;imageHeight should be greater than zero&quot;);</span>
+        }
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (maxStep &lt;= 0) {</span>
+<span class="nc" id="L90">            throw new IllegalArgumentException(&quot;maxStep should be greater than zero&quot;);</span>
+        }
+
+<span class="nc" id="L93">        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);</span>
+<span class="nc" id="L94">        double figureHeight = figureWidth / imageWidth * imageHeight;</span>
+
+        // loop through the image-coordinates
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        for (int imageX = 0; imageX &lt; imageWidth; imageX++) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            for (int imageY = 0; imageY &lt; imageHeight; imageY++) {</span>
+                // determine the figure-coordinates based on the image-coordinates
+<span class="nc" id="L100">                double figureX = figureCenterX + ((double) imageX / imageWidth - 0.5) * figureWidth;</span>
+<span class="nc" id="L101">                double figureY = figureCenterY + ((double) imageY / imageHeight - 0.5) * figureHeight;</span>
+
+<span class="nc" id="L103">                double distance = getDistance(figureX, figureY, maxStep);</span>
+
+                // color the corresponding pixel based on the selected coloring-function
+<span class="nc" id="L106">                image.setRGB(</span>
+                        imageX,
+                        imageY,
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                        useDistanceColorCoding</span>
+<span class="nc" id="L110">                                ? colorCodedColorMap(distance).getRGB()</span>
+<span class="nc" id="L111">                                : blackAndWhiteColorMap(distance).getRGB());</span>
+            }
+        }
+
+<span class="nc" id="L115">        return image;</span>
+    }
+
+    /**
+     * Black and white color-coding that ignores the relative distance. The
+     * Mandelbrot set is black, everything else is white.
+     *
+     * @param distance Distance until divergence threshold
+     * @return The color corresponding to the distance.
+     */
+    private static Color blackAndWhiteColorMap(double distance) {
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        return distance &gt;= 1 ? new Color(0, 0, 0) : new Color(255, 255, 255);</span>
+    }
+
+    /**
+     * Color-coding taking the relative distance into account. The Mandelbrot
+     * set is black.
+     *
+     * @param distance Distance until divergence threshold.
+     * @return The color corresponding to the distance.
+     */
+    private static Color colorCodedColorMap(double distance) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (distance &gt;= 1) {</span>
+<span class="nc" id="L138">            return new Color(0, 0, 0);</span>
+        } else {
+            // simplified transformation of HSV to RGB
+            // distance determines hue
+<span class="nc" id="L142">            double hue = 360 * distance;</span>
+<span class="nc" id="L143">            double saturation = 1;</span>
+<span class="nc" id="L144">            double val = 255;</span>
+<span class="nc" id="L145">            int hi = (int) (Math.floor(hue / 60)) % 6;</span>
+<span class="nc" id="L146">            double f = hue / 60 - Math.floor(hue / 60);</span>
+
+<span class="nc" id="L148">            int v = (int) val;</span>
+<span class="nc" id="L149">            int p = 0;</span>
+<span class="nc" id="L150">            int q = (int) (val * (1 - f * saturation));</span>
+<span class="nc" id="L151">            int t = (int) (val * (1 - (1 - f) * saturation));</span>
+
+<span class="nc bnc" id="L153" title="All 6 branches missed.">            switch (hi) {</span>
+                case 0:
+<span class="nc" id="L155">                    return new Color(v, t, p);</span>
+                case 1:
+<span class="nc" id="L157">                    return new Color(q, v, p);</span>
+                case 2:
+<span class="nc" id="L159">                    return new Color(p, v, t);</span>
+                case 3:
+<span class="nc" id="L161">                    return new Color(p, q, v);</span>
+                case 4:
+<span class="nc" id="L163">                    return new Color(t, p, v);</span>
+                default:
+<span class="nc" id="L165">                    return new Color(v, p, q);</span>
+            }
+        }
+    }
+
+    /**
+     * Return the relative distance (ratio of steps taken to maxStep) after
+     * which the complex number constituted by this x-y-pair diverges. Members
+     * of the Mandelbrot set do not diverge so their distance is 1.
+     *
+     * @param figureX The x-coordinate within the figure.
+     * @param figureX The y-coordinate within the figure.
+     * @param maxStep Maximum number of steps to check for divergent behavior.
+     * @return The relative distance as the ratio of steps taken to maxStep.
+     */
+    private static double getDistance(double figureX, double figureY, int maxStep) {
+<span class="nc" id="L181">        double a = figureX;</span>
+<span class="nc" id="L182">        double b = figureY;</span>
+<span class="nc" id="L183">        int currentStep = 0;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (int step = 0; step &lt; maxStep; step++) {</span>
+<span class="nc" id="L185">            currentStep = step;</span>
+<span class="nc" id="L186">            double aNew = a * a - b * b + figureX;</span>
+<span class="nc" id="L187">            b = 2 * a * b + figureY;</span>
+<span class="nc" id="L188">            a = aNew;</span>
+
+            // divergence happens for all complex number with an absolute value
+            // greater than 4 (= divergence threshold)
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            if (a * a + b * b &gt; 4) {</span>
+<span class="nc" id="L193">                break;</span>
+            }
+        }
+<span class="nc" id="L196">        return (double) currentStep / (maxStep - 1);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkList_Sort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">LinkList_Sort.java</span></div><h1>LinkList_Sort.java</h1><pre class="source lang-java linenums">/** Author : Siddhant Swarup Mallick
+ * Github : https://github.com/siddhant2002
+ */
+
+/** Program description - To sort the LinkList as per sorting technique */
+
+package com.thealgorithms.sorts;
+import java.util.*;
+<span class="nc" id="L9">public class LinkList_Sort {</span>
+    public static boolean isSorted(int p[] , int option) {
+<span class="nc" id="L11">        try (Scanner sc = new Scanner(System.in)) {</span>
+<span class="nc" id="L12">        }</span>
+<span class="nc" id="L13">        int a[] = p;</span>
+        // Array is taken as input from test class
+<span class="nc" id="L15">        int b[] = p;</span>
+        // array similar to a
+<span class="nc" id="L17">        int ch = option;</span>
+        // Choice is choosed as any number from 1 to 3 (So the linked list will be sorted by Merge sort technique/Insertion sort technique/Heap sort technique)
+<span class="nc bnc" id="L19" title="All 4 branches missed.">        switch (ch) {</span>
+            case 1:
+<span class="nc" id="L21">                Task nm = new Task();</span>
+<span class="nc" id="L22">                Node start = null, prev = null, fresh, ptr;</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">                for (int i = 0; i &lt; a.length; i++) {</span>
+                    // New nodes are created and values are added
+<span class="nc" id="L25">                    fresh = new Node(); // Node class is called</span>
+<span class="nc" id="L26">                    fresh.val = a[i]; // Node val is stored</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                    if (start == null)</span>
+<span class="nc" id="L28">                        start = fresh;</span>
+                    else
+<span class="nc" id="L30">                        prev.next = fresh;</span>
+<span class="nc" id="L31">                    prev = fresh;</span>
+                }
+<span class="nc" id="L33">                start = nm.sort_by_mergesort(start);</span>
+                // method is being called
+<span class="nc" id="L35">                int i=0;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                for (ptr = start;ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L37">                    a[i++]=ptr.val;</span>
+                    // storing the sorted values in the array
+                }
+<span class="nc" id="L40">                Arrays.sort(b);</span>
+                // array b is sorted and it will return true when checked with sorted list
+<span class="nc" id="L42">                LinkList_Sort uu=new LinkList_Sort();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                if(uu.compare(a,b))</span>
+                {
+<span class="nc" id="L45">                    return true;</span>
+                }
+                else
+                {
+<span class="nc" id="L49">                    return false;</span>
+                }
+                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+            case 2:
+<span class="nc" id="L53">                Node start1 = null, prev1 = null, fresh1, ptr1;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                for (int i1 = 0; i1 &lt; a.length; i1++) {</span>
+                    // New nodes are created and values are added
+<span class="nc" id="L56">                    fresh1 = new Node(); // New node is created</span>
+<span class="nc" id="L57">                    fresh1.val = a[i1]; // Value is stored in the value part of the node</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                    if (start1 == null)</span>
+<span class="nc" id="L59">                        start1 = fresh1;</span>
+                    else
+<span class="nc" id="L61">                        prev1.next = fresh1;</span>
+<span class="nc" id="L62">                    prev1 = fresh1;</span>
+                }
+<span class="nc" id="L64">                Task1 kk = new Task1();</span>
+<span class="nc" id="L65">                start1 = kk.sort_by_insertionsort(start1);</span>
+                // method is being called
+<span class="nc" id="L67">                int i1=0;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                for (ptr1 = start1; ptr1 != null; ptr1 = ptr1.next) {</span>
+<span class="nc" id="L69">                    a[i1++]=ptr1.val;</span>
+                    // storing the sorted values in the array
+                }
+<span class="nc" id="L72">                LinkList_Sort uu1=new LinkList_Sort();</span>
+                // array b is not sorted and it will return false when checked with sorted list
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                if(uu1.compare(a,b))</span>
+                {
+<span class="nc" id="L76">                    return true;</span>
+                }
+                else
+                {
+<span class="nc" id="L80">                    return false;</span>
+                }
+                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+            case 3:
+<span class="nc" id="L84">                Task2 mm = new Task2();</span>
+<span class="nc" id="L85">                Node start2 = null, prev2 = null, fresh2, ptr2;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                for (int i2 = 0; i2 &lt; a.length; i2++) {</span>
+                    // New nodes are created and values are added
+<span class="nc" id="L88">                    fresh2 = new Node(); // Node class is created</span>
+<span class="nc" id="L89">                    fresh2.val = a[i2]; // Value is stored in the value part of the Node</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                    if (start2 == null)</span>
+<span class="nc" id="L91">                        start2 = fresh2;</span>
+                    else
+<span class="nc" id="L93">                        prev2.next = fresh2;</span>
+<span class="nc" id="L94">                    prev2 = fresh2;</span>
+                }
+<span class="nc" id="L96">                start2 = mm.sort_by_heapsort(start2);</span>
+                // method is being called
+<span class="nc" id="L98">                int i3=0;</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                for (ptr2 = start2; ptr2 != null; ptr2 = ptr2.next) {</span>
+<span class="nc" id="L100">                    a[i3++]=ptr2.val;</span>
+                    // storing the sorted values in the array
+                }
+<span class="nc" id="L103">                Arrays.sort(b);</span>
+                // array b is sorted and it will return true when checked with sorted list
+<span class="nc" id="L105">                LinkList_Sort uu2=new LinkList_Sort();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                if(uu2.compare(a,b))</span>
+                {
+<span class="nc" id="L108">                    return true;</span>
+                }
+                else
+                {
+<span class="nc" id="L112">                    return false;</span>
+                }
+                // The given array and the expected array is checked if both are same then true is displayed else false is displayed
+            default:
+                // default is used incase user puts a unauthorized value
+<span class="nc" id="L117">                System.out.println(&quot;Wrong choice&quot;);</span>
+        }
+        // Switch case is used to call the classes as per the user requirement
+<span class="nc" id="L120">        return false;</span>
+    }
+    boolean compare(int a[] , int b[])
+    {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        for(int i=0;i&lt;a.length;i++)</span>
+        {
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if(a[i]!=b[i])</span>
+<span class="nc" id="L127">            return false;</span>
+        }
+<span class="nc" id="L129">        return true;</span>
+        // Both the arrays are checked for equalness. If both are equal then true is returned else false is returned
+    }
+    /**
+     * OUTPUT :
+     * Input - {89,56,98,123,26,75,12,40,39,68,91} is same for all the 3 classes
+     * Output: [12 26 39 40 56 68 75 89 91 98 123] is same for all the 3 classes
+     * 1st approach Time Complexity : O(n logn)
+     * Auxiliary Space Complexity : O(n)
+     * 2nd approach Time Complexity : O(n^2)
+     * Auxiliary Space Complexity : O(n)
+     * 3rd approach Time Complexity : O(n logn)
+     * Auxiliary Space Complexity : O(n)
+     */
+}
+
+<span class="nc" id="L145">class Node {</span>
+    int val;
+    Node next;
+    // Node class for creation of linklist nodes
+}
+
+<span class="nc" id="L151">class Task {</span>
+    static int a[];
+
+    public Node sort_by_mergesort(Node head) {
+<span class="nc bnc" id="L155" title="All 4 branches missed.">        if (head == null || head.next == null)</span>
+<span class="nc" id="L156">            return head;</span>
+<span class="nc" id="L157">        int c = count(head);</span>
+<span class="nc" id="L158">        a = new int[c];</span>
+        // Array of size c is created
+<span class="nc" id="L160">        int i = 0;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        for (Node ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L162">            a[i++] = ptr.val;</span>
+        }
+        // values are stored in the array
+<span class="nc" id="L165">        i = 0;</span>
+<span class="nc" id="L166">        task(a, 0, c - 1);</span>
+        // task method will be executed
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        for (Node ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L169">            ptr.val = a[i++];</span>
+            // Value is stored in the linklist after being sorted
+        }
+<span class="nc" id="L172">        return head;</span>
+    }
+
+    int count(Node head) {
+<span class="nc" id="L176">        int c = 0;</span>
+        Node ptr;
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        for (ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L179">            c++;</span>
+        }
+<span class="nc" id="L181">        return c;</span>
+        // This Method is used to count number of elements/nodes present in the linklist
+        // It will return a integer type value denoting the number of nodes present
+    }
+
+    void task(int n[], int i, int j) {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if (i &lt; j) {</span>
+<span class="nc" id="L188">            int m = (i + j) / 2;</span>
+<span class="nc" id="L189">            task(n, i, m);</span>
+<span class="nc" id="L190">            task(n, m + 1, j);</span>
+<span class="nc" id="L191">            task1(n, i, m, j);</span>
+            // Array is halved and sent for sorting
+        }
+<span class="nc" id="L194">    }</span>
+
+    void task1(int n[], int s, int m, int e) {
+<span class="nc" id="L197">        int i = s, k = 0, j = m + 1;</span>
+<span class="nc" id="L198">        int b[] = new int[e - s + 1];</span>
+<span class="nc bnc" id="L199" title="All 4 branches missed.">        while (i &lt;= m &amp;&amp; j &lt;= e) {</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            if (n[j] &gt;= n[i])</span>
+<span class="nc" id="L201">                b[k++] = n[i++];</span>
+            else
+<span class="nc" id="L203">                b[k++] = n[j++];</span>
+        }
+        // Smallest number is stored after checking from both the arrays
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        while (i &lt;= m) {</span>
+<span class="nc" id="L207">            b[k++] = n[i++];</span>
+        }
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        while (j &lt;= e) {</span>
+<span class="nc" id="L210">            b[k++] = n[j++];</span>
+        }
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        for (int p = s; p &lt;= e; p++) {</span>
+<span class="nc" id="L213">            a[p] = b[p - s];</span>
+        }
+<span class="nc" id="L215">    }</span>
+    // The method task and task1 is used to sort the linklist using merge sort
+}
+<span class="nc" id="L218">class Task1 {</span>
+    public Node sort_by_insertionsort(Node head) {
+<span class="nc bnc" id="L220" title="All 4 branches missed.">        if (head == null || head.next == null)</span>
+<span class="nc" id="L221">            return head;</span>
+<span class="nc" id="L222">        int c = count(head);</span>
+<span class="nc" id="L223">        int a[] = new int[c];</span>
+        // Array of size c is created
+<span class="nc" id="L225">        a[0] = head.val;</span>
+        int i;
+        Node ptr;
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        for (ptr = head.next, i = 1; ptr != null; ptr = ptr.next, i++) {</span>
+<span class="nc" id="L229">            int j = i - 1;</span>
+<span class="nc bnc" id="L230" title="All 4 branches missed.">            while (j &gt;= 0 &amp;&amp; a[j] &gt; ptr.val) {</span>
+                // values are stored in the array
+<span class="nc" id="L232">                a[j + 1] = a[j];</span>
+<span class="nc" id="L233">                j--;</span>
+            }
+<span class="nc" id="L235">            a[j + 1] = ptr.val;</span>
+        }
+<span class="nc" id="L237">        i = 0;</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        for (ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L239">            ptr.val = a[i++];</span>
+            // Value is stored in the linklist after being sorted
+        }
+<span class="nc" id="L242">        return head;</span>
+    }
+
+    static int count(Node head) {
+        Node ptr;
+<span class="nc" id="L247">        int c = 0;</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        for (ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L249">            c++;</span>
+        }
+<span class="nc" id="L251">        return c;</span>
+        // This Method is used to count number of elements/nodes present in the linklist
+        // It will return a integer type value denoting the number of nodes present
+    }
+    // The method task and task1 is used to sort the linklist using insertion sort
+}
+
+<span class="nc" id="L258">class Task2 {</span>
+    static int a[];
+
+    public Node sort_by_heapsort(Node head) {
+<span class="nc bnc" id="L262" title="All 4 branches missed.">        if (head == null || head.next == null)</span>
+<span class="nc" id="L263">            return head;</span>
+<span class="nc" id="L264">        int c = count(head);</span>
+<span class="nc" id="L265">        a = new int[c];</span>
+        // Array of size c is created
+<span class="nc" id="L267">        int i = 0;</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        for (Node ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L269">            a[i++] = ptr.val;</span>
+            // values are stored in the array
+        }
+<span class="nc" id="L272">        i = 0;</span>
+<span class="nc" id="L273">        task(a);</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        for (Node ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L275">            ptr.val = a[i++];</span>
+            // Value is stored in the linklist after being sorted
+        }
+<span class="nc" id="L278">        return head;</span>
+    }
+
+    int count(Node head) {
+<span class="nc" id="L282">        int c = 0;</span>
+        Node ptr;
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        for (ptr = head; ptr != null; ptr = ptr.next) {</span>
+<span class="nc" id="L285">            c++;</span>
+        }
+<span class="nc" id="L287">        return c;</span>
+        // This Method is used to count number of elements/nodes present in the linklist
+        // It will return a integer type value denoting the number of nodes present
+    }
+
+    void task(int n[]) {
+<span class="nc" id="L293">        int k = n.length;</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        for (int i = k / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L295">            task1(n, k, i);</span>
+        }
+<span class="nc bnc" id="L297" title="All 2 branches missed.">        for (int i = k - 1; i &gt; 0; i--) {</span>
+<span class="nc" id="L298">            int d = n[0];</span>
+<span class="nc" id="L299">            n[0] = n[i];</span>
+<span class="nc" id="L300">            n[i] = d;</span>
+<span class="nc" id="L301">            task1(n, i, 0);</span>
+            // recursive calling of task1 method
+        }
+<span class="nc" id="L304">    }</span>
+
+    void task1(int n[], int k, int i) {
+<span class="nc" id="L307">        int p = i;</span>
+<span class="nc" id="L308">        int l = 2 * i + 1;</span>
+<span class="nc" id="L309">        int r = 2 * i + 2;</span>
+<span class="nc bnc" id="L310" title="All 4 branches missed.">        if (l &lt; k &amp;&amp; n[l] &gt; n[p])</span>
+<span class="nc" id="L311">            p = l;</span>
+<span class="nc bnc" id="L312" title="All 4 branches missed.">        if (r &lt; k &amp;&amp; n[r] &gt; n[p])</span>
+<span class="nc" id="L313">            p = r;</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">        if (p != i) {</span>
+<span class="nc" id="L315">            int d = n[p];</span>
+<span class="nc" id="L316">            n[p] = n[i];</span>
+<span class="nc" id="L317">            n[i] = d;</span>
+<span class="nc" id="L318">            task1(n, k, p);</span>
+        }
+<span class="nc" id="L320">    }</span>
+    // The method task and task1 is used to sort the linklist using heap sort
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

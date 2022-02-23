@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BFPRT.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">BFPRT.java</span></div><h1>BFPRT.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Arrays;
+
+/**
+ * BFPRT algorithm.
+ */
+<span class="nc" id="L8">public class BFPRT {</span>
+
+    public static int[] getMinKNumsByBFPRT(int[] arr, int k) {
+<span class="nc bnc" id="L11" title="All 4 branches missed.">        if (k &lt; 1 || k &gt; arr.length) {</span>
+<span class="nc" id="L12">            return null;</span>
+        }
+<span class="nc" id="L14">        int minKth = getMinKthByBFPRT(arr, k);</span>
+<span class="nc" id="L15">        int[] res = new int[k];</span>
+<span class="nc" id="L16">        int index = 0;</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length; i++) {</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">            if (arr[i] &lt; minKth) {</span>
+<span class="nc" id="L19">                res[index++] = arr[i];</span>
+            }
+        }
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        for (; index != res.length; index++) {</span>
+<span class="nc" id="L23">            res[index] = minKth;</span>
+        }
+<span class="nc" id="L25">        return res;</span>
+    }
+
+    public static int getMinKthByBFPRT(int[] arr, int k) {
+<span class="nc" id="L29">        int[] copyArr = copyArray(arr);</span>
+<span class="nc" id="L30">        return bfprt(copyArr, 0, copyArr.length - 1, k - 1);</span>
+    }
+
+    public static int[] copyArray(int[] arr) {
+<span class="nc" id="L34">        int[] copyArr = new int[arr.length];</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length; i++) {</span>
+<span class="nc" id="L36">            copyArr[i] = arr[i];</span>
+        }
+<span class="nc" id="L38">        return copyArr;</span>
+    }
+
+    public static int bfprt(int[] arr, int begin, int end, int i) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (begin == end) {</span>
+<span class="nc" id="L43">            return arr[begin];</span>
+        }
+<span class="nc" id="L45">        int pivot = medianOfMedians(arr, begin, end);</span>
+<span class="nc" id="L46">        int[] pivotRange = partition(arr, begin, end, pivot);</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        if (i &gt;= pivotRange[0] &amp;&amp; i &lt;= pivotRange[1]) {</span>
+<span class="nc" id="L48">            return arr[i];</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        } else if (i &lt; pivotRange[0]) {</span>
+<span class="nc" id="L50">            return bfprt(arr, begin, pivotRange[0] - 1, i);</span>
+        } else {
+<span class="nc" id="L52">            return bfprt(arr, pivotRange[1] + 1, end, i);</span>
+        }
+    }
+
+    /**
+     * wikipedia: https://en.wikipedia.org/wiki/Median_of_medians .
+     *
+     * @param arr an array.
+     * @param begin begin num.
+     * @param end end num.
+     * @return median of medians.
+     */
+    public static int medianOfMedians(int[] arr, int begin, int end) {
+<span class="nc" id="L65">        int num = end - begin + 1;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        int offset = num % 5 == 0 ? 0 : 1;</span>
+<span class="nc" id="L67">        int[] mArr = new int[num / 5 + offset];</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (int i = 0; i &lt; mArr.length; i++) {</span>
+<span class="nc" id="L69">            mArr[i] = getMedian(arr, begin + i * 5, Math.min(end, begin + i * 5 + 4));</span>
+        }
+<span class="nc" id="L71">        return bfprt(mArr, 0, mArr.length - 1, mArr.length / 2);</span>
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+<span class="nc" id="L75">        int swap = arr[i];</span>
+<span class="nc" id="L76">        arr[i] = arr[j];</span>
+<span class="nc" id="L77">        arr[j] = swap;</span>
+<span class="nc" id="L78">    }</span>
+
+    public static int[] partition(int[] arr, int begin, int end, int num) {
+<span class="nc" id="L81">        int small = begin - 1;</span>
+<span class="nc" id="L82">        int cur = begin;</span>
+<span class="nc" id="L83">        int big = end + 1;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        while (cur != big) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (arr[cur] &lt; num) {</span>
+<span class="nc" id="L86">                swap(arr, ++small, cur++);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            } else if (arr[cur] &gt; num) {</span>
+<span class="nc" id="L88">                swap(arr, --big, cur);</span>
+            } else {
+<span class="nc" id="L90">                cur++;</span>
+            }
+        }
+<span class="nc" id="L93">        int[] pivotRange = new int[2];</span>
+<span class="nc" id="L94">        pivotRange[0] = small + 1;</span>
+<span class="nc" id="L95">        pivotRange[1] = big - 1;</span>
+<span class="nc" id="L96">        return pivotRange;</span>
+    }
+
+    public static int getMedian(int[] arr, int begin, int end) {
+<span class="nc" id="L100">        insertionSort(arr, begin, end);</span>
+<span class="nc" id="L101">        int sum = begin + end;</span>
+<span class="nc" id="L102">        int mid = sum / 2 + (sum % 2);</span>
+<span class="nc" id="L103">        return arr[mid];</span>
+    }
+
+    public static void insertionSort(int[] arr, int begin, int end) {
+<span class="nc bnc" id="L107" title="All 4 branches missed.">        if (arr == null || arr.length &lt; 2) {</span>
+<span class="nc" id="L108">            return;</span>
+        }
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        for (int i = begin + 1; i != end + 1; i++) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (int j = i; j != begin; j--) {</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">                if (arr[j - 1] &gt; arr[j]) {</span>
+<span class="nc" id="L113">                    swap(arr, j - 1, j);</span>
+                } else {
+                    break;
+                }
+            }
+        }
+<span class="nc" id="L119">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L122">        int[] arr = {11, 9, 1, 3, 9, 2, 2, 5, 6, 5, 3, 5, 9, 7, 2, 5, 5, 1, 9};</span>
+<span class="nc" id="L123">        int[] minK = getMinKNumsByBFPRT(arr, 5);</span>
+<span class="nc" id="L124">        System.out.println(Arrays.toString(minK));</span>
+<span class="nc" id="L125">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

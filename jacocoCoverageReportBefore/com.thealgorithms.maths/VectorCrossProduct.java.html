@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VectorCrossProduct.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">VectorCrossProduct.java</span></div><h1>VectorCrossProduct.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/**
+ * @file
+ *
+ * @brief Calculates the [Cross
+ * Product](https://en.wikipedia.org/wiki/Cross_product) and the magnitude of
+ * two mathematical 3D vectors.
+ *
+ *
+ * @details Cross Product of two vectors gives a vector. Direction Ratios of a
+ * vector are the numeric parts of the given vector. They are the tree parts of
+ * the vector which determine the magnitude (value) of the vector. The method of
+ * finding a cross product is the same as finding the determinant of an order 3
+ * matrix consisting of the first row with unit vectors of magnitude 1, the
+ * second row with the direction ratios of the first vector and the third row
+ * with the direction ratios of the second vector. The magnitude of a vector is
+ * it's value expressed as a number. Let the direction ratios of the first
+ * vector, P be: a, b, c Let the direction ratios of the second vector, Q be: x,
+ * y, z Therefore the calculation for the cross product can be arranged as:
+ *
+ * ``` P x Q: 1	1	1 a	b	c x	y	z ```
+ *
+ * The direction ratios (DR) are calculated as follows: 1st DR, J: (b * z) - (c
+ * * y) 2nd DR, A: -((a * z) - (c * x)) 3rd DR, N: (a * y) - (b * x)
+ *
+ * Therefore, the direction ratios of the cross product are: J, A, N The
+ * following Java Program calculates the direction ratios of the cross products
+ * of two vector. The program uses a function, cross() for doing so. The
+ * direction ratios for the first and the second vector has to be passed one by
+ * one seperated by a space character.
+ *
+ * Magnitude of a vector is the square root of the sum of the squares of the
+ * direction ratios.
+ *
+ *
+ * For maintaining filename consistency, Vector class has been termed as
+ * VectorCrossProduct
+ *
+ * @author [Syed](https://github.com/roeticvampire)
+ */
+public class VectorCrossProduct {
+
+    int x;
+    int y;
+    int z;
+
+    //Default constructor, initialises all three Direction Ratios to 0
+<span class="nc" id="L49">    VectorCrossProduct() {</span>
+<span class="nc" id="L50">        x = 0;</span>
+<span class="nc" id="L51">        y = 0;</span>
+<span class="nc" id="L52">        z = 0;</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * constructor, initialises Vector with given Direction Ratios
+     *
+     * @param _x set to x
+     * @param _y set to y
+     * @param _z set to z
+     */
+<span class="nc" id="L62">    VectorCrossProduct(int _x, int _y, int _z) {</span>
+<span class="nc" id="L63">        x = _x;</span>
+<span class="nc" id="L64">        y = _y;</span>
+<span class="nc" id="L65">        z = _z;</span>
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * Returns the magnitude of the vector
+     *
+     * @return double
+     */
+    double magnitude() {
+<span class="nc" id="L74">        return Math.sqrt(x * x + y * y + z * z);</span>
+    }
+
+    /**
+     * Returns the dot product of the current vector with a given vector
+     *
+     * @param b: the second vector
+     * @return int: the dot product
+     */
+    int dotProduct(VectorCrossProduct b) {
+<span class="nc" id="L84">        return x * b.x + y * b.y + z * b.z;</span>
+    }
+
+    /**
+     * Returns the cross product of the current vector with a given vector
+     *
+     * @param b: the second vector
+     * @return vectorCrossProduct: the cross product
+     */
+    VectorCrossProduct crossProduct(VectorCrossProduct b) {
+<span class="nc" id="L94">        VectorCrossProduct product = new VectorCrossProduct();</span>
+<span class="nc" id="L95">        product.x = (y * b.z) - (z * b.y);</span>
+<span class="nc" id="L96">        product.y = -((x * b.z) - (z * b.x));</span>
+<span class="nc" id="L97">        product.z = (x * b.y) - (y * b.x);</span>
+<span class="nc" id="L98">        return product;</span>
+    }
+
+    /**
+     * Display the Vector
+     */
+    void displayVector() {
+<span class="nc" id="L105">        System.out.println(&quot;x : &quot; + x + &quot;\ty : &quot; + y + &quot;\tz : &quot; + z);</span>
+<span class="nc" id="L106">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L109">        test();</span>
+<span class="nc" id="L110">    }</span>
+
+    static void test() {
+        //Create two vectors
+<span class="nc" id="L114">        VectorCrossProduct A = new VectorCrossProduct(1, -2, 3);</span>
+<span class="nc" id="L115">        VectorCrossProduct B = new VectorCrossProduct(2, 0, 3);</span>
+
+        //Determine cross product
+<span class="nc" id="L118">        VectorCrossProduct crossProd = A.crossProduct(B);</span>
+<span class="nc" id="L119">        crossProd.displayVector();</span>
+
+        //Determine dot product
+<span class="nc" id="L122">        int dotProd = A.dotProduct(B);</span>
+<span class="nc" id="L123">        System.out.println(&quot;Dot Product of A and B: &quot; + dotProd);</span>
+
+<span class="nc" id="L125">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

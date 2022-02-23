@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaximumMinimumWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">MaximumMinimumWindow.java</span></div><h1>MaximumMinimumWindow.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+
+import java.util.Arrays;
+import java.util.Stack;
+
+/**
+ * Given an integer array. The task is to find the maximum of the minimum of
+ * every window size in the array. Note: Window size varies from 1 to the size
+ * of the Array.
+ * &lt;p&gt;
+ * For example,
+ * &lt;p&gt;
+ * N = 7
+ * arr[] = {10,20,30,50,10,70,30}
+ * &lt;p&gt;
+ * So the answer for the above would be : 70 30 20 10 10 10 10
+ * &lt;p&gt;
+ * We need to consider window sizes from 1 to length of array in each iteration.
+ * So in the iteration 1 the windows would be [10], [20], [30], [50], [10],
+ * [70], [30]. Now we need to check the minimum value in each window. Since the
+ * window size is 1 here the minimum element would be the number itself. Now the
+ * maximum out of these is the result in iteration 1. In the second iteration we
+ * need to consider window size 2, so there would be [10,20], [20,30], [30,50],
+ * [50,10], [10,70], [70,30]. Now the minimum of each window size would be
+ * [10,20,30,10,10] and the maximum out of these is 30. Similarly we solve for
+ * other window sizes.
+ *
+ * @author sahil
+ */
+<span class="nc bnc" id="L30" title="All 2 branches missed.">public class MaximumMinimumWindow {</span>
+
+    /**
+     * This function contains the logic of finding maximum of minimum for every
+     * window size using Stack Data Structure.
+     *
+     * @param arr Array containing the numbers
+     * @param n Length of the array
+     * @return result array
+     */
+    public static int[] calculateMaxOfMin(int[] arr, int n) {
+<span class="nc" id="L41">        Stack&lt;Integer&gt; s = new Stack&lt;&gt;();</span>
+<span class="nc" id="L42">        int left[] = new int[n + 1];</span>
+<span class="nc" id="L43">        int right[] = new int[n + 1];</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L45">            left[i] = -1;</span>
+<span class="nc" id="L46">            right[i] = n;</span>
+        }
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">            while (!s.empty() &amp;&amp; arr[s.peek()] &gt;= arr[i]) {</span>
+<span class="nc" id="L51">                s.pop();</span>
+            }
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (!s.empty()) {</span>
+<span class="nc" id="L55">                left[i] = s.peek();</span>
+            }
+
+<span class="nc" id="L58">            s.push(i);</span>
+        }
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        while (!s.empty()) {</span>
+<span class="nc" id="L62">            s.pop();</span>
+        }
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int i = n - 1; i &gt;= 0; i--) {</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">            while (!s.empty() &amp;&amp; arr[s.peek()] &gt;= arr[i]) {</span>
+<span class="nc" id="L67">                s.pop();</span>
+            }
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (!s.empty()) {</span>
+<span class="nc" id="L71">                right[i] = s.peek();</span>
+            }
+
+<span class="nc" id="L74">            s.push(i);</span>
+        }
+
+<span class="nc" id="L77">        int ans[] = new int[n + 1];</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (int i = 0; i &lt;= n; i++) {</span>
+<span class="nc" id="L79">            ans[i] = 0;</span>
+        }
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L83">            int len = right[i] - left[i] - 1;</span>
+
+<span class="nc" id="L85">            ans[len] = Math.max(ans[len], arr[i]);</span>
+        }
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int i = n - 1; i &gt;= 1; i--) {</span>
+<span class="nc" id="L89">            ans[i] = Math.max(ans[i], ans[i + 1]);</span>
+        }
+
+        // Print the result
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="nc" id="L94">            System.out.print(ans[i] + &quot; &quot;);</span>
+        }
+<span class="nc" id="L96">        return ans;</span>
+    }
+
+    public static void main(String args[]) {
+<span class="nc" id="L100">        int[] arr = new int[]{10, 20, 30, 50, 10, 70, 30};</span>
+<span class="nc" id="L101">        int[] target = new int[]{70, 30, 20, 10, 10, 10, 10};</span>
+<span class="nc" id="L102">        int[] res = calculateMaxOfMin(arr, arr.length);</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        assert Arrays.equals(target, res);</span>
+<span class="nc" id="L104">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

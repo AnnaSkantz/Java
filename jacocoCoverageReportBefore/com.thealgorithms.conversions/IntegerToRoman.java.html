@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntegerToRoman.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">IntegerToRoman.java</span></div><h1>IntegerToRoman.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+/**
+ * Converting Integers into Roman Numerals
+ *
+ * &lt;p&gt;
+ * ('I', 1); ('IV',4); ('V', 5); ('IX',9); ('X', 10); ('XL',40); ('L', 50);
+ * ('XC',90); ('C', 100); ('D', 500); ('M', 1000);
+ */
+<span class="nc" id="L10">public class IntegerToRoman {</span>
+
+<span class="nc" id="L12">    private static int[] allArabianRomanNumbers</span>
+            = new int[]{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+<span class="nc" id="L14">    private static String[] allRomanNumbers</span>
+            = new String[]{&quot;M&quot;, &quot;CM&quot;, &quot;D&quot;, &quot;CD&quot;, &quot;C&quot;, &quot;XC&quot;, &quot;L&quot;, &quot;XL&quot;, &quot;X&quot;, &quot;IX&quot;, &quot;V&quot;, &quot;IV&quot;, &quot;I&quot;};
+
+    // Value must be &gt; 0
+    public static String integerToRoman(int num) {
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (num &lt;= 0) {</span>
+<span class="nc" id="L20">            return &quot;&quot;;</span>
+        }
+
+<span class="nc" id="L23">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (int a = 0; a &lt; allArabianRomanNumbers.length; a++) {</span>
+<span class="nc" id="L26">            int times = num / allArabianRomanNumbers[a];</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            for (int b = 0; b &lt; times; b++) {</span>
+<span class="nc" id="L28">                builder.append(allRomanNumbers[a]);</span>
+            }
+
+<span class="nc" id="L31">            num -= times * allArabianRomanNumbers[a];</span>
+        }
+
+<span class="nc" id="L34">        return builder.toString();</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L38">        System.out.println(IntegerToRoman.integerToRoman(2131));</span>
+<span class="nc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

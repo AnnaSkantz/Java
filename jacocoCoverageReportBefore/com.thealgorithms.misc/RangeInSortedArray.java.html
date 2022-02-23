@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RangeInSortedArray.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.misc</a> &gt; <span class="el_source">RangeInSortedArray.java</span></div><h1>RangeInSortedArray.java</h1><pre class="source lang-java linenums">package com.thealgorithms.misc;
+
+import java.util.*;
+
+<span class="nc bnc" id="L5" title="All 2 branches missed.">public class RangeInSortedArray {</span>
+
+    public static void main(String[] args) {
+        // Testcases
+<span class="nc bnc" id="L9" title="All 4 branches missed.">        assert Arrays.equals(sortedRange(new int[]{1, 2, 3, 3, 3, 4, 5}, 3), new int[]{2, 4});</span>
+<span class="nc bnc" id="L10" title="All 4 branches missed.">        assert Arrays.equals(sortedRange(new int[]{1, 2, 3, 3, 3, 4, 5}, 4), new int[]{5, 5});</span>
+<span class="nc bnc" id="L11" title="All 4 branches missed.">        assert Arrays.equals(sortedRange(new int[]{0, 1, 2}, 3), new int[]{-1, -1});</span>
+<span class="nc" id="L12">    }</span>
+
+    // Get the 1st and last occurrence index of a number 'key' in a non-decreasing array 'nums'
+    // Gives [-1, -1] in case element doesn't exist in array
+    public static int[] sortedRange(int[] nums, int key) {
+<span class="nc" id="L17">        int[] range = new int[]{-1, -1};</span>
+<span class="nc" id="L18">        alteredBinSearchIter(nums, key, 0, nums.length - 1, range, true);</span>
+<span class="nc" id="L19">        alteredBinSearchIter(nums, key, 0, nums.length - 1, range, false);</span>
+<span class="nc" id="L20">        return range;</span>
+    }
+
+    // Recursive altered binary search which searches for leftmost as well as rightmost occurrence of
+    // 'key'
+    public static void alteredBinSearch(
+            int[] nums, int key, int left, int right, int[] range, boolean goLeft) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (left &gt; right) {</span>
+<span class="nc" id="L28">            return;</span>
+        }
+<span class="nc" id="L30">        int mid = (left + right) / 2;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (nums[mid] &gt; key) {</span>
+<span class="nc" id="L32">            alteredBinSearch(nums, key, left, mid - 1, range, goLeft);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        } else if (nums[mid] &lt; key) {</span>
+<span class="nc" id="L34">            alteredBinSearch(nums, key, mid + 1, right, range, goLeft);</span>
+        } else {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (goLeft) {</span>
+<span class="nc bnc" id="L37" title="All 4 branches missed.">                if (mid == 0 || nums[mid - 1] != key) {</span>
+<span class="nc" id="L38">                    range[0] = mid;</span>
+                } else {
+<span class="nc" id="L40">                    alteredBinSearch(nums, key, left, mid - 1, range, goLeft);</span>
+                }
+            } else {
+<span class="nc bnc" id="L43" title="All 4 branches missed.">                if (mid == nums.length - 1 || nums[mid + 1] != key) {</span>
+<span class="nc" id="L44">                    range[1] = mid;</span>
+                } else {
+<span class="nc" id="L46">                    alteredBinSearch(nums, key, mid + 1, right, range, goLeft);</span>
+                }
+            }
+        }
+<span class="nc" id="L50">    }</span>
+
+    // Iterative altered binary search which searches for leftmost as well as rightmost occurrence of
+    // 'key'
+    public static void alteredBinSearchIter(
+            int[] nums, int key, int left, int right, int[] range, boolean goLeft) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        while (left &lt;= right) {</span>
+<span class="nc" id="L57">            int mid = (left + right) / 2;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (nums[mid] &gt; key) {</span>
+<span class="nc" id="L59">                right = mid - 1;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            } else if (nums[mid] &lt; key) {</span>
+<span class="nc" id="L61">                left = mid + 1;</span>
+            } else {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                if (goLeft) {</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">                    if (mid == 0 || nums[mid - 1] != key) {</span>
+<span class="nc" id="L65">                        range[0] = mid;</span>
+<span class="nc" id="L66">                        return;</span>
+                    } else {
+<span class="nc" id="L68">                        right = mid - 1;</span>
+                    }
+                } else {
+<span class="nc bnc" id="L71" title="All 4 branches missed.">                    if (mid == nums.length - 1 || nums[mid + 1] != key) {</span>
+<span class="nc" id="L72">                        range[1] = mid;</span>
+<span class="nc" id="L73">                        return;</span>
+                    } else {
+<span class="nc" id="L75">                        left = mid + 1;</span>
+                    }
+                }
+            }
+<span class="nc" id="L79">        }</span>
+<span class="nc" id="L80">    }</span>
+
+    public static int getCountLessThan(int[] nums, int key) {
+<span class="nc" id="L83">        return getLessThan(nums, key, 0, nums.length - 1);</span>
+    }
+
+    public static int getLessThan(int[] nums, int key, int left, int right) {
+<span class="nc" id="L87">        int count = 0;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        while (left &lt;= right) {</span>
+<span class="nc" id="L89">            int mid = (left + right) / 2;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (nums[mid] &gt; key) {</span>
+<span class="nc" id="L91">                right = mid - 1;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            } else if (nums[mid] &lt;= key) {</span>
+<span class="nc" id="L93">                count = mid + 1; // Atleast mid+1 elements exist which are &lt;= key</span>
+<span class="nc" id="L94">                left = mid + 1;</span>
+            }
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">        return count;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Combinations.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">Combinations.java</span></div><h1>Combinations.java</h1><pre class="source lang-java linenums">package com.thealgorithms.maths;
+
+/**
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Combination&quot;&gt;Combination&lt;/a&gt;
+ */
+<span class="nc bnc" id="L6" title="All 2 branches missed.">public class Combinations {</span>
+
+    public static void main(String[] args) {
+<span class="nc bnc" id="L9" title="All 4 branches missed.">        assert combinations(1, 1) == 1;</span>
+<span class="nc bnc" id="L10" title="All 4 branches missed.">        assert combinations(10, 5) == 252;</span>
+<span class="nc bnc" id="L11" title="All 4 branches missed.">        assert combinations(6, 3) == 20;</span>
+<span class="nc bnc" id="L12" title="All 4 branches missed.">        assert combinations(20, 5) == 15504;</span>
+
+        // Since, 200 is a big number its factorial will go beyond limits of long even when 200C5 can be saved in a long
+        // variable. So below will fail
+        // assert combinations(200, 5) == 2535650040l;
+<span class="nc bnc" id="L17" title="All 4 branches missed.">        assert combinationsOptimized(100, 0) == 1;</span>
+<span class="nc bnc" id="L18" title="All 4 branches missed.">        assert combinationsOptimized(1, 1) == 1;</span>
+<span class="nc bnc" id="L19" title="All 4 branches missed.">        assert combinationsOptimized(10, 5) == 252;</span>
+<span class="nc bnc" id="L20" title="All 4 branches missed.">        assert combinationsOptimized(6, 3) == 20;</span>
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        assert combinationsOptimized(20, 5) == 15504;</span>
+<span class="nc bnc" id="L22" title="All 4 branches missed.">        assert combinationsOptimized(200, 5) == 2535650040l;</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * Calculate of factorial
+     *
+     * @param n the number
+     * @return factorial of given number
+     */
+    public static long factorial(int n) {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (n &lt; 0) {</span>
+<span class="nc" id="L33">            throw new IllegalArgumentException(&quot;number is negative&quot;);</span>
+        }
+<span class="nc bnc" id="L35" title="All 4 branches missed.">        return n == 0 || n == 1 ? 1 : n * factorial(n - 1);</span>
+    }
+
+    /**
+     * Calculate combinations
+     *
+     * @param n first number
+     * @param k second number
+     * @return combinations of given {@code n} and {@code k}
+     */
+    public static long combinations(int n, int k) {
+<span class="nc" id="L46">        return factorial(n) / (factorial(k) * factorial(n - k));</span>
+    }
+
+    /**
+     * The above method can exceed limit of long (overflow) when factorial(n) is
+     * larger than limits of long variable. Thus even if nCk is within range of
+     * long variable above reason can lead to incorrect result. This is an
+     * optimized version of computing combinations. Observations: nC(k + 1) = (n
+     * - k) * nCk / (k + 1) We know the value of nCk when k = 1 which is nCk = n
+     * Using this base value and above formula we can compute the next term
+     * nC(k+1)
+     *
+     * @param n
+     * @param k
+     * @return nCk
+     */
+    public static long combinationsOptimized(int n, int k) {
+<span class="nc bnc" id="L63" title="All 4 branches missed.">        if (n &lt; 0 || k &lt; 0) {</span>
+<span class="nc" id="L64">            throw new IllegalArgumentException(&quot;n or k can't be negative&quot;);</span>
+        }
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (n &lt; k) {</span>
+<span class="nc" id="L67">            throw new IllegalArgumentException(&quot;n can't be smaller than k&quot;);</span>
+        }
+        // nC0 is always 1
+<span class="nc" id="L70">        long solution = 1;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (int i = 0; i &lt; k; i++) {</span>
+<span class="nc" id="L72">            long next = (n - i) * solution / (i + 1);</span>
+<span class="nc" id="L73">            solution = next;</span>
+        }
+<span class="nc" id="L75">        return solution;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

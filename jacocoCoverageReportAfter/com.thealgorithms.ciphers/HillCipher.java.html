@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HillCipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">HillCipher.java</span></div><h1>HillCipher.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
+
+/*
+ * Java Implementation of Hill Cipher
+ * Hill cipher is a polyalphabetic substitution cipher. Each letter is represented by a number belonging to the set Z26 where A=0 , B=1, ..... Z=25.
+ * To encrypt a message, each block of n letters (since matrix size is n x n) is multiplied by an invertible n × n matrix, against modulus 26.
+ * To decrypt the message, each block is multiplied by the inverse of the matrix used for encryption.
+ * The cipher key and plaintext/ciphertext are user inputs.
+ * @author Ojasva Jain
+ */
+<span class="nc" id="L20">public class HillCipher {</span>
+
+<span class="fc" id="L22">    static ArrayList&lt;Integer&gt; coverageTrack = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L23">    static Set&lt;Integer&gt; coveredBranches = new HashSet&lt;Integer&gt;();</span>
+    static Scanner in;
+
+    static void initScanner() {
+<span class="fc" id="L27">        in = new Scanner(System.in);</span>
+<span class="fc" id="L28">    }</span>
+
+    static void closeScanner() {
+<span class="fc" id="L31">        in.close();</span>
+<span class="fc" id="L32">    }</span>
+
+    /* Following function encrypts the message
+     */
+    static void encrypt(String message) {
+<span class="fc" id="L37">        message = message.toUpperCase();</span>
+        // Get key matrix
+<span class="fc" id="L39">        System.out.println(&quot;Enter key matrix size&quot;);</span>
+<span class="fc" id="L40">        int n = in.nextInt();</span>
+<span class="fc" id="L41">        System.out.println(&quot;Enter Key/encryptionKey matrix &quot;);</span>
+<span class="fc" id="L42">        int keyMatrix[][] = new int[n][n];</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (int i = 0; i &lt; n; i++) {   // id 0</span>
+<span class="fc" id="L44">            coverageInfo(0);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            for (int j = 0; j &lt; n; j++) {   // id 1</span>
+<span class="fc" id="L46">                coverageInfo(1);</span>
+<span class="fc" id="L47">                keyMatrix[i][j] = in.nextInt();</span>
+            }
+<span class="fc" id="L49">            coverageInfo(2);   // id 2</span>
+        }
+<span class="fc" id="L51">        coverageInfo(3);   // id 3</span>
+
+        //check if det = 0
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (determinant(keyMatrix, n) % 26 == 0) {  </span>
+<span class="nc" id="L55">            coverageInfo(4);   // id 4</span>
+<span class="nc" id="L56">            System.out.println(&quot;Invalid key, as determinant = 0. Program Terminated&quot;);</span>
+<span class="nc" id="L57">            return;</span>
+        }
+<span class="fc" id="L59">        coverageInfo(5);   // id 5</span>
+
+<span class="fc" id="L61">        int[][] messageVector = new int[n][1];</span>
+<span class="fc" id="L62">        String CipherText = &quot;&quot;;</span>
+<span class="fc" id="L63">        int cipherMatrix[][] = new int[n][1];</span>
+<span class="fc" id="L64">        int j = 0;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        while (j &lt; message.length()) {</span>
+<span class="fc" id="L66">            coverageInfo(6);   // id 6</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            for (int i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L68">                coverageInfo(7);   // id 7</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                if (j &gt;= message.length()) {</span>
+<span class="nc" id="L70">                    coverageInfo(8);   // id 8</span>
+<span class="nc" id="L71">                    messageVector[i][0] = 23;</span>
+                } else {
+<span class="fc" id="L73">                    coverageInfo(9);   // id 9</span>
+<span class="fc" id="L74">                    messageVector[i][0] = (message.charAt(j)) % 65;</span>
+                }
+<span class="fc" id="L76">                System.out.println(messageVector[i][0]);</span>
+<span class="fc" id="L77">                j++;</span>
+            }
+<span class="fc" id="L79">            coverageInfo(10);   // id 10</span>
+            int x, i;
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            for (i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L82">                coverageInfo(11);   // id 11</span>
+<span class="fc" id="L83">                cipherMatrix[i][0] = 0;</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                for (x = 0; x &lt; n; x++) {</span>
+<span class="fc" id="L86">                    coverageInfo(12);   // id 12</span>
+<span class="fc" id="L87">                    cipherMatrix[i][0] += keyMatrix[i][x] * messageVector[x][0];</span>
+                }
+<span class="fc" id="L89">                coverageInfo(13);   // id 13</span>
+<span class="fc" id="L90">                System.out.println(cipherMatrix[i][0]);</span>
+<span class="fc" id="L91">                cipherMatrix[i][0] = cipherMatrix[i][0] % 26;</span>
+            }
+<span class="fc" id="L93">            coverageInfo(14);   // id 14</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            for (i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L95">                coverageInfo(15);   // id 15</span>
+<span class="fc" id="L96">                CipherText += (char) (cipherMatrix[i][0] + 65);</span>
+            }
+<span class="fc" id="L98">            coverageInfo(16);   // id 16</span>
+<span class="fc" id="L99">        }</span>
+<span class="fc" id="L100">        coverageInfo(17);   // id 17</span>
+<span class="fc" id="L101">        printCoverageInfoToFile();</span>
+
+<span class="fc" id="L103">        System.out.println(&quot;Ciphertext: &quot; + CipherText);</span>
+<span class="fc" id="L104">    }</span>
+
+    static void coverageInfo(int branchId) {
+<span class="fc" id="L107">        coveredBranches.add(branchId);</span>
+<span class="fc" id="L108">        coverageTrack.add(branchId);</span>
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Prints branch coverage information to file in /tmp folder
+     */
+    static void printCoverageInfoToFile() {
+<span class="fc" id="L115">        String fileName = &quot;/tmp/coverageInfo.txt&quot;;</span>
+        try {
+<span class="fc" id="L117">            File myFile = new File(fileName);</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            if (myFile.exists()) {</span>
+<span class="fc" id="L119">                myFile.delete();</span>
+            }
+<span class="fc" id="L121">            myFile.createNewFile();</span>
+
+<span class="fc" id="L123">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L124">            sb.append(&quot;Branch Coverage of the function HillCipher::encode\n\nCovered Branches:\n&quot;);</span>
+<span class="fc" id="L125">            int i = 1;</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            for (int branch : coveredBranches) {</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                if (i++ != coveredBranches.size()) {</span>
+<span class="fc" id="L128">                    sb.append(&quot; id: &quot;+ branch +&quot;\n&quot;);</span>
+                } else {
+<span class="fc" id="L130">                    sb.append(&quot; id: &quot;+ branch + &quot;\n\n&quot;);</span>
+                }
+<span class="fc" id="L132">            }</span>
+<span class="fc" id="L133">            sb.append(&quot;Taken path:\n{&quot;);</span>
+<span class="fc" id="L134">            i = 1;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            for (int branch : coverageTrack) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                if (i++ != coverageTrack.size()) {</span>
+<span class="fc" id="L137">                    sb.append(branch +&quot;, &quot;);</span>
+                } else {
+<span class="fc" id="L139">                    sb.append(branch + &quot;}\n\n&quot;);</span>
+                }
+<span class="fc" id="L141">            }</span>
+<span class="fc" id="L142">            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));</span>
+<span class="fc" id="L143">            writer.write(sb.toString());</span>
+<span class="fc" id="L144">            writer.close();</span>
+<span class="nc" id="L145">        } catch (IOException e) {</span>
+<span class="nc" id="L146">            e.printStackTrace();</span>
+<span class="fc" id="L147">        }</span>
+<span class="fc" id="L148">    }</span>
+
+    //Following function decrypts a message
+    static void decrypt(String message) {
+<span class="fc" id="L152">        message = message.toUpperCase();</span>
+        // Get key matrix
+<span class="fc" id="L154">        System.out.println(&quot;Enter key matrix size&quot;);</span>
+<span class="fc" id="L155">        int n = in.nextInt();</span>
+<span class="fc" id="L156">        System.out.println(&quot;Enter inverseKey/decryptionKey matrix &quot;);</span>
+<span class="fc" id="L157">        int keyMatrix[][] = new int[n][n];</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="fc" id="L160">                keyMatrix[i][j] = in.nextInt();</span>
+            }
+        }
+        //check if det = 0
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if (determinant(keyMatrix, n) % 26 == 0) {</span>
+<span class="nc" id="L165">            System.out.println(&quot;Invalid key, as determinant = 0. Program Terminated&quot;);</span>
+<span class="nc" id="L166">            return;</span>
+        }
+        //solving for the required plaintext message
+<span class="fc" id="L169">        int[][] messageVector = new int[n][1];</span>
+<span class="fc" id="L170">        String PlainText = &quot;&quot;;</span>
+<span class="fc" id="L171">        int plainMatrix[][] = new int[n][1];</span>
+<span class="fc" id="L172">        int j = 0;</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        while (j &lt; message.length()) {</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            for (int i = 0; i &lt; n; i++) {</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">                if (j &gt;= message.length()) {</span>
+<span class="nc" id="L176">                    messageVector[i][0] = 23;</span>
+                } else {
+<span class="fc" id="L178">                    messageVector[i][0] = (message.charAt(j)) % 65;</span>
+                }
+<span class="fc" id="L180">                System.out.println(messageVector[i][0]);</span>
+<span class="fc" id="L181">                j++;</span>
+            }
+            int x, i;
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            for (i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L185">                plainMatrix[i][0] = 0;</span>
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">                for (x = 0; x &lt; n; x++) {</span>
+<span class="fc" id="L188">                    plainMatrix[i][0] += keyMatrix[i][x] * messageVector[x][0];</span>
+                }
+
+<span class="fc" id="L191">                plainMatrix[i][0] = plainMatrix[i][0] % 26;</span>
+            }
+<span class="fc bfc" id="L193" title="All 2 branches covered.">            for (i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L194">                PlainText += (char) (plainMatrix[i][0] + 65);</span>
+            }
+<span class="fc" id="L196">        }</span>
+<span class="fc" id="L197">        System.out.println(&quot;Plaintext: &quot; + PlainText);</span>
+<span class="fc" id="L198">    }</span>
+
+    // Determinant calculator
+    public static int determinant(int a[][], int n) {
+<span class="fc" id="L202">        int det = 0, sign = 1, p = 0, q = 0;</span>
+
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        if (n == 1) {</span>
+<span class="fc" id="L205">            det = a[0][0];</span>
+        } else {
+<span class="fc" id="L207">            int b[][] = new int[n - 1][n - 1];</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            for (int x = 0; x &lt; n; x++) {</span>
+<span class="fc" id="L209">                p = 0;</span>
+<span class="fc" id="L210">                q = 0;</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">                for (int i = 1; i &lt; n; i++) {</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">                    for (int j = 0; j &lt; n; j++) {</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">                        if (j != x) {</span>
+<span class="fc" id="L214">                            b[p][q++] = a[i][j];</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">                            if (q % (n - 1) == 0) {</span>
+<span class="fc" id="L216">                                p++;</span>
+<span class="fc" id="L217">                                q = 0;</span>
+                            }
+                        }
+                    }
+                }
+<span class="fc" id="L222">                det = det + a[0][x] * determinant(b, n - 1) * sign;</span>
+<span class="fc" id="L223">                sign = -sign;</span>
+            }
+        }
+<span class="fc" id="L226">        return det;</span>
+    }
+
+    // Function to implement Hill Cipher
+    static void hillcipher(String message) {
+<span class="nc" id="L231">        message.toUpperCase();</span>
+<span class="nc" id="L232">        System.out.println(&quot;What do you want to process from the message?&quot;);</span>
+<span class="nc" id="L233">        System.out.println(&quot;Press 1: To Encrypt&quot;);</span>
+<span class="nc" id="L234">        System.out.println(&quot;Press 2: To Decrypt&quot;);</span>
+<span class="nc" id="L235">        short sc = in.nextShort();</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (sc == 1) {</span>
+<span class="nc" id="L237">            encrypt(message);</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        } else if (sc == 2) {</span>
+<span class="nc" id="L239">            decrypt(message);</span>
+        } else {
+<span class="nc" id="L241">            System.out.println(&quot;Invalid input, program terminated.&quot;);</span>
+        }
+<span class="nc" id="L243">    }</span>
+
+    // Driver code
+    public static void main(String[] args) {
+<span class="nc" id="L247">        initScanner();</span>
+        // Get the message to be encrypted
+<span class="nc" id="L249">        System.out.println(&quot;Enter message&quot;);</span>
+<span class="nc" id="L250">        String message = in.nextLine();</span>
+<span class="nc" id="L251">        hillcipher(message);</span>
+<span class="nc" id="L252">        closeScanner();</span>
+<span class="nc" id="L253">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

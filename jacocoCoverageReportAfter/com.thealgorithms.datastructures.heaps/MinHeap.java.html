@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinHeap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.heaps</a> &gt; <span class="el_source">MinHeap.java</span></div><h1>MinHeap.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.heaps;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Heap tree where a node's key is higher than or equal to its parent's and
+ * lower than or equal to its children's.
+ *
+ * @author Nicolas Renard
+ */
+public class MinHeap implements Heap {
+
+    private final List&lt;HeapElement&gt; minHeap;
+
+<span class="nc" id="L16">    public MinHeap(List&lt;HeapElement&gt; listElements) {</span>
+<span class="nc" id="L17">        minHeap = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        for (HeapElement heapElement : listElements) {</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">            if (heapElement != null) {</span>
+<span class="nc" id="L20">                insertElement(heapElement);</span>
+            } else {
+<span class="nc" id="L22">                System.out.println(&quot;Null element. Not added to heap&quot;);</span>
+            }
+<span class="nc" id="L24">        }</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (minHeap.size() == 0) {</span>
+<span class="nc" id="L26">            System.out.println(&quot;No element has been added, empty heap.&quot;);</span>
+        }
+<span class="nc" id="L28">    }</span>
+
+    // Get the element at a given index. The key for the list is equal to index value - 1
+    public HeapElement getElement(int elementIndex) {
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        if ((elementIndex &lt;= 0) || (elementIndex &gt; minHeap.size())) {</span>
+<span class="nc" id="L33">            throw new IndexOutOfBoundsException(&quot;Index out of heap range&quot;);</span>
+        }
+<span class="nc" id="L35">        return minHeap.get(elementIndex - 1);</span>
+    }
+
+    // Get the key of the element at a given index
+    private double getElementKey(int elementIndex) {
+<span class="nc" id="L40">        return minHeap.get(elementIndex - 1).getKey();</span>
+    }
+
+    // Swaps two elements in the heap
+    private void swap(int index1, int index2) {
+<span class="nc" id="L45">        HeapElement temporaryElement = minHeap.get(index1 - 1);</span>
+<span class="nc" id="L46">        minHeap.set(index1 - 1, minHeap.get(index2 - 1));</span>
+<span class="nc" id="L47">        minHeap.set(index2 - 1, temporaryElement);</span>
+<span class="nc" id="L48">    }</span>
+
+    // Toggle an element up to its right place as long as its key is lower than its parent's
+    private void toggleUp(int elementIndex) {
+<span class="nc" id="L52">        double key = minHeap.get(elementIndex - 1).getKey();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        while (getElementKey((int) Math.floor(elementIndex / 2.0)) &gt; key) {</span>
+<span class="nc" id="L54">            swap(elementIndex, (int) Math.floor(elementIndex / 2.0));</span>
+<span class="nc" id="L55">            elementIndex = (int) Math.floor(elementIndex / 2.0);</span>
+        }
+<span class="nc" id="L57">    }</span>
+
+    // Toggle an element down to its right place as long as its key is higher
+    // than any of its children's
+    private void toggleDown(int elementIndex) {
+<span class="nc" id="L62">        double key = minHeap.get(elementIndex - 1).getKey();</span>
+<span class="nc" id="L63">        boolean wrongOrder</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                = (key &gt; getElementKey(elementIndex * 2))</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                || (key &gt; getElementKey(Math.min(elementIndex * 2, minHeap.size())));</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        while ((2 * elementIndex &lt;= minHeap.size()) &amp;&amp; wrongOrder) {</span>
+            // Check whether it shall swap the element with its left child or its right one if any.
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if ((2 * elementIndex &lt; minHeap.size())</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                    &amp;&amp; (getElementKey(elementIndex * 2 + 1) &lt; getElementKey(elementIndex * 2))) {</span>
+<span class="nc" id="L70">                swap(elementIndex, 2 * elementIndex + 1);</span>
+<span class="nc" id="L71">                elementIndex = 2 * elementIndex + 1;</span>
+            } else {
+<span class="nc" id="L73">                swap(elementIndex, 2 * elementIndex);</span>
+<span class="nc" id="L74">                elementIndex = 2 * elementIndex;</span>
+            }
+<span class="nc" id="L76">            wrongOrder</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                    = (key &gt; getElementKey(elementIndex * 2))</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                    || (key &gt; getElementKey(Math.min(elementIndex * 2, minHeap.size())));</span>
+        }
+<span class="nc" id="L80">    }</span>
+
+    private HeapElement extractMin() {
+<span class="nc" id="L83">        HeapElement result = minHeap.get(0);</span>
+<span class="nc" id="L84">        deleteElement(0);</span>
+<span class="nc" id="L85">        return result;</span>
+    }
+
+    @Override
+    public void insertElement(HeapElement element) {
+<span class="nc" id="L90">        minHeap.add(element);</span>
+<span class="nc" id="L91">        toggleUp(minHeap.size());</span>
+<span class="nc" id="L92">    }</span>
+
+    @Override
+    public void deleteElement(int elementIndex) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (minHeap.isEmpty())</span>
+      try {
+<span class="nc" id="L98">            throw new EmptyHeapException(&quot;Attempt to delete an element from an empty heap&quot;);</span>
+<span class="nc" id="L99">        } catch (EmptyHeapException e) {</span>
+<span class="nc" id="L100">            e.printStackTrace();</span>
+        }
+<span class="nc bnc" id="L102" title="All 4 branches missed.">        if ((elementIndex &gt; minHeap.size()) || (elementIndex &lt;= 0)) {</span>
+<span class="nc" id="L103">            throw new IndexOutOfBoundsException(&quot;Index out of heap range&quot;);</span>
+        }
+        // The last element in heap replaces the one to be deleted
+<span class="nc" id="L106">        minHeap.set(elementIndex - 1, getElement(minHeap.size()));</span>
+<span class="nc" id="L107">        minHeap.remove(minHeap.size());</span>
+        // Shall the new element be moved up...
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (getElementKey(elementIndex) &lt; getElementKey((int) Math.floor(elementIndex / 2.0))) {</span>
+<span class="nc" id="L110">            toggleUp(elementIndex);</span>
+        } // ... or down ?
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        else if (((2 * elementIndex &lt;= minHeap.size())</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                &amp;&amp; (getElementKey(elementIndex) &gt; getElementKey(elementIndex * 2)))</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                || ((2 * elementIndex &lt; minHeap.size())</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                &amp;&amp; (getElementKey(elementIndex) &gt; getElementKey(elementIndex * 2)))) {</span>
+<span class="nc" id="L116">            toggleDown(elementIndex);</span>
+        }
+<span class="nc" id="L118">    }</span>
+
+    @Override
+    public HeapElement getElement() throws EmptyHeapException {
+        try {
+<span class="nc" id="L123">            return extractMin();</span>
+<span class="nc" id="L124">        } catch (Exception e) {</span>
+<span class="nc" id="L125">            throw new EmptyHeapException(&quot;Heap is empty. Error retrieving element&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
