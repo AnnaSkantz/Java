@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CursorLinkedList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.lists</a> &gt; <span class="el_source">CursorLinkedList.java</span></div><h1>CursorLinkedList.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.lists;
+
+import java.util.Objects;
+
+/**
+ * This class implements a Cursor Linked List.
+ *
+ * A CursorLinkedList is an array version of a Linked List. Essentially you have
+ * an array of list nodes but instead of each node containing a pointer to the
+ * next item in the linked list, each node element in the array contains the
+ * index for the next node element.
+ *
+ */
+public class CursorLinkedList&lt;T&gt; {
+
+    private static class Node&lt;T&gt; {
+
+        T element;
+        int next;
+
+<span class="nc" id="L21">        Node(T element, int next) {</span>
+<span class="nc" id="L22">            this.element = element;</span>
+<span class="nc" id="L23">            this.next = next;</span>
+<span class="nc" id="L24">        }</span>
+    }
+
+    private final int os;
+    private int head;
+    private final Node&lt;T&gt;[] cursorSpace;
+    private int count;
+    private static final int CURSOR_SPACE_SIZE = 100;
+
+    {
+        // init at loading time
+<span class="nc" id="L35">        cursorSpace = new Node[CURSOR_SPACE_SIZE];</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 0; i &lt; CURSOR_SPACE_SIZE; i++) {</span>
+<span class="nc" id="L37">            cursorSpace[i] = new Node&lt;&gt;(null, i + 1);</span>
+        }
+<span class="nc" id="L39">        cursorSpace[CURSOR_SPACE_SIZE - 1].next = 0;</span>
+    }
+
+<span class="nc" id="L42">    public CursorLinkedList() {</span>
+<span class="nc" id="L43">        os = 0;</span>
+<span class="nc" id="L44">        count = 0;</span>
+<span class="nc" id="L45">        head = -1;</span>
+<span class="nc" id="L46">    }</span>
+
+    public void printList() {
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (head != -1) {</span>
+
+<span class="nc" id="L52">            int start = head;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            while (start != -1) {</span>
+
+<span class="nc" id="L55">                T element = cursorSpace[start].element;</span>
+<span class="nc" id="L56">                System.out.println(element.toString());</span>
+<span class="nc" id="L57">                start = cursorSpace[start].next;</span>
+<span class="nc" id="L58">            }</span>
+        }
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * @return the logical index of the element within the list , not the actual
+     * index of the [cursorSpace] array
+     */
+    public int indexOf(T element) {
+
+<span class="nc" id="L68">        Objects.requireNonNull(element);</span>
+<span class="nc" id="L69">        Node&lt;T&gt; iterator = cursorSpace[head];</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 0; i &lt; count; i++) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (iterator.element.equals(element)) {</span>
+<span class="nc" id="L72">                return i;</span>
+            }
+<span class="nc" id="L74">            iterator = cursorSpace[iterator.next];</span>
+        }
+
+<span class="nc" id="L77">        return -1;</span>
+    }
+
+    /**
+     * @param position , the logical index of the element , not the actual one
+     * within the [cursorSpace] array . this method should be used to get the
+     * index give by indexOf() method.
+     * @return
+     */
+    public T get(int position) {
+
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        if (position &gt;= 0 &amp;&amp; position &lt; count) {</span>
+
+<span class="nc" id="L90">            int start = head;</span>
+<span class="nc" id="L91">            int counter = 0;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            while (start != -1) {</span>
+
+<span class="nc" id="L94">                T element = cursorSpace[start].element;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                if (counter == position) {</span>
+<span class="nc" id="L96">                    return element;</span>
+                }
+
+<span class="nc" id="L99">                start = cursorSpace[start].next;</span>
+<span class="nc" id="L100">                counter++;</span>
+<span class="nc" id="L101">            }</span>
+        }
+
+<span class="nc" id="L104">        return null;</span>
+    }
+
+    public void removeByIndex(int index) {
+
+<span class="nc bnc" id="L109" title="All 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt; count) {</span>
+
+<span class="nc" id="L111">            T element = get(index);</span>
+<span class="nc" id="L112">            remove(element);</span>
+        }
+<span class="nc" id="L114">    }</span>
+
+    public void remove(T element) {
+
+<span class="nc" id="L118">        Objects.requireNonNull(element);</span>
+
+        // case element is in the head
+<span class="nc" id="L121">        T temp_element = cursorSpace[head].element;</span>
+<span class="nc" id="L122">        int temp_next = cursorSpace[head].next;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (temp_element.equals(element)) {</span>
+<span class="nc" id="L124">            free(head);</span>
+<span class="nc" id="L125">            head = temp_next;</span>
+        } else { // otherwise cases
+
+<span class="nc" id="L128">            int prev_index = head;</span>
+<span class="nc" id="L129">            int current_index = cursorSpace[prev_index].next;</span>
+
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            while (current_index != -1) {</span>
+
+<span class="nc" id="L133">                T current_element = cursorSpace[current_index].element;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                if (current_element.equals(element)) {</span>
+<span class="nc" id="L135">                    cursorSpace[prev_index].next = cursorSpace[current_index].next;</span>
+<span class="nc" id="L136">                    free(current_index);</span>
+<span class="nc" id="L137">                    break;</span>
+                }
+
+<span class="nc" id="L140">                prev_index = current_index;</span>
+<span class="nc" id="L141">                current_index = cursorSpace[prev_index].next;</span>
+<span class="nc" id="L142">            }</span>
+        }
+
+<span class="nc" id="L145">        count--;</span>
+<span class="nc" id="L146">    }</span>
+
+    private void free(int index) {
+
+<span class="nc" id="L150">        Node os_node = cursorSpace[os];</span>
+<span class="nc" id="L151">        int os_next = os_node.next;</span>
+<span class="nc" id="L152">        cursorSpace[os].next = index;</span>
+<span class="nc" id="L153">        cursorSpace[index].element = null;</span>
+<span class="nc" id="L154">        cursorSpace[index].next = os_next;</span>
+<span class="nc" id="L155">    }</span>
+
+    public void append(T element) {
+
+<span class="nc" id="L159">        Objects.requireNonNull(element);</span>
+<span class="nc" id="L160">        int availableIndex = alloc();</span>
+<span class="nc" id="L161">        cursorSpace[availableIndex].element = element;</span>
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (head == -1) {</span>
+<span class="nc" id="L164">            head = availableIndex;</span>
+        }
+
+<span class="nc" id="L167">        int iterator = head;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        while (cursorSpace[iterator].next != -1) {</span>
+<span class="nc" id="L169">            iterator = cursorSpace[iterator].next;</span>
+        }
+
+<span class="nc" id="L172">        cursorSpace[iterator].next = availableIndex;</span>
+<span class="nc" id="L173">        cursorSpace[availableIndex].next = -1;</span>
+
+<span class="nc" id="L175">        count++;</span>
+<span class="nc" id="L176">    }</span>
+
+    /**
+     * @return the index of the next available node
+     */
+    private int alloc() {
+
+        // 1- get the index at which the os is pointing
+<span class="nc" id="L184">        int availableNodeIndex = cursorSpace[os].next;</span>
+
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (availableNodeIndex == 0) {</span>
+<span class="nc" id="L187">            throw new OutOfMemoryError();</span>
+        }
+
+        // 2- make the os point to the next of the  @var{availableNodeIndex}
+<span class="nc" id="L191">        int availableNext = cursorSpace[availableNodeIndex].next;</span>
+<span class="nc" id="L192">        cursorSpace[os].next = availableNext;</span>
+
+        // this to indicate an end of the list , helpful at testing since any err
+        // would throw an outOfBoundException
+<span class="nc" id="L196">        cursorSpace[availableNodeIndex].next = -1;</span>
+
+<span class="nc" id="L198">        return availableNodeIndex;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

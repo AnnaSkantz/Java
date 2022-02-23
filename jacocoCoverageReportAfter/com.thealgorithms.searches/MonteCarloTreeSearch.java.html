@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonteCarloTreeSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">MonteCarloTreeSearch.java</span></div><h1>MonteCarloTreeSearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
+
+/**
+ * Monte Carlo Tree Search (MCTS) is a heuristic search algorithm used in
+ * decition taking problems especially games.
+ *
+ * See more: https://en.wikipedia.org/wiki/Monte_Carlo_tree_search,
+ * https://www.baeldung.com/java-monte-carlo-tree-search
+ */
+<span class="nc" id="L15">public class MonteCarloTreeSearch {</span>
+
+    public class Node {
+
+        Node parent;
+        ArrayList&lt;Node&gt; childNodes;
+        boolean isPlayersTurn; // True if it is the player's turn.
+        boolean playerWon; // True if the player won; false if the opponent won.
+        int score;
+        int visitCount;
+
+<span class="nc" id="L26">        public Node() {</span>
+<span class="nc" id="L27">        }</span>
+
+<span class="nc" id="L29">        public Node(Node parent, boolean isPlayersTurn) {</span>
+<span class="nc" id="L30">            this.parent = parent;</span>
+<span class="nc" id="L31">            childNodes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L32">            this.isPlayersTurn = isPlayersTurn;</span>
+<span class="nc" id="L33">            playerWon = false;</span>
+<span class="nc" id="L34">            score = 0;</span>
+<span class="nc" id="L35">            visitCount = 0;</span>
+<span class="nc" id="L36">        }</span>
+    }
+
+    static final int WIN_SCORE = 10;
+    static final int TIME_LIMIT = 500; // Time the algorithm will be running for (in milliseconds).
+
+    public static void main(String[] args) {
+<span class="nc" id="L43">        MonteCarloTreeSearch mcts = new MonteCarloTreeSearch();</span>
+
+<span class="nc" id="L45">        mcts.monteCarloTreeSearch(mcts.new Node(null, true));</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * Explores a game tree using Monte Carlo Tree Search (MCTS) and returns the
+     * most promising node.
+     *
+     * @param rootNode Root node of the game tree.
+     * @return The most promising child of the root node.
+     */
+    public Node monteCarloTreeSearch(Node rootNode) {
+        Node winnerNode;
+        double timeLimit;
+
+        // Expand the root node.
+<span class="nc" id="L60">        addChildNodes(rootNode, 10);</span>
+
+<span class="nc" id="L62">        timeLimit = System.currentTimeMillis() + TIME_LIMIT;</span>
+
+        // Explore the tree until the time limit is reached.
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        while (System.currentTimeMillis() &lt; timeLimit) {</span>
+            Node promisingNode;
+
+            // Get a promising node using UCT.
+<span class="nc" id="L69">            promisingNode = getPromisingNode(rootNode);</span>
+
+            // Expand the promising node.
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (promisingNode.childNodes.size() == 0) {</span>
+<span class="nc" id="L73">                addChildNodes(promisingNode, 10);</span>
+            }
+
+<span class="nc" id="L76">            simulateRandomPlay(promisingNode);</span>
+<span class="nc" id="L77">        }</span>
+
+<span class="nc" id="L79">        winnerNode = getWinnerNode(rootNode);</span>
+<span class="nc" id="L80">        printScores(rootNode);</span>
+<span class="nc" id="L81">        System.out.format(&quot;\nThe optimal node is: %02d\n&quot;, rootNode.childNodes.indexOf(winnerNode) + 1);</span>
+
+<span class="nc" id="L83">        return winnerNode;</span>
+    }
+
+    public void addChildNodes(Node node, int childCount) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            node.childNodes.add(new Node(node, !node.isPlayersTurn));</span>
+        }
+<span class="nc" id="L90">    }</span>
+
+    /**
+     * Uses UCT to find a promising child node to be explored.
+     *
+     * UCT: Upper Confidence bounds applied to Trees.
+     *
+     * @param rootNode Root node of the tree.
+     * @return The most promising node according to UCT.
+     */
+    public Node getPromisingNode(Node rootNode) {
+<span class="nc" id="L101">        Node promisingNode = rootNode;</span>
+
+        // Iterate until a node that hasn't been expanded is found.
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        while (promisingNode.childNodes.size() != 0) {</span>
+<span class="nc" id="L105">            double uctIndex = Double.MIN_VALUE;</span>
+<span class="nc" id="L106">            int nodeIndex = 0;</span>
+
+            // Iterate through child nodes and pick the most promising one
+            // using UCT (Upper Confidence bounds applied to Trees).
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            for (int i = 0; i &lt; promisingNode.childNodes.size(); i++) {</span>
+<span class="nc" id="L111">                Node childNode = promisingNode.childNodes.get(i);</span>
+                double uctTemp;
+
+                // If child node has never been visited
+                // it will have the highest uct value.
+<span class="nc bnc" id="L116" title="All 2 branches missed.">                if (childNode.visitCount == 0) {</span>
+<span class="nc" id="L117">                    nodeIndex = i;</span>
+<span class="nc" id="L118">                    break;</span>
+                }
+
+<span class="nc" id="L121">                uctTemp = ((double) childNode.score / childNode.visitCount)</span>
+<span class="nc" id="L122">                        + 1.41 * Math.sqrt(Math.log(promisingNode.visitCount) / (double) childNode.visitCount);</span>
+
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if (uctTemp &gt; uctIndex) {</span>
+<span class="nc" id="L125">                    uctIndex = uctTemp;</span>
+<span class="nc" id="L126">                    nodeIndex = i;</span>
+                }
+            }
+
+<span class="nc" id="L130">            promisingNode = promisingNode.childNodes.get(nodeIndex);</span>
+<span class="nc" id="L131">        }</span>
+
+<span class="nc" id="L133">        return promisingNode;</span>
+    }
+
+    /**
+     * Simulates a random play from a nodes current state and back propagates
+     * the result.
+     *
+     * @param promisingNode Node that will be simulated.
+     */
+    public void simulateRandomPlay(Node promisingNode) {
+<span class="nc" id="L143">        Random rand = new Random();</span>
+<span class="nc" id="L144">        Node tempNode = promisingNode;</span>
+        boolean isPlayerWinner;
+
+        // The following line randomly determines whether the simulated play is a win or loss.
+        // To use the MCTS algorithm correctly this should be a simulation of the nodes' current
+        // state of the game until it finishes (if possible) and use an evaluation function to
+        // determine how good or bad the play was.
+        // e.g. Play tic tac toe choosing random squares until the game ends. 
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        promisingNode.playerWon = (rand.nextInt(6) == 0);</span>
+
+<span class="nc" id="L154">        isPlayerWinner = promisingNode.playerWon;</span>
+
+        // Back propagation of the random play.
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        while (tempNode != null) {</span>
+<span class="nc" id="L158">            tempNode.visitCount++;</span>
+
+            // Add wining scores to bouth player and opponent depending on the turn.
+<span class="nc bnc" id="L161" title="All 8 branches missed.">            if ((tempNode.isPlayersTurn &amp;&amp; isPlayerWinner)</span>
+                    || (!tempNode.isPlayersTurn &amp;&amp; !isPlayerWinner)) {
+<span class="nc" id="L163">                tempNode.score += WIN_SCORE;</span>
+            }
+
+<span class="nc" id="L166">            tempNode = tempNode.parent;</span>
+        }
+<span class="nc" id="L168">    }</span>
+
+    public Node getWinnerNode(Node rootNode) {
+<span class="nc" id="L171">        return Collections.max(rootNode.childNodes, Comparator.comparing(c -&gt; c.score));</span>
+    }
+
+    public void printScores(Node rootNode) {
+<span class="nc" id="L175">        System.out.println(&quot;N.\tScore\t\tVisits&quot;);</span>
+
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        for (int i = 0; i &lt; rootNode.childNodes.size(); i++) {</span>
+<span class="nc" id="L178">            System.out.println(String.format(&quot;%02d\t%d\t\t%d&quot;, i + 1,</span>
+<span class="nc" id="L179">                    rootNode.childNodes.get(i).score, rootNode.childNodes.get(i).visitCount));</span>
+        }
+<span class="nc" id="L181">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HarshadNumber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.maths</a> &gt; <span class="el_source">HarshadNumber.java</span></div><h1>HarshadNumber.java</h1><pre class="source lang-java linenums">// Wikipedia for Harshad Number : https://en.wikipedia.org/wiki/Harshad_number
+package com.thealgorithms.maths;
+
+import java.util.Scanner;
+
+<span class="nc" id="L6">public class HarshadNumber {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L9">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L10">        System.out.print(&quot;Enter a number : &quot;);</span>
+<span class="nc" id="L11">        long a = sc.nextLong();</span>
+
+<span class="nc" id="L13">        checkHarshadNumber(a);</span>
+<span class="nc" id="L14">    }</span>
+
+    /**
+     * A function to check if a number is Harshad number or not
+     *
+     * @param a The number which should be checked
+     */
+    public static void checkHarshadNumber(long a) {
+
+<span class="nc" id="L23">        long b = a;</span>
+<span class="nc" id="L24">        int sum = 0;</span>
+
+        // this is just for showing the explanation else it's of no use you can ommit it
+<span class="nc" id="L27">        int[] each = new int[Long.toString(a).length()];</span>
+
+<span class="nc" id="L29">        int c = 0;</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        while (b &gt; 0) {</span>
+<span class="nc" id="L32">            sum += b % 10;</span>
+<span class="nc" id="L33">            each[c] = (int) (b % 10);</span>
+<span class="nc" id="L34">            b /= 10;</span>
+<span class="nc" id="L35">            c++;</span>
+        }
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (a % sum == 0) {</span>
+<span class="nc" id="L39">            System.out.println(a + &quot; is a Harshad Number&quot;);</span>
+
+            // For you better explanation how is that a Harshad Number
+<span class="nc" id="L42">            System.out.println(&quot;\nExplaination :&quot;);</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            for (int i = each.length - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L45">                System.out.print(each[i] + &quot; &quot;);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                if (i != 0) {</span>
+<span class="nc" id="L47">                    System.out.print(&quot;+ &quot;);</span>
+                }
+            }
+
+<span class="nc" id="L51">            System.out.println(&quot;= &quot; + sum);</span>
+<span class="nc" id="L52">            System.out.println(sum + &quot; × &quot; + (a / sum) + &quot; = &quot; + a);</span>
+        } else {
+<span class="nc" id="L54">            System.out.println(a + &quot; is not a Harshad Number&quot;);</span>
+        }
+<span class="nc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

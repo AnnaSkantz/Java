@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinimumPathSum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">MinimumPathSum.java</span></div><h1>MinimumPathSum.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/*
+Given the following grid with length m and width n:
+\---\---\---\ (n)
+\ 1 \ 3 \ 1 \
+\---\---\---\
+\ 1 \ 5 \ 1 \
+\---\---\---\
+\ 4 \ 2 \ 1 \
+\---\---\---\
+(m)
+Find the path where its sum is the smallest.
+
+All numbers given are positive.
+The Time Complexity of your algorithm should be smaller than or equal to O(mn).
+The Space Complexity of your algorithm should be smaller than or equal to O(mn).
+You can only move from the top left corner to the down right corner.
+You can only move one step down or right.
+
+EXAMPLE:
+INPUT: grid = [[1,3,1],[1,5,1],[4,2,1]]
+OUTPUT: 7
+EXPLANATIONS: 1 + 3 + 1 + 1 + 1 = 7
+
+For more information see https://www.geeksforgeeks.org/maximum-path-sum-matrix/
+ */
+<span class="nc" id="L28">public class MinimumPathSum {</span>
+
+    public void testRegular() {
+<span class="nc" id="L31">        int[][] grid = {</span>
+            {1, 3, 1},
+            {1, 5, 1},
+            {4, 2, 1}
+        };
+<span class="nc" id="L36">        System.out.println(minimumPathSum(grid));</span>
+<span class="nc" id="L37">    }</span>
+
+    public void testLessColumns() {
+<span class="nc" id="L40">        int[][] grid = {</span>
+            {1, 2},
+            {5, 6},
+            {1, 1}
+        };
+<span class="nc" id="L45">        System.out.println(minimumPathSum(grid));</span>
+<span class="nc" id="L46">    }</span>
+
+    public void testLessRows() {
+<span class="nc" id="L49">        int[][] grid = {</span>
+            {2, 3, 3},
+            {7, 2, 1}
+        };
+<span class="nc" id="L53">        System.out.println(minimumPathSum(grid));</span>
+<span class="nc" id="L54">    }</span>
+
+    public void testOneRowOneColumn() {
+<span class="nc" id="L57">        int[][] grid = {{2}};</span>
+<span class="nc" id="L58">        System.out.println(minimumPathSum(grid));</span>
+<span class="nc" id="L59">    }</span>
+
+    public static int minimumPathSum(int[][] grid) {
+<span class="nc" id="L62">        int m = grid.length, n = grid[0].length;</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (n == 0) {</span>
+<span class="nc" id="L64">            return 0;</span>
+        }
+<span class="nc" id="L66">        int[][] dp = new int[m][n];</span>
+<span class="nc" id="L67">        dp[0][0] = grid[0][0];</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (int i = 0; i &lt; n - 1; i++) {</span>
+<span class="nc" id="L69">            dp[0][i + 1] = dp[0][i] + grid[0][i + 1];</span>
+        }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (int i = 0; i &lt; m - 1; i++) {</span>
+<span class="nc" id="L72">            dp[i + 1][0] = dp[i][0] + grid[i + 1][0];</span>
+        }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (int i = 1; i &lt; m; i++) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            for (int j = 1; j &lt; n; j++) {</span>
+<span class="nc" id="L76">                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];</span>
+            }
+        }
+<span class="nc" id="L79">        return dp[m - 1][n - 1];</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

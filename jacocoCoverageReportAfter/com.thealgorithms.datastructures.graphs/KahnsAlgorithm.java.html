@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KahnsAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.graphs</a> &gt; <span class="el_source">KahnsAlgorithm.java</span></div><h1>KahnsAlgorithm.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.graphs;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Queue;
+import java.util.LinkedList;
+
+/**
+ * An algorithm that sorts a graph in toplogical order.
+ */
+/**
+ * A class that represents the adjaceny list of a graph
+ */
+class AdjacencyList&lt;E extends Comparable&lt;E&gt;&gt; {
+
+    Map&lt;E, ArrayList&lt;E&gt;&gt; adj;
+
+<span class="nc" id="L21">    AdjacencyList() {</span>
+<span class="nc" id="L22">        adj = new LinkedHashMap&lt;E, ArrayList&lt;E&gt;&gt;();</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * This function adds an Edge to the adjaceny list
+     *
+     * @param from , the vertex the edge is from
+     * @param to, the vertex the edge is going to
+     */
+    void addEdge(E from, E to) {
+        try {
+<span class="nc" id="L33">            adj.get(from).add(to);</span>
+<span class="nc" id="L34">        } catch (Exception E) {</span>
+<span class="nc" id="L35">            adj.put(from, new ArrayList&lt;E&gt;());</span>
+<span class="nc" id="L36">            adj.get(from).add(to);</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (!adj.containsKey(to)) {</span>
+<span class="nc" id="L39">            adj.put(to, new ArrayList&lt;E&gt;());</span>
+        }
+<span class="nc" id="L41">    }</span>
+
+    /**
+     * @param v, A vertex in a graph
+     * @return returns an ArrayList of all the adjacents of vertex v
+     */
+    ArrayList&lt;E&gt; getAdjacents(E v) {
+<span class="nc" id="L48">        return adj.get(v);</span>
+    }
+
+    /**
+     * @return returns a set of all vertices in the graph
+     */
+    Set&lt;E&gt; getVertices() {
+<span class="nc" id="L55">        return adj.keySet();</span>
+    }
+
+    /**
+     * Prints the adjacency list
+     */
+    void printGraph() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (E vertex : adj.keySet()) {</span>
+<span class="nc" id="L63">            System.out.print(vertex + &quot; : &quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            for (E adjacent : adj.get(vertex)) {</span>
+<span class="nc" id="L65">                System.out.print(adjacent + &quot; &quot;);</span>
+<span class="nc" id="L66">            }</span>
+<span class="nc" id="L67">            System.out.println();</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">    }</span>
+}
+
+class TopologicalSort&lt;E extends Comparable&lt;E&gt;&gt; {
+
+    AdjacencyList&lt;E&gt; graph;
+    Map&lt;E, Integer&gt; inDegree;
+
+<span class="nc" id="L77">    TopologicalSort(AdjacencyList&lt;E&gt; graph) {</span>
+<span class="nc" id="L78">        this.graph = graph;</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * Calculates the in degree of all vertices
+     */
+    void calculateInDegree() {
+<span class="nc" id="L85">        inDegree = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (E vertex : graph.getVertices()) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (!inDegree.containsKey(vertex)) {</span>
+<span class="nc" id="L88">                inDegree.put(vertex, 0);</span>
+            }
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            for (E adjacent : graph.getAdjacents(vertex)) {</span>
+                try {
+<span class="nc" id="L92">                    inDegree.put(adjacent, inDegree.get(adjacent) + 1);</span>
+<span class="nc" id="L93">                } catch (Exception e) {</span>
+<span class="nc" id="L94">                    inDegree.put(adjacent, 1);</span>
+<span class="nc" id="L95">                }</span>
+<span class="nc" id="L96">            }</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc" id="L98">    }</span>
+
+    /**
+     * Returns an ArrayList with vertices arranged in topological order
+     */
+    ArrayList&lt;E&gt; topSortOrder() {
+<span class="nc" id="L104">        calculateInDegree();</span>
+<span class="nc" id="L105">        Queue&lt;E&gt; q = new LinkedList&lt;E&gt;();</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (E vertex : inDegree.keySet()) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (inDegree.get(vertex) == 0) {</span>
+<span class="nc" id="L109">                q.add(vertex);</span>
+            }
+<span class="nc" id="L111">        }</span>
+
+<span class="nc" id="L113">        ArrayList&lt;E&gt; answer = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        while (!q.isEmpty()) {</span>
+<span class="nc" id="L116">            E current = q.poll();</span>
+<span class="nc" id="L117">            answer.add(current);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            for (E adjacent : graph.getAdjacents(current)) {</span>
+<span class="nc" id="L119">                inDegree.put(adjacent, inDegree.get(adjacent) - 1);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                if (inDegree.get(adjacent) == 0) {</span>
+<span class="nc" id="L121">                    q.add(adjacent);</span>
+                }
+<span class="nc" id="L123">            }</span>
+<span class="nc" id="L124">        }</span>
+
+<span class="nc" id="L126">        return answer;</span>
+
+    }
+}
+
+/**
+ * A driver class that sorts a given graph in topological order.
+ */
+<span class="nc" id="L134">public class KahnsAlgorithm {</span>
+
+    public static void main(String[] args) {
+
+        //Graph definition and initialization
+<span class="nc" id="L139">        AdjacencyList&lt;String&gt; graph = new AdjacencyList&lt;&gt;();</span>
+<span class="nc" id="L140">        graph.addEdge(&quot;a&quot;, &quot;b&quot;);</span>
+<span class="nc" id="L141">        graph.addEdge(&quot;c&quot;, &quot;a&quot;);</span>
+<span class="nc" id="L142">        graph.addEdge(&quot;a&quot;, &quot;d&quot;);</span>
+<span class="nc" id="L143">        graph.addEdge(&quot;b&quot;, &quot;d&quot;);</span>
+<span class="nc" id="L144">        graph.addEdge(&quot;c&quot;, &quot;u&quot;);</span>
+<span class="nc" id="L145">        graph.addEdge(&quot;u&quot;, &quot;b&quot;);</span>
+
+<span class="nc" id="L147">        TopologicalSort&lt;String&gt; topSort = new TopologicalSort&lt;&gt;(graph);</span>
+
+        //Printing the order
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        for (String s : topSort.topSortOrder()) {</span>
+<span class="nc" id="L151">            System.out.print(s + &quot; &quot;);</span>
+<span class="nc" id="L152">        }</span>
+<span class="nc" id="L153">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

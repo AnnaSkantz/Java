@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BinaryToOctal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">BinaryToOctal.java</span></div><h1>BinaryToOctal.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+import java.util.Scanner;
+
+/**
+ * Converts any Binary number to an Octal Number
+ *
+ * @author Zachary Jones
+ */
+<span class="nc" id="L10">public class BinaryToOctal {</span>
+
+    /**
+     * Main method
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String args[]) {
+<span class="nc" id="L18">        Scanner sc = new Scanner(System.in);</span>
+<span class="nc" id="L19">        System.out.println(&quot;Input the binary number: &quot;);</span>
+<span class="nc" id="L20">        int b = sc.nextInt();</span>
+<span class="nc" id="L21">        System.out.println(&quot;Octal equivalent: &quot; + convertBinaryToOctal(b));</span>
+<span class="nc" id="L22">        sc.close();</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * This method converts a binary number to an octal number.
+     *
+     * @param binary The binary number
+     * @return The octal number
+     */
+    public static String convertBinaryToOctal(int binary) {
+<span class="nc" id="L32">        String octal = &quot;&quot;;</span>
+<span class="nc" id="L33">        int currBit = 0, j = 1;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        while (binary != 0) {</span>
+<span class="nc" id="L35">            int code3 = 0;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (int i = 0; i &lt; 3; i++) {</span>
+<span class="nc" id="L37">                currBit = binary % 10;</span>
+<span class="nc" id="L38">                binary = binary / 10;</span>
+<span class="nc" id="L39">                code3 += currBit * j;</span>
+<span class="nc" id="L40">                j *= 2;</span>
+            }
+<span class="nc" id="L42">            octal = code3 + octal;</span>
+<span class="nc" id="L43">            j = 1;</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">        return octal;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

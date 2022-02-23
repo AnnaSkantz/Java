@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DepthFirstSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.searches</a> &gt; <span class="el_source">DepthFirstSearch.java</span></div><h1>DepthFirstSearch.java</h1><pre class="source lang-java linenums">package com.thealgorithms.searches;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * @author: caos321
+ * @date: 31 October 2021 (Sunday)
+ */
+<span class="nc" id="L12">public class DepthFirstSearch {</span>
+
+    static class Node {
+
+        private final String name;
+        private final List&lt;Node&gt; subNodes;
+
+<span class="nc" id="L19">        public Node(final String name) {</span>
+<span class="nc" id="L20">            this.name = name;</span>
+<span class="nc" id="L21">            this.subNodes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L22">        }</span>
+
+<span class="nc" id="L24">        public Node(final String name, final List&lt;Node&gt; subNodes) {</span>
+<span class="nc" id="L25">            this.name = name;</span>
+<span class="nc" id="L26">            this.subNodes = subNodes;</span>
+<span class="nc" id="L27">        }</span>
+
+        public String getName() {
+<span class="nc" id="L30">            return name;</span>
+        }
+
+        public List&lt;Node&gt; getSubNodes() {
+<span class="nc" id="L34">            return subNodes;</span>
+        }
+    }
+
+    public static Optional&lt;Node&gt; search(final Node node, final String name) {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (node.getName().equals(name)) {</span>
+<span class="nc" id="L40">            return Optional.of(node);</span>
+        }
+
+<span class="nc" id="L43">        return node.getSubNodes()</span>
+<span class="nc" id="L44">                .stream()</span>
+<span class="nc" id="L45">                .map(value -&gt; search(value, name))</span>
+<span class="nc" id="L46">                .flatMap(Optional::stream)</span>
+<span class="nc" id="L47">                .findAny();</span>
+    }
+
+    public static void assertThat(final Object actual, final Object expected) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (!Objects.equals(actual, expected)) {</span>
+<span class="nc" id="L52">            throw new AssertionError(String.format(&quot;expected=%s but was actual=%s&quot;, expected, actual));</span>
+        }
+<span class="nc" id="L54">    }</span>
+
+    public static void main(final String[] args) {
+<span class="nc" id="L57">        final Node rootNode = new Node(&quot;A&quot;, List.of(</span>
+<span class="nc" id="L58">                new Node(&quot;B&quot;, List.of(new Node(&quot;D&quot;), new Node(&quot;F&quot;, List.of(</span>
+                        new Node(&quot;H&quot;), new Node(&quot;I&quot;)
+                )))),
+<span class="nc" id="L61">                new Node(&quot;C&quot;, List.of(new Node(&quot;G&quot;))),</span>
+                new Node(&quot;E&quot;)
+        ));
+
+        {
+<span class="nc" id="L66">            final String expected = &quot;I&quot;;</span>
+
+<span class="nc" id="L68">            final Node result = search(rootNode, expected)</span>
+<span class="nc" id="L69">                    .orElseThrow(() -&gt; new AssertionError(&quot;Node not found!&quot;));</span>
+
+<span class="nc" id="L71">            assertThat(result.getName(), expected);</span>
+        }
+
+        {
+<span class="nc" id="L75">            final String expected = &quot;G&quot;;</span>
+
+<span class="nc" id="L77">            final Node result = search(rootNode, expected)</span>
+<span class="nc" id="L78">                    .orElseThrow(() -&gt; new AssertionError(&quot;Node not found!&quot;));</span>
+
+<span class="nc" id="L80">            assertThat(result.getName(), expected);</span>
+        }
+
+        {
+<span class="nc" id="L84">            final String expected = &quot;E&quot;;</span>
+
+<span class="nc" id="L86">            final Node result = search(rootNode, expected)</span>
+<span class="nc" id="L87">                    .orElseThrow(() -&gt; new AssertionError(&quot;Node not found!&quot;));</span>
+
+<span class="nc" id="L89">            assertThat(result.getName(), expected);</span>
+        }
+<span class="nc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

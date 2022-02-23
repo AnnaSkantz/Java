@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidBSTOrNot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">ValidBSTOrNot.java</span></div><h1>ValidBSTOrNot.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+<span class="nc" id="L3">public class ValidBSTOrNot {</span>
+
+    class Node {
+
+        int data;
+        Node left, right;
+
+<span class="nc" id="L10">        public Node(int item) {</span>
+<span class="nc" id="L11">            data = item;</span>
+<span class="nc" id="L12">            left = right = null;</span>
+<span class="nc" id="L13">        }</span>
+    }
+
+    // Root of the Binary Tree
+
+    /* can give min and max value according to your code or
+  can write a function to find min and max value of tree. */
+
+ /* returns true if given search tree is binary
+  search tree (efficient version) */
+    boolean isBST(Node root) {
+<span class="nc" id="L24">        return isBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);</span>
+    }
+
+    /* Returns true if the given tree is a BST and its
+  values are &gt;= min and &lt;= max. */
+    boolean isBSTUtil(Node node, int min, int max) {
+        /* an empty tree is BST */
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L32">            return true;</span>
+        }
+
+        /* false if this node violates the min/max constraints */
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        if (node.data &lt; min || node.data &gt; max) {</span>
+<span class="nc" id="L37">            return false;</span>
+        }
+
+        /* otherwise check the subtrees recursively
+    tightening the min/max constraints */
+        // Allow only distinct values
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        return (isBSTUtil(node.left, min, node.data - 1) &amp;&amp; isBSTUtil(node.right, node.data + 1, max));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

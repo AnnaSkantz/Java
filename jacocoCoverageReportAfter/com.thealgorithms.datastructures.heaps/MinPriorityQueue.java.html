@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinPriorityQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.heaps</a> &gt; <span class="el_source">MinPriorityQueue.java</span></div><h1>MinPriorityQueue.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.heaps;
+
+/**
+ * Minimum Priority Queue It is a part of heap data structure A heap is a
+ * specific tree based data structure in which all the nodes of tree are in a
+ * specific order. that is the children are arranged in some respect of their
+ * parents, can either be greater or less than the parent. This makes it a min
+ * priority queue or max priority queue.
+ *
+ * &lt;p&gt;
+ *
+ * &lt;p&gt;
+ * Functions: insert, delete, peek, isEmpty, print, heapSort, sink
+ */
+public class MinPriorityQueue {
+
+    private int[] heap;
+    private int capacity;
+    private int size;
+
+    // calss the constructor and initializes the capacity
+<span class="nc" id="L22">    MinPriorityQueue(int c) {</span>
+<span class="nc" id="L23">        this.capacity = c;</span>
+<span class="nc" id="L24">        this.size = 0;</span>
+<span class="nc" id="L25">        this.heap = new int[c + 1];</span>
+<span class="nc" id="L26">    }</span>
+
+    // inserts the key at the end and rearranges it
+    // so that the binary heap is in appropriate order
+    public void insert(int key) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (this.isFull()) {</span>
+<span class="nc" id="L32">            return;</span>
+        }
+<span class="nc" id="L34">        this.heap[this.size + 1] = key;</span>
+<span class="nc" id="L35">        int k = this.size + 1;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        while (k &gt; 1) {</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (this.heap[k] &lt; this.heap[k / 2]) {</span>
+<span class="nc" id="L38">                int temp = this.heap[k];</span>
+<span class="nc" id="L39">                this.heap[k] = this.heap[k / 2];</span>
+<span class="nc" id="L40">                this.heap[k / 2] = temp;</span>
+            }
+<span class="nc" id="L42">            k = k / 2;</span>
+        }
+<span class="nc" id="L44">        this.size++;</span>
+<span class="nc" id="L45">    }</span>
+
+    // returns the highest priority value
+    public int peek() {
+<span class="nc" id="L49">        return this.heap[1];</span>
+    }
+
+    // returns boolean value whether the heap is empty or not
+    public boolean isEmpty() {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (0 == this.size) {</span>
+<span class="nc" id="L55">            return true;</span>
+        }
+<span class="nc" id="L57">        return false;</span>
+    }
+
+    // returns boolean value whether the heap is full or not
+    public boolean isFull() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (this.size == this.capacity) {</span>
+<span class="nc" id="L63">            return true;</span>
+        }
+<span class="nc" id="L65">        return false;</span>
+    }
+
+    // prints the heap
+    public void print() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 1; i &lt;= this.capacity; i++) {</span>
+<span class="nc" id="L71">            System.out.print(this.heap[i] + &quot; &quot;);</span>
+        }
+<span class="nc" id="L73">        System.out.println();</span>
+<span class="nc" id="L74">    }</span>
+
+    // heap sorting can be done by performing
+    // delete function to the number of times of the size of the heap
+    // it returns reverse sort because it is a min priority queue
+    public void heapSort() {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (int i = 1; i &lt; this.capacity; i++) {</span>
+<span class="nc" id="L81">            this.delete();</span>
+        }
+<span class="nc" id="L83">    }</span>
+
+    // this function reorders the heap after every delete function
+    private void sink() {
+<span class="nc" id="L87">        int k = 1;</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        while (2 * k &lt;= this.size || 2 * k + 1 &lt;= this.size) {</span>
+            int minIndex;
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (this.heap[2 * k] &gt;= this.heap[k]) {</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">                if (2 * k + 1 &lt;= this.size &amp;&amp; this.heap[2 * k + 1] &gt;= this.heap[k]) {</span>
+<span class="nc" id="L92">                    break;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                } else if (2 * k + 1 &gt; this.size) {</span>
+<span class="nc" id="L94">                    break;</span>
+                }
+            }
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (2 * k + 1 &gt; this.size) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                minIndex = this.heap[2 * k] &lt; this.heap[k] ? 2 * k : k;</span>
+            } else {
+<span class="nc bnc" id="L100" title="All 4 branches missed.">                if (this.heap[k] &gt; this.heap[2 * k] || this.heap[k] &gt; this.heap[2 * k + 1]) {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                    minIndex = this.heap[2 * k] &lt; this.heap[2 * k + 1] ? 2 * k : 2 * k + 1;</span>
+                } else {
+<span class="nc" id="L103">                    minIndex = k;</span>
+                }
+            }
+<span class="nc" id="L106">            int temp = this.heap[k];</span>
+<span class="nc" id="L107">            this.heap[k] = this.heap[minIndex];</span>
+<span class="nc" id="L108">            this.heap[minIndex] = temp;</span>
+<span class="nc" id="L109">            k = minIndex;</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">    }</span>
+
+    // deletes the highest priority value from the heap
+    public int delete() {
+<span class="nc" id="L115">        int min = this.heap[1];</span>
+<span class="nc" id="L116">        this.heap[1] = this.heap[this.size];</span>
+<span class="nc" id="L117">        this.heap[this.size] = min;</span>
+<span class="nc" id="L118">        this.size--;</span>
+<span class="nc" id="L119">        this.sink();</span>
+<span class="nc" id="L120">        return min;</span>
+    }
+
+    public static void main(String[] args) {
+        // testing
+<span class="nc" id="L125">        MinPriorityQueue q = new MinPriorityQueue(8);</span>
+<span class="nc" id="L126">        q.insert(5);</span>
+<span class="nc" id="L127">        q.insert(2);</span>
+<span class="nc" id="L128">        q.insert(4);</span>
+<span class="nc" id="L129">        q.insert(1);</span>
+<span class="nc" id="L130">        q.insert(7);</span>
+<span class="nc" id="L131">        q.insert(6);</span>
+<span class="nc" id="L132">        q.insert(3);</span>
+<span class="nc" id="L133">        q.insert(8);</span>
+<span class="nc" id="L134">        q.print(); // [ 1, 2, 3, 5, 7, 6, 4, 8 ]</span>
+<span class="nc" id="L135">        q.heapSort();</span>
+<span class="nc" id="L136">        q.print(); // [ 8, 7, 6, 5, 4, 3, 2, 1 ]</span>
+<span class="nc" id="L137">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

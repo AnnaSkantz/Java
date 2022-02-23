@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MergeSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.sorts</a> &gt; <span class="el_source">MergeSort.java</span></div><h1>MergeSort.java</h1><pre class="source lang-java linenums">package com.thealgorithms.sorts;
+
+/**
+ * Generic merge sort algorithm.
+ *
+ * @see SortAlgorithm
+ */
+<span class="nc bnc" id="L8" title="All 2 branches missed.">class MergeSort implements SortAlgorithm {</span>
+
+    /**
+     * Generic merge sort algorithm implements.
+     *
+     * @param unsorted the array which should be sorted.
+     * @param &lt;T&gt; Comparable class.
+     * @return sorted array.
+     */
+    @Override
+    public &lt;T extends Comparable&lt;T&gt;&gt; T[] sort(T[] unsorted) {
+<span class="nc" id="L19">        doSort(unsorted, 0, unsorted.length - 1);</span>
+<span class="nc" id="L20">        return unsorted;</span>
+    }
+
+    /**
+     * @param arr the array to be sorted.
+     * @param left the first index of the array.
+     * @param right the last index of the array.
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; void doSort(T[] arr, int left, int right) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (left &lt; right) {</span>
+<span class="nc" id="L30">            int mid = (left + right) &gt;&gt;&gt; 1;</span>
+<span class="nc" id="L31">            doSort(arr, left, mid);</span>
+<span class="nc" id="L32">            doSort(arr, mid + 1, right);</span>
+<span class="nc" id="L33">            merge(arr, left, mid, right);</span>
+        }
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * Merges two parts of an array.
+     *
+     * @param arr the array to be merged.
+     * @param left the first index of the array.
+     * @param mid the middle index of the array.
+     * @param right the last index of the array merges two parts of an array in
+     * increasing order.
+     */
+    private static &lt;T extends Comparable&lt;T&gt;&gt; void merge(T[] arr, int left, int mid, int right) {
+<span class="nc" id="L47">        int length = right - left + 1;</span>
+        @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L49">        T[] temp = (T[]) new Comparable[length];</span>
+<span class="nc" id="L50">        int i = left;</span>
+<span class="nc" id="L51">        int j = mid + 1;</span>
+<span class="nc" id="L52">        int k = 0;</span>
+
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        while (i &lt;= mid &amp;&amp; j &lt;= right) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (arr[i].compareTo(arr[j]) &lt;= 0) {</span>
+<span class="nc" id="L56">                temp[k++] = arr[i++];</span>
+            } else {
+<span class="nc" id="L58">                temp[k++] = arr[j++];</span>
+            }
+        }
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        while (i &lt;= mid) {</span>
+<span class="nc" id="L63">            temp[k++] = arr[i++];</span>
+        }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        while (j &lt;= right) {</span>
+<span class="nc" id="L67">            temp[k++] = arr[j++];</span>
+        }
+
+<span class="nc" id="L70">        System.arraycopy(temp, 0, arr, left, length);</span>
+<span class="nc" id="L71">    }</span>
+
+    /**
+     * Driver code
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L77">        MergeSort mergeSort = new MergeSort();</span>
+
+<span class="nc" id="L79">        Integer[] arr = {4, 23, 6, 78, 1, 54, 231, 9, 12};</span>
+<span class="nc" id="L80">        mergeSort.sort(arr);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (int i = 0; i &lt; arr.length - 1; ++i) {</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">            assert arr[i] &lt;= arr[i + 1];</span>
+        }
+
+<span class="nc" id="L85">        String[] stringArray = {&quot;c&quot;, &quot;a&quot;, &quot;e&quot;, &quot;b&quot;, &quot;d&quot;};</span>
+<span class="nc" id="L86">        mergeSort.sort(stringArray);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; stringArray.length - 1; ++i) {</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">            assert arr[i].compareTo(arr[i + 1]) &lt;= 0;</span>
+        }
+<span class="nc" id="L90">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

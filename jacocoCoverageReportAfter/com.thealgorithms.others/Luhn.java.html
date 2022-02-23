@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Luhn.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">Luhn.java</span></div><h1>Luhn.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+/**
+ * The Luhn algorithm or Luhn formula, also known as the &quot;modulus 10&quot; or &quot;mod
+ * 10&quot; algorithm, named after its creator, IBM scientist Hans Peter Luhn, is a
+ * simple checksum formula used to validate a variety of identification numbers.
+ *
+ * &lt;p&gt;
+ * The algorithm is in the public domain and is in wide use today. It is
+ * specified in ISO/IEC 7812-1. It is not intended to be a cryptographically
+ * secure hash function; it was designed to protect against accidental errors,
+ * not malicious attacks. Most credit cards and many government identification
+ * numbers use the algorithm as a simple method of distinguishing valid numbers
+ * from mistyped or otherwise incorrect numbers.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The Luhn algorithm will detect any single-digit error, as well as almost all
+ * transpositions of adjacent digits. It will not, however, detect transposition
+ * of the two-digit sequence 09 to 90 (or vice versa). It will detect most of
+ * the possible twin errors (it will not detect 22 ↔ 55, 33 ↔ 66 or 44 ↔
+ * 77).&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The check digit is computed as follows:&lt;/p&gt;
+ * &lt;ol&gt;
+ * &lt;li&gt;Take the original number and starting from the rightmost digit moving
+ * left, double the value of every second digit (including the rightmost
+ * digit).&lt;/li&gt;
+ * &lt;li&gt;Replace the resulting value at each position with the sum of the digits
+ * of this position's value or just subtract 9 from all numbers more or equal
+ * then 10.&lt;/li&gt;
+ * &lt;li&gt;Sum up the resulting values from all positions (s).&lt;/li&gt;
+ * &lt;li&gt;The calculated check digit is equal to {@code 10 - s % 10}.&lt;/li&gt;
+ * &lt;/ol&gt;
+ *
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Luhn_algorithm&quot;&gt;Wiki&lt;/a&gt;
+ */
+<span class="nc" id="L41">public class Luhn {</span>
+
+    /**
+     * Check input digits array by Luhn algorithm. Initial array doesn't change
+     * while processing.
+     *
+     * @param digits array of digits from 0 to 9
+     * @return true if check was successful, false otherwise
+     */
+    public static boolean luhnCheck(int[] digits) {
+<span class="nc" id="L51">        int[] numbers = Arrays.copyOf(digits, digits.length);</span>
+<span class="nc" id="L52">        int sum = 0;</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int i = numbers.length - 1; i &gt;= 0; i--) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (i % 2 == 0) {</span>
+<span class="nc" id="L56">                int temp = numbers[i] * 2;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                if (temp &gt; 9) {</span>
+<span class="nc" id="L58">                    temp = temp - 9;</span>
+                }
+<span class="nc" id="L60">                numbers[i] = temp;</span>
+            }
+<span class="nc" id="L62">            sum += numbers[i];</span>
+        }
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        return sum % 10 == 0;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L69">        System.out.println(&quot;Luhn algorithm usage examples:&quot;);</span>
+<span class="nc" id="L70">        int[] validInput = {4, 5, 6, 1, 2, 6, 1, 2, 1, 2, 3, 4, 5, 4, 6, 7};</span>
+<span class="nc" id="L71">        int[] invalidInput = {4, 5, 6, 1, 2, 6, 1, 2, 1, 2, 3, 4, 5, 4, 6, 4}; //typo in last symbol</span>
+<span class="nc" id="L72">        checkAndPrint(validInput);</span>
+<span class="nc" id="L73">        checkAndPrint(invalidInput);</span>
+
+<span class="nc" id="L75">        System.out.println(&quot;\nBusiness examples:&quot;);</span>
+<span class="nc" id="L76">        String validCardNumber = &quot;5265 9251 6151 1412&quot;;</span>
+<span class="nc" id="L77">        String invalidCardNumber = &quot;4929 3231 3088 1896&quot;;</span>
+<span class="nc" id="L78">        String illegalCardNumber = &quot;4F15 BC06 3A88 76D5&quot;;</span>
+<span class="nc" id="L79">        businessExample(validCardNumber);</span>
+<span class="nc" id="L80">        businessExample(invalidCardNumber);</span>
+<span class="nc" id="L81">        businessExample(illegalCardNumber);</span>
+<span class="nc" id="L82">    }</span>
+
+    private static void checkAndPrint(int[] input) {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        String validationResult = Luhn.luhnCheck(input)</span>
+<span class="nc" id="L86">                ? &quot;valid&quot;</span>
+<span class="nc" id="L87">                : &quot;not valid&quot;;</span>
+<span class="nc" id="L88">        System.out.println(&quot;Input &quot; + Arrays.toString(input) + &quot; is &quot; + validationResult);</span>
+<span class="nc" id="L89">    }</span>
+
+
+    /*
+        ========================
+         Business usage example
+        ========================
+     */
+    /**
+     * Object representation of credit card.
+     */
+<span class="nc" id="L100">    private record CreditCard(int[] digits) {</span>
+
+        private static final int DIGITS_COUNT = 16;
+
+        /**
+         * @param cardNumber string representation of credit card number - 16
+         * digits. Can have spaces for digits separation
+         * @return credit card object
+         * @throws IllegalArgumentException if input string is not 16 digits or
+         * if Luhn check was failed
+         */
+        public static CreditCard fromString(String cardNumber) {
+<span class="nc" id="L112">            Objects.requireNonNull(cardNumber);</span>
+<span class="nc" id="L113">            String trimmedCardNumber = cardNumber.replaceAll(&quot; &quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">            if (trimmedCardNumber.length() != DIGITS_COUNT || !trimmedCardNumber.matches(&quot;\\d+&quot;)) {</span>
+<span class="nc" id="L115">                throw new IllegalArgumentException(&quot;{&quot; + cardNumber + &quot;} - is not a card number&quot;);</span>
+            }
+
+<span class="nc" id="L118">            int[] cardNumbers = toIntArray(trimmedCardNumber);</span>
+<span class="nc" id="L119">            boolean isValid = luhnCheck(cardNumbers);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (!isValid) {</span>
+<span class="nc" id="L121">                throw new IllegalArgumentException(&quot;Credit card number {&quot; + cardNumber + &quot;} - have a typo&quot;);</span>
+            }
+
+<span class="nc" id="L124">            return new CreditCard(cardNumbers);</span>
+        }
+
+        /**
+         * @return string representation separated by space every 4 digits.
+         * Example: &quot;5265 9251 6151 1412&quot;
+         */
+        public String number() {
+<span class="nc" id="L132">            StringBuilder result = new StringBuilder();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            for (int i = 0; i &lt; DIGITS_COUNT; i++) {</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">                if (i % 4 == 0 &amp;&amp; i != 0) {</span>
+<span class="nc" id="L135">                    result.append(&quot; &quot;);</span>
+                }
+<span class="nc" id="L137">                result.append(digits[i]);</span>
+            }
+<span class="nc" id="L139">            return result.toString();</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L144">            return String.format(&quot;%s {%s}&quot;, CreditCard.class.getSimpleName(), number());</span>
+        }
+
+        private static int[] toIntArray(String string) {
+<span class="nc" id="L148">            return string.chars()</span>
+<span class="nc" id="L149">                    .map(i -&gt; Character.digit(i, 10))</span>
+<span class="nc" id="L150">                    .toArray();</span>
+        }
+    }
+
+    private static void businessExample(String cardNumber) {
+        try {
+<span class="nc" id="L156">            System.out.println(&quot;Trying to create CreditCard object from valid card number: &quot; + cardNumber);</span>
+<span class="nc" id="L157">            CreditCard creditCard = CreditCard.fromString(cardNumber);</span>
+<span class="nc" id="L158">            System.out.println(&quot;And business object is successfully created: &quot; + creditCard + &quot;\n&quot;);</span>
+<span class="nc" id="L159">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L160">            System.out.println(&quot;And fail with exception message: &quot; + e.getMessage() + &quot;\n&quot;);</span>
+<span class="nc" id="L161">        }</span>
+<span class="nc" id="L162">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

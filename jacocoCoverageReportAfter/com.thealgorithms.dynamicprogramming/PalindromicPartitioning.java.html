@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PalindromicPartitioning.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">PalindromicPartitioning.java</span></div><h1>PalindromicPartitioning.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+import java.util.Scanner;
+
+/**
+ * @file @brief Implements [Palindrome
+ * Partitioning](https://leetcode.com/problems/palindrome-partitioning-ii/)
+ * algorithm, giving you the minimum number of partitions you need to make
+ *
+ * @details palindrome partitioning uses dynamic programming and goes to all the
+ * possible partitions to find the minimum you are given a string and you need
+ * to give minimum number of partitions needed to divide it into a number of
+ * palindromes [Palindrome Partitioning]
+ * (https://www.geeksforgeeks.org/palindrome-partitioning-dp-17/) overall time
+ * complexity O(n^2) For example: example 1:- String : &quot;nitik&quot; Output : 2 =&gt; &quot;n
+ * | iti | k&quot; For example: example 2:- String : &quot;ababbbabbababa&quot; Output : 3 =&gt;
+ * &quot;aba | b | bbabb | ababa&quot;
+ * @author [Syed] (https://github.com/roeticvampire)
+ */
+<span class="nc" id="L20">public class PalindromicPartitioning {</span>
+
+    public static int minimalpartitions(String word) {
+<span class="nc" id="L23">        int len = word.length();</span>
+        /* We Make two arrays to create a bottom-up solution.
+           minCuts[i] = Minimum number of cuts needed for palindrome partitioning of substring word[0..i]
+           isPalindrome[i][j] = true if substring str[i..j] is palindrome
+           Base Condition: C[i] is 0 if P[0][i]= true
+         */
+<span class="nc" id="L29">        int[] minCuts = new int[len];</span>
+<span class="nc" id="L30">        boolean[][] isPalindrome = new boolean[len][len];</span>
+
+        int i, j, L; // different looping variables
+
+        // Every substring of length 1 is a palindrome
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (i = 0; i &lt; len; i++) {</span>
+<span class="nc" id="L36">            isPalindrome[i][i] = true;</span>
+        }
+
+        /* L is substring length. Build the solution in bottom up manner by considering all substrings of length starting from 2 to n. */
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (L = 2; L &lt;= len; L++) {</span>
+            // For substring of length L, set different possible starting indexes
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for (i = 0; i &lt; len - L + 1; i++) {</span>
+<span class="nc" id="L43">                j = i + L - 1; // Ending index</span>
+                // If L is 2, then we just need to
+                // compare two characters. Else need to
+                // check two corner characters and value
+                // of P[i+1][j-1]
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                if (L == 2) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                    isPalindrome[i][j] = (word.charAt(i) == word.charAt(j));</span>
+                } else {
+<span class="nc bnc" id="L51" title="All 4 branches missed.">                    if ((word.charAt(i) == word.charAt(j)) &amp;&amp; isPalindrome[i + 1][j - 1]) {</span>
+<span class="nc" id="L52">                        isPalindrome[i][j] = true;</span>
+                    } else {
+<span class="nc" id="L54">                        isPalindrome[i][j] = false;</span>
+                    }
+
+                }
+            }
+        }
+
+        //We find the minimum for each index
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (i = 0; i &lt; len; i++) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (isPalindrome[0][i] == true) {</span>
+<span class="nc" id="L64">                minCuts[i] = 0;</span>
+            } else {
+<span class="nc" id="L66">                minCuts[i] = Integer.MAX_VALUE;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                for (j = 0; j &lt; i; j++) {</span>
+<span class="nc bnc" id="L68" title="All 4 branches missed.">                    if (isPalindrome[j + 1][i] == true &amp;&amp; 1 + minCuts[j] &lt; minCuts[i]) {</span>
+<span class="nc" id="L69">                        minCuts[i] = 1 + minCuts[j];</span>
+                    }
+                }
+            }
+        }
+
+        // Return the min cut value for complete
+        // string. i.e., str[0..n-1]
+<span class="nc" id="L77">        return minCuts[len - 1];</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L81">        Scanner input = new Scanner(System.in);</span>
+        String word;
+<span class="nc" id="L83">        System.out.println(&quot;Enter the First String&quot;);</span>
+<span class="nc" id="L84">        word = input.nextLine();</span>
+        // ans stores the final minimal cut count needed for partitioning
+<span class="nc" id="L86">        int ans = minimalpartitions(word);</span>
+<span class="nc" id="L87">        System.out.println(</span>
+                &quot;The minimum cuts needed to partition \&quot;&quot; + word + &quot;\&quot; into palindromes is &quot; + ans);
+<span class="nc" id="L89">        input.close();</span>
+<span class="nc" id="L90">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

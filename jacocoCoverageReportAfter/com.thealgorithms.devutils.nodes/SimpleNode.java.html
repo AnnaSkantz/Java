@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.devutils.nodes</a> &gt; <span class="el_source">SimpleNode.java</span></div><h1>SimpleNode.java</h1><pre class="source lang-java linenums">package com.thealgorithms.devutils.nodes;
+
+/**
+ * Simple Node implementation that holds a reference to the next Node.
+ *
+ * @param &lt;E&gt; The type of the data held in the Node.
+ *
+ * @author &lt;a href=&quot;https://github.com/aitorfi&quot;&gt;aitorfi&lt;/a&gt;
+ */
+public class SimpleNode&lt;E&gt; extends Node&lt;E&gt; {
+
+    /**
+     * Reference to the next Node.
+     */
+    private SimpleNode&lt;E&gt; nextNode;
+
+    /**
+     * Empty contructor.
+     */
+    public SimpleNode() {
+<span class="nc" id="L21">        super();</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * Initializes the Nodes' data.
+     *
+     * @param data Value to which data will be initialized.
+     * @see Node#Node(Object)
+     */
+    public SimpleNode(E data) {
+<span class="nc" id="L31">        super(data);</span>
+<span class="nc" id="L32">    }</span>
+
+    /**
+     * Initializes the Nodes' data and next node reference.
+     *
+     * @param data Value to which data will be initialized.
+     * @param nextNode Value to which the next node reference will be set.
+     */
+    public SimpleNode(E data, SimpleNode&lt;E&gt; nextNode) {
+<span class="nc" id="L41">        super(data);</span>
+<span class="nc" id="L42">        this.nextNode = nextNode;</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * @return True if there is a next node, otherwise false.
+     */
+    public boolean hasNext() {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        return (nextNode != null);</span>
+    }
+
+    public SimpleNode&lt;E&gt; getNextNode() {
+<span class="nc" id="L53">        return nextNode;</span>
+    }
+
+    public void setNextNode(SimpleNode&lt;E&gt; nextNode) {
+<span class="nc" id="L57">        this.nextNode = nextNode;</span>
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StackArray.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.stacks</a> &gt; <span class="el_source">StackArray.java</span></div><h1>StackArray.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.stacks;
+
+/**
+ * This class implements a Stack using a regular array.
+ *
+ * &lt;p&gt;
+ * A stack is exactly what it sounds like. An element gets added to the top of
+ * the stack and only the element on the top may be removed. This is an example
+ * of an array implementation of a Stack. So an element can only be
+ * added/removed from the end of the array. In theory stack have no fixed size,
+ * but with an array implementation it does.
+ */
+<span class="nc bnc" id="L13" title="All 2 branches missed.">public class StackArray {</span>
+
+    /**
+     * Driver Code
+     */
+    public static void main(String[] args) {
+        // Declare a stack of maximum size 4
+<span class="nc" id="L20">        StackArray myStackArray = new StackArray(4);</span>
+
+<span class="nc bnc" id="L22" title="All 4 branches missed.">        assert myStackArray.isEmpty();</span>
+<span class="nc bnc" id="L23" title="All 4 branches missed.">        assert !myStackArray.isFull();</span>
+
+        // Populate the stack
+<span class="nc" id="L26">        myStackArray.push(5);</span>
+<span class="nc" id="L27">        myStackArray.push(8);</span>
+<span class="nc" id="L28">        myStackArray.push(2);</span>
+<span class="nc" id="L29">        myStackArray.push(9);</span>
+
+<span class="nc bnc" id="L31" title="All 4 branches missed.">        assert !myStackArray.isEmpty();</span>
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        assert myStackArray.isFull();</span>
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        assert myStackArray.peek() == 9;</span>
+<span class="nc bnc" id="L34" title="All 4 branches missed.">        assert myStackArray.pop() == 9;</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">        assert myStackArray.peek() == 2;</span>
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        assert myStackArray.size() == 3;</span>
+<span class="nc" id="L37">    }</span>
+
+    /**
+     * Default initial capacity.
+     */
+    private static final int DEFAULT_CAPACITY = 10;
+
+    /**
+     * The max size of the Stack
+     */
+    private int maxSize;
+
+    /**
+     * The array representation of the Stack
+     */
+    private int[] stackArray;
+
+    /**
+     * The top of the stack
+     */
+    private int top;
+
+    /**
+     * init Stack with DEFAULT_CAPACITY
+     */
+    public StackArray() {
+<span class="nc" id="L63">        this(DEFAULT_CAPACITY);</span>
+<span class="nc" id="L64">    }</span>
+
+    /**
+     * Constructor
+     *
+     * @param size Size of the Stack
+     */
+<span class="nc" id="L71">    public StackArray(int size) {</span>
+<span class="nc" id="L72">        maxSize = size;</span>
+<span class="nc" id="L73">        stackArray = new int[maxSize];</span>
+<span class="nc" id="L74">        top = -1;</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * Adds an element to the top of the stack
+     *
+     * @param value The element added
+     */
+    public void push(int value) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (!isFull()) { // Checks for a full stack</span>
+<span class="nc" id="L84">            top++;</span>
+<span class="nc" id="L85">            stackArray[top] = value;</span>
+        } else {
+<span class="nc" id="L87">            resize(maxSize * 2);</span>
+<span class="nc" id="L88">            push(value); // don't forget push after resizing</span>
+        }
+<span class="nc" id="L90">    }</span>
+
+    /**
+     * Removes the top element of the stack and returns the value you've removed
+     *
+     * @return value popped off the Stack
+     */
+    public int pop() {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (!isEmpty()) { // Checks for an empty stack</span>
+<span class="nc" id="L99">            return stackArray[top--];</span>
+        }
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (top &lt; maxSize / 4) {</span>
+<span class="nc" id="L103">            resize(maxSize / 2);</span>
+<span class="nc" id="L104">            return pop(); // don't forget pop after resizing</span>
+        } else {
+<span class="nc" id="L106">            System.out.println(&quot;The stack is already empty&quot;);</span>
+<span class="nc" id="L107">            return -1;</span>
+        }
+    }
+
+    /**
+     * Returns the element at the top of the stack
+     *
+     * @return element at the top of the stack
+     */
+    public int peek() {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (!isEmpty()) { // Checks for an empty stack</span>
+<span class="nc" id="L118">            return stackArray[top];</span>
+        } else {
+<span class="nc" id="L120">            System.out.println(&quot;The stack is empty, cant peek&quot;);</span>
+<span class="nc" id="L121">            return -1;</span>
+        }
+    }
+
+    private void resize(int newSize) {
+<span class="nc" id="L126">        int[] transferArray = new int[newSize];</span>
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        for (int i = 0; i &lt; stackArray.length; i++) {</span>
+<span class="nc" id="L129">            transferArray[i] = stackArray[i];</span>
+        }
+        // This reference change might be nice in here
+<span class="nc" id="L132">        stackArray = transferArray;</span>
+<span class="nc" id="L133">        maxSize = newSize;</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Returns true if the stack is empty
+     *
+     * @return true if the stack is empty
+     */
+    public boolean isEmpty() {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        return (top == -1);</span>
+    }
+
+    /**
+     * Returns true if the stack is full
+     *
+     * @return true if the stack is full
+     */
+    public boolean isFull() {
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        return (top + 1 == maxSize);</span>
+    }
+
+    /**
+     * Deletes everything in the Stack
+     *
+     * &lt;p&gt;
+     * Doesn't delete elements in the array but if you call push method after
+     * calling makeEmpty it will overwrite previous values
+     */
+    public void makeEmpty() { // Doesn't delete elements in the array but if you call
+<span class="nc" id="L162">        top = -1; // push method after calling makeEmpty it will overwrite previous values</span>
+<span class="nc" id="L163">    }</span>
+
+    /**
+     * Return size of stack
+     *
+     * @return size of stack
+     */
+    public int size() {
+<span class="nc" id="L171">        return top + 1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

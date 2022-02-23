@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Damm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">Damm.java</span></div><h1>Damm.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+import java.util.Objects;
+
+/**
+ * Damm algorithm is a check digit algorithm that detects all single-digit
+ * errors and all adjacent transposition errors. It was presented by H. Michael
+ * Damm in 2004. Essential part of the algorithm is a quasigroup of order 10
+ * (i.e. having a 10 × 10 Latin square as the body of its operation table) with
+ * the special feature of being weakly totally anti-symmetric. Damm revealed
+ * several methods to create totally anti-symmetric quasigroups of order 10 and
+ * gave some examples in his doctoral dissertation.
+ *
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Damm_algorithm&quot;&gt;Wiki. Damm
+ * algorithm&lt;/a&gt;
+ */
+<span class="nc" id="L17">public class Damm {</span>
+
+    /**
+     * Weakly totally anti-symmetric quasigroup of order 10. This table is not
+     * the only possible realisation of weak totally anti-symmetric quasigroup
+     * but the most common one (taken from Damm doctoral dissertation). All
+     * zeros lay on the diagonal because it simplifies the check digit
+     * calculation.
+     */
+<span class="nc" id="L26">    private static final byte[][] DAMM_TABLE = {</span>
+        {0, 3, 1, 7, 5, 9, 8, 6, 4, 2},
+        {7, 0, 9, 2, 1, 5, 4, 8, 6, 3},
+        {4, 2, 0, 6, 8, 7, 1, 3, 5, 9},
+        {1, 7, 5, 0, 9, 8, 3, 4, 2, 6},
+        {6, 1, 2, 3, 0, 4, 5, 9, 7, 8},
+        {3, 6, 7, 4, 2, 0, 9, 5, 8, 1},
+        {5, 8, 6, 9, 7, 2, 0, 1, 3, 4},
+        {8, 9, 4, 5, 3, 6, 2, 0, 1, 7},
+        {9, 4, 3, 8, 6, 1, 7, 2, 0, 5},
+        {2, 5, 8, 1, 4, 3, 6, 7, 9, 0}
+    };
+
+    /**
+     * Check input digits by Damm algorithm.
+     *
+     * @param digits input to check
+     * @return true if check was successful, false otherwise
+     * @throws IllegalArgumentException if input parameter contains not only
+     * digits
+     * @throws NullPointerException if input is null
+     */
+    public static boolean dammCheck(String digits) {
+<span class="nc" id="L49">        checkInput(digits);</span>
+<span class="nc" id="L50">        int[] numbers = toIntArray(digits);</span>
+
+<span class="nc" id="L52">        int checksum = 0;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (int number : numbers) {</span>
+<span class="nc" id="L54">            checksum = DAMM_TABLE[checksum][number];</span>
+        }
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        return checksum == 0;</span>
+    }
+
+    /**
+     * Calculate check digit for initial digits and add it tho the last
+     * position.
+     *
+     * @param initialDigits initial value
+     * @return digits with the checksum in the last position
+     * @throws IllegalArgumentException if input parameter contains not only
+     * digits
+     * @throws NullPointerException if input is null
+     */
+    public static String addDammChecksum(String initialDigits) {
+<span class="nc" id="L71">        checkInput(initialDigits);</span>
+<span class="nc" id="L72">        int[] numbers = toIntArray(initialDigits);</span>
+
+<span class="nc" id="L74">        int checksum = 0;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (int number : numbers) {</span>
+<span class="nc" id="L76">            checksum = DAMM_TABLE[checksum][number];</span>
+        }
+
+<span class="nc" id="L79">        return initialDigits + checksum;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L83">        System.out.println(&quot;Damm algorithm usage examples:&quot;);</span>
+<span class="nc" id="L84">        var validInput = &quot;5724&quot;;</span>
+<span class="nc" id="L85">        var invalidInput = &quot;5824&quot;;</span>
+<span class="nc" id="L86">        checkAndPrint(validInput);</span>
+<span class="nc" id="L87">        checkAndPrint(invalidInput);</span>
+
+<span class="nc" id="L89">        System.out.println(&quot;\nCheck digit generation example:&quot;);</span>
+<span class="nc" id="L90">        var input = &quot;572&quot;;</span>
+<span class="nc" id="L91">        generateAndPrint(input);</span>
+<span class="nc" id="L92">    }</span>
+
+    private static void checkAndPrint(String input) {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        String validationResult = Damm.dammCheck(input)</span>
+<span class="nc" id="L96">                ? &quot;valid&quot;</span>
+<span class="nc" id="L97">                : &quot;not valid&quot;;</span>
+<span class="nc" id="L98">        System.out.println(&quot;Input '&quot; + input + &quot;' is &quot; + validationResult);</span>
+<span class="nc" id="L99">    }</span>
+
+    private static void generateAndPrint(String input) {
+<span class="nc" id="L102">        String result = addDammChecksum(input);</span>
+<span class="nc" id="L103">        System.out.println(&quot;Generate and add checksum to initial value '&quot; + input + &quot;'. Result: '&quot; + result + &quot;'&quot;);</span>
+<span class="nc" id="L104">    }</span>
+
+    private static void checkInput(String input) {
+<span class="nc" id="L107">        Objects.requireNonNull(input);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (!input.matches(&quot;\\d+&quot;)) {</span>
+<span class="nc" id="L109">            throw new IllegalArgumentException(&quot;Input '&quot; + input + &quot;' contains not only digits&quot;);</span>
+        }
+<span class="nc" id="L111">    }</span>
+
+    private static int[] toIntArray(String string) {
+<span class="nc" id="L114">        return string.chars()</span>
+<span class="nc" id="L115">                .map(i -&gt; Character.digit(i, 10))</span>
+<span class="nc" id="L116">                .toArray();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

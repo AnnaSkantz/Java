@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AffineCipher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">AffineCipher.java</span></div><h1>AffineCipher.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+
+<span class="nc" id="L3">class AffineCipher {</span>
+
+    // Key values of a and b
+<span class="nc" id="L6">    static int a = 17;</span>
+<span class="nc" id="L7">    static int b = 20;</span>
+
+    static String encryptMessage(char[] msg) {
+        /// Cipher Text initially empty
+<span class="nc" id="L11">        String cipher = &quot;&quot;;</span>
+<span class="nc bnc" id="L12" title="All 2 branches missed.">        for (int i = 0; i &lt; msg.length; i++) {</span>
+            // Avoid space to be encrypted
+            /* applying encryption formula ( a x + b ) mod m
+            {here x is msg[i] and m is 26} and added 'A' to
+            bring it in range of ascii alphabet[ 65-90 | A-Z ] */
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            if (msg[i] != ' ') {</span>
+<span class="nc" id="L18">                cipher = cipher</span>
+                        + (char) ((((a * (msg[i] - 'A')) + b) % 26) + 'A');
+            } else // else simply append space character
+            {
+<span class="nc" id="L22">                cipher += msg[i];</span>
+            }
+        }
+<span class="nc" id="L25">        return cipher;</span>
+    }
+
+    static String decryptCipher(String cipher) {
+<span class="nc" id="L29">        String msg = &quot;&quot;;</span>
+<span class="nc" id="L30">        int a_inv = 0;</span>
+<span class="nc" id="L31">        int flag = 0;</span>
+
+        //Find a^-1 (the multiplicative inverse of a
+        //in the group of integers modulo m.)
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (int i = 0; i &lt; 26; i++) {</span>
+<span class="nc" id="L36">            flag = (a * i) % 26;</span>
+
+            // Check if (a*i)%26 == 1,
+            // then i will be the multiplicative inverse of a
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (flag == 1) {</span>
+<span class="nc" id="L41">                a_inv = i;</span>
+            }
+        }
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; cipher.length(); i++) {</span>
+            /*Applying decryption formula a^-1 ( x - b ) mod m
+            {here x is cipher[i] and m is 26} and added 'A'
+            to bring it in range of ASCII alphabet[ 65-90 | A-Z ] */
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (cipher.charAt(i) != ' ') {</span>
+<span class="nc" id="L49">                msg = msg + (char) (((a_inv</span>
+<span class="nc" id="L50">                        * ((cipher.charAt(i) + 'A' - b)) % 26)) + 'A');</span>
+            } else //else simply append space character
+            {
+<span class="nc" id="L53">                msg += cipher.charAt(i);</span>
+            }
+        }
+
+<span class="nc" id="L57">        return msg;</span>
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+<span class="nc" id="L62">        String msg = &quot;AFFINE CIPHER&quot;;</span>
+
+        // Calling encryption function
+<span class="nc" id="L65">        String cipherText = encryptMessage(msg.toCharArray());</span>
+<span class="nc" id="L66">        System.out.println(&quot;Encrypted Message is : &quot; + cipherText);</span>
+
+        // Calling Decryption function
+<span class="nc" id="L69">        System.out.println(&quot;Decrypted Message is: &quot; + decryptCipher(cipherText));</span>
+
+<span class="nc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

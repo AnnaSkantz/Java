@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Caesar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.ciphers</a> &gt; <span class="el_source">Caesar.java</span></div><h1>Caesar.java</h1><pre class="source lang-java linenums">package com.thealgorithms.ciphers;
+
+import java.util.Scanner;
+
+/**
+ * A Java implementation of Caesar Cipher. /It is a type of substitution cipher
+ * in which each letter in the plaintext is replaced by a letter some fixed
+ * number of positions down the alphabet. /
+ *
+ * @author FAHRI YARDIMCI
+ * @author khalil2535
+ */
+<span class="nc" id="L13">public class Caesar {</span>
+
+    /**
+     * Encrypt text by shifting every Latin char by add number shift for ASCII
+     * Example : A + 1 -&gt; B
+     *
+     * @return Encrypted message
+     */
+    public static String encode(String message, int shift) {
+<span class="nc" id="L22">        StringBuilder encoded = new StringBuilder();</span>
+
+<span class="nc" id="L24">        shift %= 26;</span>
+
+<span class="nc" id="L26">        final int length = message.length();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (int i = 0; i &lt; length; i++) {</span>
+
+            //            int current = message.charAt(i); //using char to shift characters because ascii
+            // is in-order latin alphabet
+<span class="nc" id="L31">            char current = message.charAt(i); // Java law : char + int = char</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (IsCapitalLatinLetter(current)) {</span>
+
+<span class="nc" id="L35">                current += shift;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                encoded.append((char) (current &gt; 'Z' ? current - 26 : current)); // 26 = number of latin letters</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            } else if (IsSmallLatinLetter(current)) {</span>
+
+<span class="nc" id="L40">                current += shift;</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                encoded.append((char) (current &gt; 'z' ? current - 26 : current)); // 26 = number of latin letters</span>
+
+            } else {
+<span class="nc" id="L44">                encoded.append(current);</span>
+            }
+        }
+<span class="nc" id="L47">        return encoded.toString();</span>
+    }
+
+    /**
+     * Decrypt message by shifting back every Latin char to previous the ASCII
+     * Example : B - 1 -&gt; A
+     *
+     * @return message
+     */
+    public static String decode(String encryptedMessage, int shift) {
+<span class="nc" id="L57">        StringBuilder decoded = new StringBuilder();</span>
+
+<span class="nc" id="L59">        shift %= 26;</span>
+
+<span class="nc" id="L61">        final int length = encryptedMessage.length();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; length; i++) {</span>
+<span class="nc" id="L63">            char current = encryptedMessage.charAt(i);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (IsCapitalLatinLetter(current)) {</span>
+
+<span class="nc" id="L66">                current -= shift;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                decoded.append((char) (current &lt; 'A' ? current + 26 : current)); // 26 = number of latin letters</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            } else if (IsSmallLatinLetter(current)) {</span>
+
+<span class="nc" id="L71">                current -= shift;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                decoded.append((char) (current &lt; 'a' ? current + 26 : current)); // 26 = number of latin letters</span>
+
+            } else {
+<span class="nc" id="L75">                decoded.append(current);</span>
+            }
+        }
+<span class="nc" id="L78">        return decoded.toString();</span>
+    }
+
+    /**
+     * @return true if character is capital Latin letter or false for others
+     */
+    private static boolean IsCapitalLatinLetter(char c) {
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        return c &gt;= 'A' &amp;&amp; c &lt;= 'Z';</span>
+    }
+
+    /**
+     * @return true if character is small Latin letter or false for others
+     */
+    private static boolean IsSmallLatinLetter(char c) {
+<span class="nc bnc" id="L92" title="All 4 branches missed.">        return c &gt;= 'a' &amp;&amp; c &lt;= 'z';</span>
+    }
+    /**
+     *  @return string array which contains all the possible decoded combination.
+     */
+    public static String[] bruteforce(String encryptedMessage) {
+<span class="nc" id="L98">        String[] listOfAllTheAnswers = new String[27];</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i=0; i&lt;=26; i++) {</span>
+<span class="nc" id="L100">            listOfAllTheAnswers[i] = decode(encryptedMessage, i);</span>
+        }
+
+<span class="nc" id="L103">        return listOfAllTheAnswers;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L107">        Scanner input = new Scanner(System.in);</span>
+<span class="nc" id="L108">        int shift = 0;</span>
+<span class="nc" id="L109">        System.out.println(&quot;Please enter the message (Latin Alphabet)&quot;);</span>
+<span class="nc" id="L110">        String message = input.nextLine();</span>
+<span class="nc" id="L111">        System.out.println(message);</span>
+<span class="nc" id="L112">        System.out.println(&quot;(E)ncode or (D)ecode or (B)ruteforce?&quot;);</span>
+<span class="nc" id="L113">        char choice = input.next().charAt(0);</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">        switch (choice) {</span>
+            case 'E':
+            case 'e':
+<span class="nc" id="L117">                System.out.println(&quot;Please enter the shift number&quot;);</span>
+<span class="nc" id="L118">                shift = input.nextInt() % 26;</span>
+<span class="nc" id="L119">                System.out.println(</span>
+<span class="nc" id="L120">                        &quot;ENCODED MESSAGE IS \n&quot; + encode(message, shift)); // send our function to handle</span>
+<span class="nc" id="L121">                break;</span>
+            case 'D':
+            case 'd':
+<span class="nc" id="L124">                System.out.println(&quot;Please enter the shift number&quot;);</span>
+<span class="nc" id="L125">                shift = input.nextInt() % 26;</span>
+<span class="nc" id="L126">                System.out.println(&quot;DECODED MESSAGE IS \n&quot; + decode(message, shift));</span>
+<span class="nc" id="L127">                break;</span>
+            case 'B':
+            case 'b':
+<span class="nc" id="L130">                String[] listOfAllTheAnswers = bruteforce(message);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                for (int i =0; i&lt;=26; i++) {</span>
+<span class="nc" id="L132">                    System.out.println(&quot;FOR SHIFT &quot; + String.valueOf(i) + &quot; decoded message is &quot; + listOfAllTheAnswers[i]);</span>
+                }
+            default:
+<span class="nc" id="L135">                System.out.println(&quot;default case&quot;);</span>
+        }
+        
+<span class="nc" id="L138">        input.close();</span>
+<span class="nc" id="L139">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

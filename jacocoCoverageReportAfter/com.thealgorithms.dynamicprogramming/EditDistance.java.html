@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">EditDistance.java</span></div><h1>EditDistance.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+/**
+ * A DynamicProgramming based solution for Edit Distance problem In Java
+ * Description of Edit Distance with an Example:
+ *
+ * &lt;p&gt;
+ * Edit distance is a way of quantifying how dissimilar two strings (e.g.,
+ * words) are to one another, by counting the minimum number of operations
+ * required to transform one string into the other. The distance operations are
+ * the removal, insertion, or substitution of a character in the string.
+ *
+ * &lt;p&gt;
+ *
+ * &lt;p&gt;
+ * The Distance between &quot;kitten&quot; and &quot;sitting&quot; is 3. A minimal edit script that
+ * transforms the former into the latter is:
+ *
+ * &lt;p&gt;
+ * kitten → sitten (substitution of &quot;s&quot; for &quot;k&quot;) sitten → sittin (substitution
+ * of &quot;i&quot; for &quot;e&quot;) sittin → sitting (insertion of &quot;g&quot; at the end).
+ *
+ * @author SUBHAM SANGHAI
+ */
+import java.util.Scanner;
+
+<span class="nc" id="L27">public class EditDistance {</span>
+
+    public static int minDistance(String word1, String word2) {
+<span class="nc" id="L30">        int len1 = word1.length();</span>
+<span class="nc" id="L31">        int len2 = word2.length();</span>
+        // len1+1, len2+1, because finally return dp[len1][len2]
+<span class="nc" id="L33">        int[][] dp = new int[len1 + 1][len2 + 1];</span>
+        /* If second string is empty, the only option is to
+    insert all characters of first string into second*/
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 0; i &lt;= len1; i++) {</span>
+<span class="nc" id="L37">            dp[i][0] = i;</span>
+        }
+        /* If first string is empty, the only option is to
+    insert all characters of second string into first*/
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (int j = 0; j &lt;= len2; j++) {</span>
+<span class="nc" id="L42">            dp[0][j] = j;</span>
+        }
+        // iterate though, and check last char
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (int i = 0; i &lt; len1; i++) {</span>
+<span class="nc" id="L46">            char c1 = word1.charAt(i);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            for (int j = 0; j &lt; len2; j++) {</span>
+<span class="nc" id="L48">                char c2 = word2.charAt(j);</span>
+                // if last two chars equal
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (c1 == c2) {</span>
+                    // update dp value for +1 length
+<span class="nc" id="L52">                    dp[i + 1][j + 1] = dp[i][j];</span>
+                } else {
+                    /* if two characters are different ,
+          then take the minimum of the various operations(i.e insertion,removal,substitution)*/
+<span class="nc" id="L56">                    int replace = dp[i][j] + 1;</span>
+<span class="nc" id="L57">                    int insert = dp[i][j + 1] + 1;</span>
+<span class="nc" id="L58">                    int delete = dp[i + 1][j] + 1;</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                    int min = replace &gt; insert ? insert : replace;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                    min = delete &gt; min ? min : delete;</span>
+<span class="nc" id="L62">                    dp[i + 1][j + 1] = min;</span>
+                }
+            }
+        }
+        /* return the final answer , after traversing through both the strings*/
+<span class="nc" id="L67">        return dp[len1][len2];</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L71">        Scanner input = new Scanner(System.in);</span>
+        String s1, s2;
+<span class="nc" id="L73">        System.out.println(&quot;Enter the First String&quot;);</span>
+<span class="nc" id="L74">        s1 = input.nextLine();</span>
+<span class="nc" id="L75">        System.out.println(&quot;Enter the Second String&quot;);</span>
+<span class="nc" id="L76">        s2 = input.nextLine();</span>
+        // ans stores the final Edit Distance between the two strings
+<span class="nc" id="L78">        int ans = minDistance(s1, s2);</span>
+<span class="nc" id="L79">        System.out.println(</span>
+                &quot;The minimum Edit Distance between \&quot;&quot; + s1 + &quot;\&quot; and \&quot;&quot; + s2 + &quot;\&quot; is &quot; + ans);
+<span class="nc" id="L81">        input.close();</span>
+<span class="nc" id="L82">    }</span>
+
+    // edit distance problem
+    public static int editDistance(String s1, String s2) {
+<span class="nc" id="L86">        int[][] storage = new int[s1.length() + 1][s2.length() + 1];</span>
+<span class="nc" id="L87">        return editDistance(s1, s2, storage);</span>
+
+    }
+
+    public static int editDistance(String s1, String s2, int[][] storage) {
+<span class="nc" id="L92">        int m = s1.length();</span>
+<span class="nc" id="L93">        int n = s2.length();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (storage[m][n] &gt; 0) {</span>
+<span class="nc" id="L95">            return storage[m][n];</span>
+
+        }
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (m == 0) {</span>
+<span class="nc" id="L99">            storage[m][n] = n;</span>
+<span class="nc" id="L100">            return storage[m][n];</span>
+
+        }
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (n == 0) {</span>
+<span class="nc" id="L104">            storage[m][n] = m;</span>
+<span class="nc" id="L105">            return storage[m][n];</span>
+
+        }
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (s1.charAt(0) == s2.charAt(0)) {</span>
+<span class="nc" id="L109">            storage[m][n] = editDistance(s1.substring(1), s2.substring(1), storage);</span>
+<span class="nc" id="L110">            return storage[m][n];</span>
+
+        } else {
+<span class="nc" id="L113">            int op1 = editDistance(s1, s2.substring(1), storage);</span>
+<span class="nc" id="L114">            int op2 = editDistance(s1.substring(1), s2, storage);</span>
+<span class="nc" id="L115">            int op3 = editDistance(s1.substring(1), s2.substring(1), storage);</span>
+<span class="nc" id="L116">            storage[m][n] = 1 + Math.min(op1, Math.min(op2, op3));</span>
+<span class="nc" id="L117">            return storage[m][n];</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

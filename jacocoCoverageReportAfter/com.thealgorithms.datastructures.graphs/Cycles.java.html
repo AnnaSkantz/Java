@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cycles.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.graphs</a> &gt; <span class="el_source">Cycles.java</span></div><h1>Cycles.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.graphs;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Cycle {
+
+    private int nodes, edges;
+    private int[][] adjacencyMatrix;
+    private boolean[] visited;
+<span class="nc" id="L11">    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; cycles = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();</span>
+
+<span class="nc" id="L13">    public Cycle() {</span>
+<span class="nc" id="L14">        Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L15">        System.out.print(&quot;Enter the no. of nodes: &quot;);</span>
+<span class="nc" id="L16">        nodes = in.nextInt();</span>
+<span class="nc" id="L17">        System.out.print(&quot;Enter the no. of Edges: &quot;);</span>
+<span class="nc" id="L18">        edges = in.nextInt();</span>
+
+<span class="nc" id="L20">        adjacencyMatrix = new int[nodes][nodes];</span>
+<span class="nc" id="L21">        visited = new boolean[nodes];</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (int i = 0; i &lt; nodes; i++) {</span>
+<span class="nc" id="L24">            visited[i] = false;</span>
+        }
+
+<span class="nc" id="L27">        System.out.println(&quot;Enter the details of each edges &lt;Start Node&gt; &lt;End Node&gt;&quot;);</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (int i = 0; i &lt; edges; i++) {</span>
+            int start, end;
+<span class="nc" id="L31">            start = in.nextInt();</span>
+<span class="nc" id="L32">            end = in.nextInt();</span>
+<span class="nc" id="L33">            adjacencyMatrix[start][end] = 1;</span>
+        }
+<span class="nc" id="L35">        in.close();</span>
+<span class="nc" id="L36">    }</span>
+
+    public void start() {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (int i = 0; i &lt; nodes; i++) {</span>
+<span class="nc" id="L40">            ArrayList&lt;Integer&gt; temp = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L41">            dfs(i, i, temp);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for (int j = 0; j &lt; nodes; j++) {</span>
+<span class="nc" id="L43">                adjacencyMatrix[i][j] = 0;</span>
+<span class="nc" id="L44">                adjacencyMatrix[j][i] = 0;</span>
+            }
+        }
+<span class="nc" id="L47">    }</span>
+
+    private void dfs(Integer start, Integer curr, ArrayList&lt;Integer&gt; temp) {
+<span class="nc" id="L50">        temp.add(curr);</span>
+<span class="nc" id="L51">        visited[curr] = true;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (int i = 0; i &lt; nodes; i++) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (adjacencyMatrix[curr][i] == 1) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (i == start) {</span>
+<span class="nc" id="L55">                    cycles.add(new ArrayList&lt;Integer&gt;(temp));</span>
+                } else {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                    if (!visited[i]) {</span>
+<span class="nc" id="L58">                        dfs(start, i, temp);</span>
+                    }
+                }
+            }
+        }
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (temp.size() &gt; 0) {</span>
+<span class="nc" id="L65">            temp.remove(temp.size() - 1);</span>
+        }
+<span class="nc" id="L67">        visited[curr] = false;</span>
+<span class="nc" id="L68">    }</span>
+
+    public void printAll() {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (int i = 0; i &lt; cycles.size(); i++) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (int j = 0; j &lt; cycles.get(i).size(); j++) {</span>
+<span class="nc" id="L73">                System.out.print(cycles.get(i).get(j) + &quot; -&gt; &quot;);</span>
+            }
+<span class="nc" id="L75">            System.out.println(cycles.get(i).get(0));</span>
+<span class="nc" id="L76">            System.out.println();</span>
+        }
+<span class="nc" id="L78">    }</span>
+}
+
+<span class="nc" id="L81">public class Cycles {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L84">        Cycle c = new Cycle();</span>
+<span class="nc" id="L85">        c.start();</span>
+<span class="nc" id="L86">        c.printAll();</span>
+<span class="nc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

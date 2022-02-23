@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BSTRecursive.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.datastructures.trees</a> &gt; <span class="el_source">BSTRecursive.java</span></div><h1>BSTRecursive.java</h1><pre class="source lang-java linenums">package com.thealgorithms.datastructures.trees;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ *
+ *
+ * &lt;h1&gt;Binary Search Tree (Recursive)&lt;/h1&gt;
+ *
+ * An implementation of BST recursively. In recursive implementation the checks
+ * are down the tree First root is checked if not found then its childs are
+ * checked Binary Search Tree is a binary tree which satisfies three properties:
+ * left child is less than root node, right child is grater than root node, both
+ * left and right childs must themselves be a BST.
+ *
+ * &lt;p&gt;
+ * I have made public functions as methods and to actually implement recursive
+ * approach I have used private methods
+ *
+ * @author [Lakhan Nad](https://github.com/Lakhan-Nad)
+ */
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">public class BSTRecursive {</span>
+<span class="fc" id="L26">    private static ArrayList&lt;String&gt; testTrack = new ArrayList&lt;String&gt;();</span>
+
+    /**
+     * only data member is root of BST
+     */
+    private Node root;
+
+    /**
+     * Constructor use to initialize node as null
+     */
+<span class="fc" id="L36">    BSTRecursive() {</span>
+<span class="fc" id="L37">        root = null;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * main function for tests
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L44">        BSTRecursive tree = new BSTRecursive();</span>
+<span class="nc" id="L45">        tree.add(5);</span>
+<span class="nc" id="L46">        tree.add(10);</span>
+<span class="nc" id="L47">        tree.add(9);</span>
+<span class="nc bnc" id="L48" title="All 4 branches missed.">        assert !tree.find(4) : &quot;4 is not yet present in BST&quot;;</span>
+<span class="nc bnc" id="L49" title="All 4 branches missed.">        assert tree.find(10) : &quot;10 should be present in BST&quot;;</span>
+<span class="nc" id="L50">        tree.remove(9);</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        assert !tree.find(9) : &quot;9 was just deleted from BST&quot;;</span>
+<span class="nc" id="L52">        tree.remove(1);</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">        assert !tree.find(1) : &quot;Since 1 was not present so find deleting would do no change&quot;;</span>
+<span class="nc" id="L54">        tree.add(20);</span>
+<span class="nc" id="L55">        tree.add(70);</span>
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        assert tree.find(70) : &quot;70 was inserted but not found&quot;;</span>
+        /*
+     Will print in following order
+     5 10 20 70
+         */
+<span class="nc" id="L61">        tree.inorder();</span>
+<span class="nc" id="L62">    }</span>
+
+    /**
+     * Recursive method to delete a data if present in BST.
+     *
+     * @param node the current node to search for data
+     * @param data the value to be deleted
+     * @return Node the updated value of root parameter after delete operation
+     */
+    private Node delete(Node node, int data) {
+        // id 1
+<span class="fc" id="L73">        testTrack.add(&quot;1&quot;);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (node == null) {</span>
+            // id 2
+<span class="fc" id="L76">            testTrack.add(&quot;2&quot;);</span>
+<span class="fc" id="L77">            System.out.println(&quot;No such data present in BST.&quot;);</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        } else if (node.data &gt; data) {</span>
+            // id 3
+<span class="nc" id="L80">            testTrack.add(&quot;3&quot;);</span>
+<span class="nc" id="L81">            node.left = delete(node.left, data);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (node.data &lt; data) {</span>
+            // id 4
+<span class="fc" id="L84">            testTrack.add(&quot;4&quot;);</span>
+<span class="fc" id="L85">            node.right = delete(node.right, data);</span>
+        } else {
+            // id 5
+<span class="fc" id="L88">            testTrack.add(&quot;5&quot;);</span>
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">            if (node.right == null &amp;&amp; node.left == null) { // If it is leaf node</span>
+                // id 6
+<span class="fc" id="L91">                testTrack.add(&quot;6&quot;);</span>
+<span class="fc" id="L92">                node = null;</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">            } else if (node.left == null) { // If only right node is present</span>
+                // id 7
+<span class="nc" id="L95">                testTrack.add(&quot;7&quot;);</span>
+<span class="nc" id="L96">                Node temp = node.right;</span>
+<span class="nc" id="L97">                node.right = null;</span>
+<span class="nc" id="L98">                node = temp;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            } else if (node.right == null) { // Only left node is present</span>
+                // id 8
+<span class="nc" id="L101">                testTrack.add(&quot;8&quot;);</span>
+<span class="nc" id="L102">                Node temp = node.left;</span>
+<span class="nc" id="L103">                node.left = null;</span>
+<span class="nc" id="L104">                node = temp;</span>
+<span class="nc" id="L105">            } else { // both child are present</span>
+                // id 9
+<span class="fc" id="L107">                testTrack.add(&quot;9&quot;);</span>
+<span class="fc" id="L108">                Node temp = node.right;</span>
+                // Find leftmost child of right subtree
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">                while (temp.left != null) {</span>
+                    // id 10
+<span class="nc" id="L112">                    testTrack.add(&quot;10&quot;);</span>
+<span class="nc" id="L113">                    temp = temp.left;</span>
+                }
+<span class="fc" id="L115">                node.data = temp.data;</span>
+<span class="fc" id="L116">                node.right = delete(node.right, temp.data);</span>
+            }
+        }
+<span class="fc" id="L119">        writeToFile(testTrack.toString());</span>
+<span class="fc" id="L120">        return node;</span>
+    }
+
+    /**
+     * Writes the input string s to a file called branchesBST.txt in /tmp
+     * @param s - What to write in the file
+     */
+    private static void writeToFile(String s) {
+        // write res to file
+<span class="fc" id="L129">        File f = new File(&quot;/tmp/branchesBST.txt&quot;);</span>
+        try {
+<span class="fc" id="L131">            FileWriter fw = new FileWriter(&quot;/tmp/branchesBST.txt&quot;);</span>
+<span class="fc" id="L132">            fw.write(testTrack.toString());</span>
+<span class="fc" id="L133">            fw.close();</span>
+<span class="nc" id="L134">        } catch (IOException e) {</span>
+<span class="nc" id="L135">            e.printStackTrace();</span>
+<span class="fc" id="L136">        }</span>
+<span class="fc" id="L137">    }</span>
+
+    /**
+     * Recursive insertion of value in BST.
+     *
+     * @param node to check if the data can be inserted in current node or its
+     * subtree
+     * @param data the value to be inserted
+     * @return the modified value of the root parameter after insertion
+     */
+    private Node insert(Node node, int data) {
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (node == null) {</span>
+<span class="fc" id="L149">            node = new Node(data);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        } else if (node.data &gt; data) {</span>
+<span class="fc" id="L151">            node.left = insert(node.left, data);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        } else if (node.data &lt; data) {</span>
+<span class="fc" id="L153">            node.right = insert(node.right, data);</span>
+        }
+<span class="fc" id="L155">        return node;</span>
+    }
+
+    /**
+     * Recursively print Preorder traversal of the BST
+     *
+     * @param node the root node
+     */
+    private void preOrder(Node node) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L165">            return;</span>
+        }
+<span class="nc" id="L167">        System.out.print(node.data + &quot; &quot;);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (node.left != null) {</span>
+<span class="nc" id="L169">            preOrder(node.left);</span>
+        }
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (node.right != null) {</span>
+<span class="nc" id="L172">            preOrder(node.right);</span>
+        }
+<span class="nc" id="L174">    }</span>
+
+    /**
+     * Recursively print Postorder travesal of BST.
+     *
+     * @param node the root node
+     */
+    private void postOrder(Node node) {
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L183">            return;</span>
+        }
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (node.left != null) {</span>
+<span class="nc" id="L186">            postOrder(node.left);</span>
+        }
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (node.right != null) {</span>
+<span class="nc" id="L189">            postOrder(node.right);</span>
+        }
+<span class="nc" id="L191">        System.out.print(node.data + &quot; &quot;);</span>
+<span class="nc" id="L192">    }</span>
+
+    /**
+     * Recursively print Inorder traversal of BST.
+     *
+     * @param node the root node
+     */
+    private void inOrder(Node node) {
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L201">            return;</span>
+        }
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        if (node.left != null) {</span>
+<span class="nc" id="L204">            inOrder(node.left);</span>
+        }
+<span class="nc" id="L206">        System.out.print(node.data + &quot; &quot;);</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        if (node.right != null) {</span>
+<span class="nc" id="L208">            inOrder(node.right);</span>
+        }
+<span class="nc" id="L210">    }</span>
+
+    /**
+     * Serach recursively if the given value is present in BST or not.
+     *
+     * @param node the current node to check
+     * @param data the value to be checked
+     * @return boolean if data is present or not
+     */
+    private boolean search(Node node, int data) {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        if (node == null) {</span>
+<span class="fc" id="L221">            return false;</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        } else if (node.data == data) {</span>
+<span class="fc" id="L223">            return true;</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        } else if (node.data &gt; data) {</span>
+<span class="fc" id="L225">            return search(node.left, data);</span>
+        } else {
+<span class="fc" id="L227">            return search(node.right, data);</span>
+        }
+    }
+
+    /**
+     * add in BST. if the value is not already present it is inserted or else no
+     * change takes place.
+     *
+     * @param data the value to be inserted
+     */
+    public void add(int data) {
+<span class="fc" id="L238">        this.root = insert(this.root, data);</span>
+<span class="fc" id="L239">    }</span>
+
+    /**
+     * If data is present in BST delete it else do nothing.
+     *
+     * @param data the value to be removed
+     */
+    public void remove(int data) {
+<span class="fc" id="L247">        this.root = delete(this.root, data);</span>
+<span class="fc" id="L248">    }</span>
+
+    /**
+     * To call inorder traversal on tree
+     */
+    public void inorder() {
+<span class="nc" id="L254">        System.out.println(&quot;Inorder traversal of this tree is:&quot;);</span>
+<span class="nc" id="L255">        inOrder(this.root);</span>
+<span class="nc" id="L256">        System.out.println(); // for next line</span>
+<span class="nc" id="L257">    }</span>
+
+    /**
+     * To call postorder traversal on tree
+     */
+    public void postorder() {
+<span class="nc" id="L263">        System.out.println(&quot;Postorder traversal of this tree is:&quot;);</span>
+<span class="nc" id="L264">        postOrder(this.root);</span>
+<span class="nc" id="L265">        System.out.println(); // for next li</span>
+<span class="nc" id="L266">    }</span>
+
+    /**
+     * To call preorder traversal on tree.
+     */
+    public void preorder() {
+<span class="nc" id="L272">        System.out.println(&quot;Preorder traversal of this tree is:&quot;);</span>
+<span class="nc" id="L273">        preOrder(this.root);</span>
+<span class="nc" id="L274">        System.out.println(); // for next li</span>
+<span class="nc" id="L275">    }</span>
+
+    /**
+     * To check if given value is present in tree or not.
+     *
+     * @param data the data to be found for
+     */
+    public boolean find(int data) {
+<span class="fc bfc" id="L283" title="All 2 branches covered.">        if (search(this.root, data)) {</span>
+<span class="fc" id="L284">            System.out.println(data + &quot; is present in given BST.&quot;);</span>
+<span class="fc" id="L285">            return true;</span>
+        }
+<span class="fc" id="L287">        System.out.println(data + &quot; not found.&quot;);</span>
+<span class="fc" id="L288">        return false;</span>
+    }
+
+    /**
+     * The Node class used for building binary search tree
+     */
+    private static class Node {
+
+        int data;
+        Node left;
+        Node right;
+
+        /**
+         * Constructor with data as parameter
+         */
+<span class="fc" id="L303">        Node(int d) {</span>
+<span class="fc" id="L304">            data = d;</span>
+<span class="fc" id="L305">            left = null;</span>
+<span class="fc" id="L306">            right = null;</span>
+<span class="fc" id="L307">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

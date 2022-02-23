@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClosestPair.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.divideandconquer</a> &gt; <span class="el_source">ClosestPair.java</span></div><h1>ClosestPair.java</h1><pre class="source lang-java linenums">package com.thealgorithms.divideandconquer;
+
+/**
+ * For a set of points in a coordinates system (10000 maximum), ClosestPair
+ * class calculates the two closest points.
+ */
+public final class ClosestPair {
+
+    /**
+     * Number of points
+     */
+    int numberPoints;
+    /**
+     * Input data, maximum 10000.
+     */
+    private Location[] array;
+    /**
+     * Minimum point coordinate.
+     */
+<span class="nc" id="L20">    Location point1 = null;</span>
+    /**
+     * Minimum point coordinate.
+     */
+<span class="nc" id="L24">    Location point2 = null;</span>
+    /**
+     * Minimum point length.
+     */
+<span class="nc" id="L28">    private static double minNum = Double.MAX_VALUE;</span>
+
+    public static void setMinNum(double minNum) {
+<span class="nc" id="L31">        ClosestPair.minNum = minNum;</span>
+<span class="nc" id="L32">    }</span>
+
+    public static void setSecondCount(int secondCount) {
+<span class="nc" id="L35">        ClosestPair.secondCount = secondCount;</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * secondCount
+     */
+<span class="nc" id="L41">    private static int secondCount = 0;</span>
+
+    /**
+     * Constructor.
+     */
+<span class="nc" id="L46">    ClosestPair(int points) {</span>
+<span class="nc" id="L47">        numberPoints = points;</span>
+<span class="nc" id="L48">        array = new Location[numberPoints];</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Location class is an auxiliary type to keep points coordinates.
+     */
+    public static class Location {
+
+        double x;
+        double y;
+
+        /**
+         * @param xpar (IN Parameter) x coordinate &lt;br&gt;
+         * @param ypar (IN Parameter) y coordinate &lt;br&gt;
+         */
+<span class="nc" id="L63">        Location(final double xpar, final double ypar) { // Save x, y coordinates</span>
+<span class="nc" id="L64">            this.x = xpar;</span>
+<span class="nc" id="L65">            this.y = ypar;</span>
+<span class="nc" id="L66">        }</span>
+    }
+
+    public Location[] createLocation(int numberValues) {
+<span class="nc" id="L70">        return new Location[numberValues];</span>
+    }
+
+    public Location buildLocation(double x, double y) {
+<span class="nc" id="L74">        return new Location(x, y);</span>
+    }
+
+    /**
+     * xPartition function: arrange x-axis.
+     *
+     * @param a (IN Parameter) array of points &lt;br&gt;
+     * @param first (IN Parameter) first point &lt;br&gt;
+     * @param last (IN Parameter) last point &lt;br&gt;
+     * @return pivot index
+     */
+    public int xPartition(final Location[] a, final int first, final int last) {
+
+<span class="nc" id="L87">        Location pivot = a[last]; // pivot</span>
+<span class="nc" id="L88">        int i = first - 1;</span>
+        Location temp; // Temporarily store value for position transformation
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for (int j = first; j &lt;= last - 1; j++) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (a[j].x &lt;= pivot.x) { // Less than or less than pivot</span>
+<span class="nc" id="L92">                i++;</span>
+<span class="nc" id="L93">                temp = a[i]; // array[i] &lt;-&gt; array[j]</span>
+<span class="nc" id="L94">                a[i] = a[j];</span>
+<span class="nc" id="L95">                a[j] = temp;</span>
+            }
+        }
+<span class="nc" id="L98">        i++;</span>
+<span class="nc" id="L99">        temp = a[i]; // array[pivot] &lt;-&gt; array[i]</span>
+<span class="nc" id="L100">        a[i] = a[last];</span>
+<span class="nc" id="L101">        a[last] = temp;</span>
+<span class="nc" id="L102">        return i; // pivot index</span>
+    }
+
+    /**
+     * yPartition function: arrange y-axis.
+     *
+     * @param a (IN Parameter) array of points &lt;br&gt;
+     * @param first (IN Parameter) first point &lt;br&gt;
+     * @param last (IN Parameter) last point &lt;br&gt;
+     * @return pivot index
+     */
+    public int yPartition(final Location[] a, final int first, final int last) {
+
+<span class="nc" id="L115">        Location pivot = a[last]; // pivot</span>
+<span class="nc" id="L116">        int i = first - 1;</span>
+        Location temp; // Temporarily store value for position transformation
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (int j = first; j &lt;= last - 1; j++) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (a[j].y &lt;= pivot.y) { // Less than or less than pivot</span>
+<span class="nc" id="L120">                i++;</span>
+<span class="nc" id="L121">                temp = a[i]; // array[i] &lt;-&gt; array[j]</span>
+<span class="nc" id="L122">                a[i] = a[j];</span>
+<span class="nc" id="L123">                a[j] = temp;</span>
+            }
+        }
+<span class="nc" id="L126">        i++;</span>
+<span class="nc" id="L127">        temp = a[i]; // array[pivot] &lt;-&gt; array[i]</span>
+<span class="nc" id="L128">        a[i] = a[last];</span>
+<span class="nc" id="L129">        a[last] = temp;</span>
+<span class="nc" id="L130">        return i; // pivot index</span>
+    }
+
+    /**
+     * xQuickSort function: //x-axis Quick Sorting.
+     *
+     * @param a (IN Parameter) array of points &lt;br&gt;
+     * @param first (IN Parameter) first point &lt;br&gt;
+     * @param last (IN Parameter) last point &lt;br&gt;
+     */
+    public void xQuickSort(final Location[] a, final int first, final int last) {
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (first &lt; last) {</span>
+<span class="nc" id="L143">            int q = xPartition(a, first, last); // pivot</span>
+<span class="nc" id="L144">            xQuickSort(a, first, q - 1); // Left</span>
+<span class="nc" id="L145">            xQuickSort(a, q + 1, last); // Right</span>
+        }
+<span class="nc" id="L147">    }</span>
+
+    /**
+     * yQuickSort function: //y-axis Quick Sorting.
+     *
+     * @param a (IN Parameter) array of points &lt;br&gt;
+     * @param first (IN Parameter) first point &lt;br&gt;
+     * @param last (IN Parameter) last point &lt;br&gt;
+     */
+    public void yQuickSort(final Location[] a, final int first, final int last) {
+
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        if (first &lt; last) {</span>
+<span class="nc" id="L159">            int q = yPartition(a, first, last); // pivot</span>
+<span class="nc" id="L160">            yQuickSort(a, first, q - 1); // Left</span>
+<span class="nc" id="L161">            yQuickSort(a, q + 1, last); // Right</span>
+        }
+<span class="nc" id="L163">    }</span>
+
+    /**
+     * closestPair function: find closest pair.
+     *
+     * @param a (IN Parameter) array stored before divide &lt;br&gt;
+     * @param indexNum (IN Parameter) number coordinates divideArray &lt;br&gt;
+     * @return minimum distance &lt;br&gt;
+     */
+    public double closestPair(final Location[] a, final int indexNum) {
+
+<span class="nc" id="L174">        Location[] divideArray = new Location[indexNum];</span>
+<span class="nc" id="L175">        System.arraycopy(a, 0, divideArray, 0, indexNum); // Copy previous array</span>
+<span class="nc" id="L176">        int divideX = indexNum / 2; // Intermediate value for divide</span>
+<span class="nc" id="L177">        Location[] leftArray = new Location[divideX]; // divide - left array</span>
+        // divide-right array
+<span class="nc" id="L179">        Location[] rightArray = new Location[indexNum - divideX];</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (indexNum &lt;= 3) { // If the number of coordinates is 3 or less</span>
+<span class="nc" id="L181">            return bruteForce(divideArray);</span>
+        }
+        // divide-left array
+<span class="nc" id="L184">        System.arraycopy(divideArray, 0, leftArray, 0, divideX);</span>
+        // divide-right array
+<span class="nc" id="L186">        System.arraycopy(divideArray, divideX, rightArray, 0, indexNum - divideX);</span>
+
+        double minLeftArea; // Minimum length of left array
+        double minRightArea; // Minimum length of right array
+        double minValue; // Minimum lengt
+
+<span class="nc" id="L192">        minLeftArea = closestPair(leftArray, divideX); // recursive closestPair</span>
+<span class="nc" id="L193">        minRightArea = closestPair(rightArray, indexNum - divideX);</span>
+        // window size (= minimum length)
+<span class="nc" id="L195">        minValue = Math.min(minLeftArea, minRightArea);</span>
+
+        // Create window.  Set the size for creating a window
+        // and creating a new array for the coordinates in the window
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        for (int i = 0; i &lt; indexNum; i++) {</span>
+<span class="nc" id="L200">            double xGap = Math.abs(divideArray[divideX].x - divideArray[i].x);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if (xGap &lt; minValue) {</span>
+<span class="nc" id="L202">                ClosestPair.setSecondCount(secondCount + 1); // size of the array</span>
+            } else {
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                if (divideArray[i].x &gt; divideArray[divideX].x) {</span>
+<span class="nc" id="L205">                    break;</span>
+                }
+            }
+        }
+        // new array for coordinates in window
+<span class="nc" id="L210">        Location[] firstWindow = new Location[secondCount];</span>
+<span class="nc" id="L211">        int k = 0;</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        for (int i = 0; i &lt; indexNum; i++) {</span>
+<span class="nc" id="L213">            double xGap = Math.abs(divideArray[divideX].x - divideArray[i].x);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if (xGap &lt; minValue) { // if it's inside a window</span>
+<span class="nc" id="L215">                firstWindow[k] = divideArray[i]; // put in an array</span>
+<span class="nc" id="L216">                k++;</span>
+            } else {
+<span class="nc bnc" id="L218" title="All 2 branches missed.">                if (divideArray[i].x &gt; divideArray[divideX].x) {</span>
+<span class="nc" id="L219">                    break;</span>
+                }
+            }
+        }
+<span class="nc" id="L223">        yQuickSort(firstWindow, 0, secondCount - 1); // Sort by y coordinates</span>
+        /* Coordinates in Window */
+        double length;
+        // size comparison within window
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        for (int i = 0; i &lt; secondCount - 1; i++) {</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">            for (int j = (i + 1); j &lt; secondCount; j++) {</span>
+<span class="nc" id="L229">                double xGap = Math.abs(firstWindow[i].x - firstWindow[j].x);</span>
+<span class="nc" id="L230">                double yGap = Math.abs(firstWindow[i].y - firstWindow[j].y);</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                if (yGap &lt; minValue) {</span>
+<span class="nc" id="L232">                    length = Math.sqrt(Math.pow(xGap, 2) + Math.pow(yGap, 2));</span>
+                    // If measured distance is less than current min distance
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                    if (length &lt; minValue) {</span>
+                        // Change minimum distance to current distance
+<span class="nc" id="L236">                        minValue = length;</span>
+                        // Conditional for registering final coordinate
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                        if (length &lt; minNum) {</span>
+<span class="nc" id="L239">                            ClosestPair.setMinNum(length);</span>
+<span class="nc" id="L240">                            point1 = firstWindow[i];</span>
+<span class="nc" id="L241">                            point2 = firstWindow[j];</span>
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+<span class="nc" id="L249">        ClosestPair.setSecondCount(0);</span>
+<span class="nc" id="L250">        return minValue;</span>
+    }
+
+    /**
+     * bruteForce function: When the number of coordinates is less than 3.
+     *
+     * @param arrayParam (IN Parameter) array stored before divide &lt;br&gt;
+     * @return &lt;br&gt;
+     */
+    public double bruteForce(final Location[] arrayParam) {
+
+<span class="nc" id="L261">        double minValue = Double.MAX_VALUE; // minimum distance</span>
+        double length;
+        double xGap; // Difference between x coordinates
+        double yGap; // Difference between y coordinates
+<span class="nc" id="L265">        double result = 0;</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (arrayParam.length == 2) {</span>
+            // Difference between x coordinates
+<span class="nc" id="L269">            xGap = (arrayParam[0].x - arrayParam[1].x);</span>
+            // Difference between y coordinates
+<span class="nc" id="L271">            yGap = (arrayParam[0].y - arrayParam[1].y);</span>
+            // distance between coordinates
+<span class="nc" id="L273">            length = Math.sqrt(Math.pow(xGap, 2) + Math.pow(yGap, 2));</span>
+            // Conditional statement for registering final coordinate
+<span class="nc bnc" id="L275" title="All 2 branches missed.">            if (length &lt; minNum) {</span>
+<span class="nc" id="L276">                ClosestPair.setMinNum(length);</span>
+            }
+<span class="nc" id="L278">            point1 = arrayParam[0];</span>
+<span class="nc" id="L279">            point2 = arrayParam[1];</span>
+<span class="nc" id="L280">            result = length;</span>
+        }
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        if (arrayParam.length == 3) {</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">            for (int i = 0; i &lt; arrayParam.length - 1; i++) {</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">                for (int j = (i + 1); j &lt; arrayParam.length; j++) {</span>
+                    // Difference between x coordinates
+<span class="nc" id="L286">                    xGap = (arrayParam[i].x - arrayParam[j].x);</span>
+                    // Difference between y coordinates
+<span class="nc" id="L288">                    yGap = (arrayParam[i].y - arrayParam[j].y);</span>
+                    // distance between coordinates
+<span class="nc" id="L290">                    length = Math.sqrt(Math.pow(xGap, 2) + Math.pow(yGap, 2));</span>
+                    // If measured distance is less than current min distance
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                    if (length &lt; minValue) {</span>
+                        // Change minimum distance to current distance
+<span class="nc" id="L294">                        minValue = length;</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">                        if (length &lt; minNum) {</span>
+                            // Registering final coordinate
+<span class="nc" id="L297">                            ClosestPair.setMinNum(length);</span>
+<span class="nc" id="L298">                            point1 = arrayParam[i];</span>
+<span class="nc" id="L299">                            point2 = arrayParam[j];</span>
+                        }
+                    }
+                }
+            }
+<span class="nc" id="L304">            result = minValue;</span>
+        }
+<span class="nc" id="L306">        return result; // If only one point returns 0.</span>
+    }
+
+    /**
+     * main function: execute class.
+     *
+     * @param args (IN Parameter) &lt;br&gt;
+     */
+    public static void main(final String[] args) {
+
+        // Input data consists of one x-coordinate and one y-coordinate
+<span class="nc" id="L317">        ClosestPair cp = new ClosestPair(12);</span>
+<span class="nc" id="L318">        cp.array[0] = cp.buildLocation(2, 3);</span>
+<span class="nc" id="L319">        cp.array[1] = cp.buildLocation(2, 16);</span>
+<span class="nc" id="L320">        cp.array[2] = cp.buildLocation(3, 9);</span>
+<span class="nc" id="L321">        cp.array[3] = cp.buildLocation(6, 3);</span>
+<span class="nc" id="L322">        cp.array[4] = cp.buildLocation(7, 7);</span>
+<span class="nc" id="L323">        cp.array[5] = cp.buildLocation(19, 4);</span>
+<span class="nc" id="L324">        cp.array[6] = cp.buildLocation(10, 11);</span>
+<span class="nc" id="L325">        cp.array[7] = cp.buildLocation(15, 2);</span>
+<span class="nc" id="L326">        cp.array[8] = cp.buildLocation(15, 19);</span>
+<span class="nc" id="L327">        cp.array[9] = cp.buildLocation(16, 11);</span>
+<span class="nc" id="L328">        cp.array[10] = cp.buildLocation(17, 13);</span>
+<span class="nc" id="L329">        cp.array[11] = cp.buildLocation(9, 12);</span>
+
+<span class="nc" id="L331">        System.out.println(&quot;Input data&quot;);</span>
+<span class="nc" id="L332">        System.out.println(&quot;Number of points: &quot; + cp.array.length);</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">        for (int i = 0; i &lt; cp.array.length; i++) {</span>
+<span class="nc" id="L334">            System.out.println(&quot;x: &quot; + cp.array[i].x + &quot;, y: &quot; + cp.array[i].y);</span>
+        }
+
+<span class="nc" id="L337">        cp.xQuickSort(cp.array, 0, cp.array.length - 1); // Sorting by x value</span>
+
+        double result; // minimum distance
+
+<span class="nc" id="L341">        result = cp.closestPair(cp.array, cp.array.length);</span>
+        // ClosestPair start
+        // minimum distance coordinates and distance output
+<span class="nc" id="L344">        System.out.println(&quot;Output Data&quot;);</span>
+<span class="nc" id="L345">        System.out.println(&quot;(&quot; + cp.point1.x + &quot;, &quot; + cp.point1.y + &quot;)&quot;);</span>
+<span class="nc" id="L346">        System.out.println(&quot;(&quot; + cp.point2.x + &quot;, &quot; + cp.point2.y + &quot;)&quot;);</span>
+<span class="nc" id="L347">        System.out.println(&quot;Minimum Distance : &quot; + result);</span>
+<span class="nc" id="L348">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

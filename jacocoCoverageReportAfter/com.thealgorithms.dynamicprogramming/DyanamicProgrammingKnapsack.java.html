@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DyanamicProgrammingKnapsack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.dynamicprogramming</a> &gt; <span class="el_source">DyanamicProgrammingKnapsack.java</span></div><h1>DyanamicProgrammingKnapsack.java</h1><pre class="source lang-java linenums">package com.thealgorithms.dynamicprogramming;
+
+// A Dynamic Programming based solution
+// for 0-1 Knapsack problem
+<span class="nc" id="L5">public class DyanamicProgrammingKnapsack {</span>
+
+    static int max(int a, int b) {
+<span class="nc bnc" id="L8" title="All 2 branches missed.">        return (a &gt; b) ? a : b;</span>
+    }
+
+    // Returns the maximum value that can
+    // be put in a knapsack of capacity W
+    static int knapSack(int W, int wt[], int val[], int n) {
+        int i, w;
+<span class="nc" id="L15">        int K[][] = new int[n + 1][W + 1];</span>
+
+        // Build table K[][] in bottom up manner
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        for (i = 0; i &lt;= n; i++) {</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">            for (w = 0; w &lt;= W; w++) {</span>
+<span class="nc bnc" id="L20" title="All 4 branches missed.">                if (i == 0 || w == 0) {</span>
+<span class="nc" id="L21">                    K[i][w] = 0;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                } else if (wt[i - 1] &lt;= w) {</span>
+<span class="nc" id="L23">                    K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);</span>
+                } else {
+<span class="nc" id="L25">                    K[i][w] = K[i - 1][w];</span>
+                }
+            }
+        }
+
+<span class="nc" id="L30">        return K[n][W];</span>
+    }
+
+    // Driver code
+    public static void main(String args[]) {
+<span class="nc" id="L35">        int val[] = new int[]{60, 100, 120};</span>
+<span class="nc" id="L36">        int wt[] = new int[]{10, 20, 30};</span>
+<span class="nc" id="L37">        int W = 50;</span>
+<span class="nc" id="L38">        int n = val.length;</span>
+<span class="nc" id="L39">        System.out.println(knapSack(W, wt, val, n));</span>
+<span class="nc" id="L40">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

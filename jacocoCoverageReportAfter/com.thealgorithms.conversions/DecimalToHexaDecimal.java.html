@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DecimalToHexaDecimal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.conversions</a> &gt; <span class="el_source">DecimalToHexaDecimal.java</span></div><h1>DecimalToHexaDecimal.java</h1><pre class="source lang-java linenums">package com.thealgorithms.conversions;
+
+// hex = [0 - 9] -&gt; [A - F]
+<span class="nc" id="L4">class DecimalToHexaDecimal {</span>
+
+    private static final int sizeOfIntInHalfBytes = 8;
+    private static final int numberOfBitsInAHalfByte = 4;
+    private static final int halfByte = 0x0F;
+<span class="nc" id="L9">    private static final char[] hexDigits = {</span>
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+
+    // Returns the hex value of the dec entered in the parameter.
+    public static String decToHex(int dec) {
+<span class="nc" id="L15">        StringBuilder hexBuilder = new StringBuilder(sizeOfIntInHalfBytes);</span>
+<span class="nc" id="L16">        hexBuilder.setLength(sizeOfIntInHalfBytes);</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (int i = sizeOfIntInHalfBytes - 1; i &gt;= 0; --i) {</span>
+<span class="nc" id="L18">            int j = dec &amp; halfByte;</span>
+<span class="nc" id="L19">            hexBuilder.setCharAt(i, hexDigits[j]);</span>
+<span class="nc" id="L20">            dec &gt;&gt;= numberOfBitsInAHalfByte;</span>
+        }
+<span class="nc" id="L22">        return hexBuilder.toString().toLowerCase();</span>
+    }
+
+    // Test above function.
+    public static void main(String[] args) {
+<span class="nc" id="L27">        System.out.println(&quot;Test...&quot;);</span>
+<span class="nc" id="L28">        int dec = 305445566;</span>
+<span class="nc" id="L29">        String libraryDecToHex = Integer.toHexString(dec);</span>
+<span class="nc" id="L30">        String decToHex = decToHex(dec);</span>
+<span class="nc" id="L31">        System.out.println(&quot;Result from the library : &quot; + libraryDecToHex);</span>
+<span class="nc" id="L32">        System.out.println(&quot;Result decToHex method : &quot; + decToHex);</span>
+<span class="nc" id="L33">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

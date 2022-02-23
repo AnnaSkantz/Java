@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BankersAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">BankersAlgorithm.java</span></div><h1>BankersAlgorithm.java</h1><pre class="source lang-java linenums">package com.thealgorithms.others;
+
+/**
+ * This file contains an implementation of BANKER'S ALGORITM Wikipedia:
+ * https://en.wikipedia.org/wiki/Banker%27s_algorithm
+ *
+ * The algorithm for finding out whether or not a system is in a safe state can
+ * be described as follows: 1. Let Work and Finish be vectors of length ‘m’ and
+ * ‘n’ respectively. Initialize: Work= Available Finish [i]=false; for
+ * i=1,2,……,n 2. Find an i such that both a) Finish [i]=false b) Need_i&lt;=work
+ *
+ * if no such i exists goto step (4) 3. Work=Work + Allocation_i Finish[i]= true
+ * goto step(2) 4. If Finish[i]=true for all i, then the system is in safe
+ * state.
+ *
+ * Time Complexity: O(n*n*m) Space Complexity: O(n*m) where n = number of
+ * processes and m = number of resources.
+ *
+ * @author AMRITESH ANAND (https://github.com/amritesh19)
+ */
+import java.util.Scanner;
+
+<span class="nc" id="L23">public class BankersAlgorithm {</span>
+
+    /**
+     * This method finds the need of each process
+     */
+    static void calculateNeed(int needArray[][], int maxArray[][], int allocationArray[][], int totalProcess, int totalResources) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (int i = 0; i &lt; totalProcess; i++) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            for (int j = 0; j &lt; totalResources; j++) {</span>
+<span class="nc" id="L31">                needArray[i][j] = maxArray[i][j] - allocationArray[i][j];</span>
+            }
+        }
+<span class="nc" id="L34">    }</span>
+
+    /**
+     * This method find the system is in safe state or not
+     *
+     * @param processes[] int array of processes (0...n-1), size = n
+     * @param availableArray[] int array of number of instances of each
+     * resource, size = m
+     * @param maxArray[][] int matrix(2-D array) of maximum demand of each
+     * process in a system, size = n*m
+     * @param allocationArray[][] int matrix(2-D array) of the number of
+     * resources of each type currently allocated to each process, size = n*m
+     * @param totalProcess number of total processes, n
+     * @param totalResources number of total resources, m
+     *
+     * @return boolean if the system is in safe state or not
+     */
+    static boolean checkSafeSystem(int processes[], int availableArray[], int maxArray[][], int allocationArray[][], int totalProcess, int totalResources) {
+<span class="nc" id="L52">        int[][] needArray = new int[totalProcess][totalResources];</span>
+
+<span class="nc" id="L54">        calculateNeed(needArray, maxArray, allocationArray, totalProcess, totalResources);</span>
+
+<span class="nc" id="L56">        boolean[] finishProcesses = new boolean[totalProcess];</span>
+
+<span class="nc" id="L58">        int[] safeSequenceArray = new int[totalProcess];</span>
+
+<span class="nc" id="L60">        int[] workArray = new int[totalResources];</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; totalResources; i++) {</span>
+<span class="nc" id="L63">            workArray[i] = availableArray[i];</span>
+        }
+
+<span class="nc" id="L66">        int count = 0;</span>
+
+        // While all processes are not finished or system is not in safe state.
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        while (count &lt; totalProcess) {</span>
+<span class="nc" id="L70">            boolean foundSafeSystem = false;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            for (int m = 0; m &lt; totalProcess; m++) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                if (finishProcesses[m] == false) {</span>
+                    int j;
+
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    for (j = 0; j &lt; totalResources; j++) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                        if (needArray[m][j] &gt; workArray[j]) {</span>
+<span class="nc" id="L77">                            break;</span>
+                        }
+                    }
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                    if (j == totalResources) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                        for (int k = 0; k &lt; totalResources; k++) {</span>
+<span class="nc" id="L83">                            workArray[k] += allocationArray[m][k];</span>
+                        }
+
+<span class="nc" id="L86">                        safeSequenceArray[count++] = m;</span>
+
+<span class="nc" id="L88">                        finishProcesses[m] = true;</span>
+
+<span class="nc" id="L90">                        foundSafeSystem = true;</span>
+                    }
+                }
+            }
+
+            // If we could not find a next process in safe sequence.
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (foundSafeSystem == false) {</span>
+<span class="nc" id="L97">                System.out.print(&quot;The system is not in the safe state because lack of resources&quot;);</span>
+<span class="nc" id="L98">                return false;</span>
+            }
+<span class="nc" id="L100">        }</span>
+
+<span class="nc" id="L102">        System.out.print(&quot;The system is in safe sequence and the sequence is as follows: &quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (int i = 0; i &lt; totalProcess; i++) {</span>
+<span class="nc" id="L104">            System.out.print(&quot;P&quot; + safeSequenceArray[i] + &quot; &quot;);</span>
+        }
+
+<span class="nc" id="L107">        return true;</span>
+    }
+
+    /**
+     * This is main method of Banker's Algorithm
+     */
+    public static void main(String[] args) {
+        int numberOfProcesses, numberOfResources;
+
+<span class="nc" id="L116">        Scanner sc = new Scanner(System.in);</span>
+
+<span class="nc" id="L118">        System.out.println(&quot;Enter total number of processes&quot;);</span>
+<span class="nc" id="L119">        numberOfProcesses = sc.nextInt();</span>
+
+<span class="nc" id="L121">        System.out.println(&quot;Enter total number of resources&quot;);</span>
+<span class="nc" id="L122">        numberOfResources = sc.nextInt();</span>
+
+<span class="nc" id="L124">        int processes[] = new int[numberOfProcesses];</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfProcesses; i++) {</span>
+<span class="nc" id="L126">            processes[i] = i;</span>
+        }
+
+<span class="nc" id="L129">        System.out.println(&quot;--Enter the availability of--&quot;);</span>
+
+<span class="nc" id="L131">        int availableArray[] = new int[numberOfResources];</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfResources; i++) {</span>
+<span class="nc" id="L133">            System.out.println(&quot;resource &quot; + i + &quot;: &quot;);</span>
+<span class="nc" id="L134">            availableArray[i] = sc.nextInt();</span>
+        }
+
+<span class="nc" id="L137">        System.out.println(&quot;--Enter the maximum matrix--&quot;);</span>
+
+<span class="nc" id="L139">        int maxArray[][] = new int[numberOfProcesses][numberOfResources];</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfProcesses; i++) {</span>
+<span class="nc" id="L141">            System.out.println(&quot;For process &quot; + i + &quot;: &quot;);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            for (int j = 0; j &lt; numberOfResources; j++) {</span>
+<span class="nc" id="L143">                System.out.println(&quot;Enter the maximum instances of resource &quot; + j);</span>
+<span class="nc" id="L144">                maxArray[i][j] = sc.nextInt();</span>
+            }
+        }
+
+<span class="nc" id="L148">        System.out.println(&quot;--Enter the allocation matrix--&quot;);</span>
+
+<span class="nc" id="L150">        int allocationArray[][] = new int[numberOfProcesses][numberOfResources];</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfProcesses; i++) {</span>
+<span class="nc" id="L152">            System.out.println(&quot;For process &quot; + i + &quot;: &quot;);</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            for (int j = 0; j &lt; numberOfResources; j++) {</span>
+<span class="nc" id="L154">                System.out.println(&quot;Allocated instances of resource &quot; + j);</span>
+<span class="nc" id="L155">                allocationArray[i][j] = sc.nextInt();</span>
+            }
+        }
+
+<span class="nc" id="L159">        checkSafeSystem(processes, availableArray, maxArray, allocationArray, numberOfProcesses, numberOfResources);</span>
+
+<span class="nc" id="L161">        sc.close();</span>
+<span class="nc" id="L162">    }</span>
+}
+
+/*
+    Example: 
+    n = 5
+    m = 3
+
+    Process     Allocation      Max       Available
+                0   1   2    0   1   2    0   1   2
+
+        0       0   1   0    7   5   3    3   3   2
+        1       2   0   0    3   2   2 
+        2       3   0   2    9   0   2
+        3       2   1   1    2   2   2
+        4       0   0   2    4   3   3
+
+    Result: The system is in safe sequence and the sequence is as follows: P1, P3, P4, P0, P2 
+ */
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

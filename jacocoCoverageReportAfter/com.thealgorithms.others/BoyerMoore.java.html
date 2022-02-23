@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoyerMoore.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java</a> &gt; <a href="index.source.html" class="el_package">com.thealgorithms.others</a> &gt; <span class="el_source">BoyerMoore.java</span></div><h1>BoyerMoore.java</h1><pre class="source lang-java linenums">/* this Code is the illustration of Boyer moore's voting algorithm to
+find the majority element is an array that appears more than n/2 times in an array
+where &quot;n&quot; is the length of the array.
+For more information on the algorithm refer https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm
+ */
+package com.thealgorithms.others;
+
+import java.util.*;
+
+<span class="nc" id="L10">public class BoyerMoore {</span>
+
+    public static int findmajor(int[] a) {
+<span class="nc" id="L13">        int count = 0;</span>
+<span class="nc" id="L14">        int cand = -1;</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        for (int i = 0; i &lt; a.length; i++) {</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">            if (count == 0) {</span>
+<span class="nc" id="L17">                cand = a[i];</span>
+<span class="nc" id="L18">                count = 1;</span>
+            } else {
+<span class="nc bnc" id="L20" title="All 2 branches missed.">                if (a[i] == cand) {</span>
+<span class="nc" id="L21">                    count++;</span>
+                } else {
+<span class="nc" id="L23">                    count--;</span>
+                }
+            }
+        }
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (int i = 0; i &lt; a.length; i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            if (a[i] == cand) {</span>
+<span class="nc" id="L29">                count++;</span>
+            }
+        }
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (count &gt; (a.length / 2)) {</span>
+<span class="nc" id="L33">            return cand;</span>
+        }
+<span class="nc" id="L35">        return -1;</span>
+    }
+
+    public static void main(String args[]) {
+<span class="nc" id="L39">        Scanner input = new Scanner(System.in);</span>
+<span class="nc" id="L40">        int n = input.nextInt();</span>
+<span class="nc" id="L41">        int a[] = new int[n];</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L43">            a[i] = input.nextInt();</span>
+        }
+<span class="nc" id="L45">        System.out.println(&quot;the majority element is &quot; + findmajor(a));</span>
+
+<span class="nc" id="L47">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
